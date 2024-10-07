@@ -1,0 +1,64 @@
+Ordning för att infoga INSERT-satser i databasen per tabellnamn:
+
+1. a
+rum_typ
+Inga beroenden.
+
+2.
+erbjudande
+Inga beroenden.
+
+3.
+personal
+Inga beroenden.
+
+4. a
+huvud_gäst
+Inga beroenden.
+
+5. a
+kund
+Inga beroenden.
+
+6. a
+rum_pris
+Beroende av 
+rum_typ (rum_typ_id).
+
+7. a
+rum
+Beroende av 
+rum_typ (rum_typ_id), 
+personal (personal_id).
+
+8.
+faktura
+Beroende av 
+personal (personal_id), 
+erbjudande (erbjudande_id).
+
+9.
+grupp_bokning
+Beroende av 
+personal (personal_id), 
+faktura (faktura_id).
+
+10. a
+middag
+Beroende av 
+grupp_bokning (grupp_bokning_id).
+
+11.
+försäljning
+Beroende av rum (rum_id), 
+personal (personal_id), 
+faktura (faktura_id).
+
+12.
+bokning
+Beroende av rum (rum_id), 
+kund (kund_id), 
+huvud_gäst (huvud_gäst_id), 
+personal (personal_id), 
+rum_pris (rum_pris_id), 
+grupp_bokning (grupp_bokning_id).

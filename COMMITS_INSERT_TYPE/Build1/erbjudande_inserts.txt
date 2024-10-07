@@ -1,0 +1,20 @@
+
+        INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
+        VALUES (67.52, 'Free breakfast included', '2024-10-01', '2024-10-31');
+    
+
+        INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
+        VALUES (66.51, 'Free breakfast included', '2024-10-01', '2024-10-31');
+    
+
+        INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
+        VALUES (26.68, 'Free breakfast included', '2024-10-01', '2024-10-31');
+    
+
+        INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
+        VALUES (33.31, 'Free breakfast included', '2024-10-01', '2024-10-31');
+    
+
+        INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
+        VALUES (53.3, 'Free breakfast included', '2024-10-01', '2024-10-31');
+    

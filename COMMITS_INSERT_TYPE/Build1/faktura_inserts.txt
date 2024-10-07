@@ -1,0 +1,80 @@
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (10, 9);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (10, 2);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (20, 9);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (11, 7);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (18, 15);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (10, 14);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (14, 17);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (9, 20);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (10, 1);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (18, 16);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (14, 20);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (9, 10);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (10, 13);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (4, 17);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (4, 10);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (14, 13);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (11, 12);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (18, 13);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (9, 15);
+    
+
+        INSERT INTO faktura (personal_id, erbjudande_id)
+        VALUES (3, 2);
+    
