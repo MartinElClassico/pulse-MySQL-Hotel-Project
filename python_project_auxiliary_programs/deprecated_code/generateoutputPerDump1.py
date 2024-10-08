@@ -23,10 +23,27 @@ rum_pris_ids = []
 grupp_bokning_ids = []
 erbjudande_ids = []
 
+# Store output from value_for_grupp_bokning_reference for later referal for "faktura"
+l_values_generated_gbokning_ref = []
+int_current_call_from_factura = 0
+l_calls_when_gbooking_not_null = []
+
 # fixed length list of number of bookings assigned to each group booking
 bookings_added_per_groupb = [0] * numberOfInputs_gb
 
-# AUXILIARY FUNCTIONS:::
+### AUXILIARY FUNCTIONS
+
+# AUXILIARY FUNCTIONAL FUNCTIONS:
+# makes an SQL string into a dictionary to be modified after having been generated.
+def makeSQLStrToDict(SQL_str):
+    #SQL_str is an INPUT statement, e.g.:
+    """INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
+        VALUES (2, 7, '2024-10-07 16:45:12');"""
+    raw1 = SQL_str.split('(')[1].split(')') # gives: ['grupp_bokning_id, antal_personer, datum', '\nVALUES (2, 7, \'2024-10-07 16:45:12\');']
+    l_keys = raw1[0].split(', ') # gives the keys as a list
+    l_values = raw1[1].split('(')[1].split(')')[0].split(', ') # gives the values as a list.
+
+# AUXILIARY TABLE FUNCTIONS:::
 # Generate random date between today and a future date within a certain range (e.g., 30 days from today)
 def generate_random_date(start_date, days_range):
     return start_date + datetime.timedelta(days=random.randint(0, days_range))
@@ -55,6 +72,7 @@ def price_intervalls_per_room_type(room_type_id):
         return round(random.uniform(1000.0, 1400.0), 2)
 
 # return "NULL" as reference to "grupp_bokning" in "bokning" when group has been filled
+"""
 def value_for_grupp_bokning_reference(grupp_bokning_ids):
     global bookings_added_per_groupb
     shouldHaveGroup = random.randint(0, 1)# radomly decide if to assign NULL or to a group foreign ID.
@@ -64,11 +82,41 @@ def value_for_grupp_bokning_reference(grupp_bokning_ids):
             return grupp_bokning_ids
         else: return "NULL" # if it is filled return NULL.
     else: return "NULL"
+"""
+def value_for_grupp_bokning_reference(grupp_bokning_ids):
+    global bookings_added_per_groupb
+    global l_values_generated_gbokning_ref
+    shouldHaveGroup = random.randint(0, 1)# radomly decide if to assign NULL or to a group foreign ID.
+    if shouldHaveGroup:
+        if bookings_added_per_groupb[grupp_bokning_ids-1] < 3:
+            bookings_added_per_groupb[grupp_bokning_ids-1] += 1
+            l_values_generated_gbokning_ref.append(str(grupp_bokning_ids))#save for faktura table.
+            return grupp_bokning_ids
+        else: 
+            l_values_generated_gbokning_ref.append("NULL") #save for faktura table.
+            return "NULL" # if it is filled return NULL.
+    else: 
+        l_values_generated_gbokning_ref.append("NULL") #save for faktura table.
+        return "NULL" 
+    
+def populate_faktura_id_in_boking_queries(bokning_queries):
+    for i in range(1, numberOfInputs_gb+1):
+        if grupp_bokning_id_current != "NULL":
+            bokning_queries[faktura_id] = "NULL"
+        else: bokning_queries[faktura_id] = i
+    return bokning_queries
 
+def value_for_grupp_bokning_reference_faktura():
+    global int_current_call_from_factura
+    global l_calls_when_gbooking_not_null
+    # current grupp_bokning_id as per saved from corresponding program call to value_for_grupp_bokning_reference
+    grupp_bokning_id_current = l_values_generated_gbokning_ref[int_current_call_from_factura]
+    int_current_call_from_factura += 1 #increment so next call gives the right value.
+    return grupp_bokning_id_current
+### END OF AUXILIARY FUNCTIONS
 
 
 # INPUT STATEMENT GENERATORS:::
-# new proj
 def generate_erbjudande_insert():
     erbjudande_query = """
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
@@ -83,7 +131,6 @@ def generate_erbjudande_insert():
         slut_datum
     )
     return erbjudande_query.format(*erbjudande_values)
-# end new proj
 
 def generate_personal_insert():
     personal_query = """
@@ -163,27 +210,30 @@ def generate_middag_insert():
     middag_values = (
         random.choice(grupp_bokning_ids),  # Group booking ID must exist in 'grupp_bokning'
         random.randint(1, 10),  # Number of people
-        datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')  # Date of the meal
+        "2024-10-04"  # Date of the meal
     )
     return middag_query.format(*middag_values)
 
 # New generate_faktura_insert function
 def generate_faktura_insert():
     faktura_query = """
-        INSERT INTO faktura (personal_id, erbjudande_id)
-        VALUES ({}, {});
+        INSERT INTO faktura (personal_id, erbjudande_id, grupp_bokning_id)
+        VALUES ({}, {}, {});
     """
+    #grupp_bokning_id = value_for_grupp_bokning_reference_faktura()
     faktura_values = (
         random.choice(personal_ids),  # Reuse existing personal ID
-        random.randint(1, 20)  # Assuming erbjudande IDs are within this range
+        random.randint(1, 20),  # Assuming erbjudande IDs are within this range
+        #grupp_bokning_id
+        "UPDATED LATER VIA MAIN"
     )
     return faktura_query.format(*faktura_values)
 
 def generate_bokning_insert():
     bokning_query = """
-        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, faktura_id,
                              datum_incheck, datum_utcheck, booking_datum, antal_gaster)
-        VALUES ({}, {}, {}, {}, {}, {}, '{}', '{}', '{}', {});
+        VALUES ({}, {}, {}, {}, {}, {}, '{}', '{}', '{}', {}, {});
     """
     checkin_date, checkout_date = generate_checkin_checkout_dates()  # Get random dates
     grupp_bokning_assigned_value = value_for_grupp_bokning_reference(random.choice(grupp_bokning_ids)) # returns null or fk_grupp_bokning
@@ -194,6 +244,7 @@ def generate_bokning_insert():
         random.choice(personal_ids),  # Personal ID must exist in 'personal'
         random.randint(1, 20),  # Assuming room price IDs are within this range
         grupp_bokning_assigned_value,  # Group booking ID must exist in 'grupp_bokning'
+        "faktura_id"
         checkin_date,  # Randomized check-in date
         checkout_date,  # Randomized check-out date
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),  # Booking date
@@ -203,12 +254,12 @@ def generate_bokning_insert():
 
 def generate_grupp_bokning_insert():
     grupp_bokning_query = """
-        INSERT INTO grupp_bokning (personal_id, faktura_id)
-        VALUES ({}, {});
+        INSERT INTO grupp_bokning (personal_id)
+        VALUES ({});
     """
     grupp_bokning_values = (
         random.choice(personal_ids),  # Reuse existing personal ID
-        random.choice(faktura_ids)   # Reuse existing invoice ID
+        #random.choice(faktura_ids)   # Reuse existing invoice ID REF OLDCODE
     )
     return grupp_bokning_query.format(*grupp_bokning_values)
 
@@ -262,6 +313,11 @@ def main():
     # Generate other queries
     bokning_queries = [generate_bokning_insert() for _ in range(numberOfInputs)]
     middag_queries = [generate_middag_insert() for _ in range(numberOfInputs)]
+
+    # !!! problem, det är inte dict som kommer tillbaka utan str... 
+    #   returna dict också på dessa?
+    for _ in range(numberOfInputs): faktura_queries[grupp_bokning_id] = value_for_grupp_bokning_reference_faktura()
+    bokning_queries = populate_faktura_id_in_boking_queries(bokning_queries)
 
     # Write to text files
     write_to_file('erbjudande_inserts.txt', erbjudande_queries)
