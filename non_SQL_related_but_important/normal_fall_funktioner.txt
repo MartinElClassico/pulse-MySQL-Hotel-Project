@@ -1,0 +1,24 @@
+Hotelldirektör:
+    Skicka erbjudanden via mejl
+    Lägga in erbjudandens giltighetstid
+    Statistik på vilken typ av rum som är attraktiva en viss period
+    Se när det är middag bokad och för hur många personer 
+    Uppdatera hur många personer som ska äta
+
+
+Receptionist:
+    Se lediga rum av en viss typ en viss tidsperiod
+    Boka rum
+    Boka rum för grupp
+    Boka middag för grupp
+    Se aktuella priser och erbjudande
+    Se pris / erbjudande som gällde när bokningen gjordes
+    Checka in gäster
+    Checka ut gäster
+    Se om gäst checkat in
+    Se om gäst checkat ut
+    Se vem i personalen som gjort bokning / incheckning / utcheckning
+
+
+Städare:
+    Se vilka rum som är utcheckade 
