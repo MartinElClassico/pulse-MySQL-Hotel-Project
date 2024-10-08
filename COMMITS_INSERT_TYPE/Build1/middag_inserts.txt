@@ -1,81 +1,80 @@
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (6, 7, '2024-10-07 23:27:20');
+        VALUES (10, 6, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (10, 7, '2024-10-07 23:27:20');
+        VALUES (20, 3, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (7, 1, '2024-10-07 23:27:20');
+        VALUES (12, 10, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (16, 10, '2024-10-07 23:27:20');
+        VALUES (4, 8, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (16, 7, '2024-10-07 23:27:20');
+        VALUES (19, 4, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (18, 1, '2024-10-07 23:27:20');
+        VALUES (7, 8, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (15, 5, '2024-10-07 23:27:20');
+        VALUES (9, 4, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (3, 7, '2024-10-07 23:27:20');
+        VALUES (6, 3, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (11, 7, '2024-10-07 23:27:20');
+        VALUES (13, 1, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (3, 9, '2024-10-07 23:27:20');
+        VALUES (11, 3, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (12, 7, '2024-10-07 23:27:20');
+        VALUES (10, 5, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (9, 2, '2024-10-07 23:27:20');
+        VALUES (12, 9, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (11, 6, '2024-10-07 23:27:20');
+        VALUES (8, 9, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (1, 9, '2024-10-07 23:27:20');
+        VALUES (13, 6, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (17, 2, '2024-10-07 23:27:20');
+        VALUES (7, 4, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (10, 4, '2024-10-07 23:27:20');
+        VALUES (3, 10, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (1, 8, '2024-10-07 23:27:20');
+        VALUES (1, 2, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (16, 10, '2024-10-07 23:27:20');
+        VALUES (2, 4, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (7, 7, '2024-10-07 23:27:20');
+        VALUES (16, 2, '2024-10-08 09:55:15');
     
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
-        VALUES (17, 5, '2024-10-07 23:27:20');
-
-SELECT * FROM middag;
+        VALUES (5, 1, '2024-10-08 09:55:15');
+    

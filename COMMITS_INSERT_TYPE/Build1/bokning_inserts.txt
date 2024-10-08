@@ -1,101 +1,100 @@
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (8, 20, 6, 3, 19, 17, '2024-11-01', '2024-11-04', '2024-10-07 23:27:20', 1);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (12, 8, 12, 5, 17, 11, '2024-10-14', '2024-10-15', '2024-10-08 09:55:15', 2);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (16, 18, 11, 9, 5, 6, '2024-10-22', '2024-10-23', '2024-10-07 23:27:20', 3);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (15, 8, 3, 16, 18, 3, '2024-10-29', '2024-11-02', '2024-10-08 09:55:15', 2);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (2, 1, 18, 8, 11, 2, '2024-11-03', '2024-11-04', '2024-10-07 23:27:20', 1);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (15, 2, 17, 19, 12, 5, '2024-10-16', '2024-10-20', '2024-10-08 09:55:15', 4);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (7, 1, 4, 4, 17, 13, '2024-10-08', '2024-10-09', '2024-10-07 23:27:20', 1);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (5, 14, 11, 16, 5, 14, '2024-10-13', '2024-10-14', '2024-10-08 09:55:15', 1);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (15, 10, 3, 3, 16, 7, '2024-10-09', '2024-10-14', '2024-10-07 23:27:20', 2);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (7, 11, 15, 6, 11, 15, '2024-10-19', '2024-10-23', '2024-10-08 09:55:15', 3);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (14, 15, 3, 15, 14, 1, '2024-11-04', '2024-11-09', '2024-10-07 23:27:20', 2);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (9, 11, 18, 9, 4, 17, '2024-10-11', '2024-10-12', '2024-10-08 09:55:15', 2);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (19, 9, 16, 18, 4, 8, '2024-10-12', '2024-10-14', '2024-10-07 23:27:20', 4);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (14, 6, 1, 12, 17, 7, '2024-10-09', '2024-10-16', '2024-10-08 09:55:15', 3);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (16, 4, 15, 20, 15, 11, '2024-11-03', '2024-11-08', '2024-10-07 23:27:20', 4);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (14, 18, 15, 2, 13, 19, '2024-10-23', '2024-10-27', '2024-10-08 09:55:15', 1);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (6, 8, 9, 19, 18, 4, '2024-11-05', '2024-11-12', '2024-10-07 23:27:20', 3);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (8, 15, 10, 18, 10, 14, '2024-11-04', '2024-11-07', '2024-10-08 09:55:15', 2);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (15, 9, 18, 9, 8, 11, '2024-10-29', '2024-11-04', '2024-10-07 23:27:20', 1);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (10, 9, 6, 5, 3, 7, '2024-10-12', '2024-10-14', '2024-10-08 09:55:15', 3);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (7, 8, 3, 1, 6, 1, '2024-10-21', '2024-10-27', '2024-10-07 23:27:20', 1);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (18, 8, 17, 6, 14, 10, '2024-10-21', '2024-10-28', '2024-10-08 09:55:15', 4);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (18, 4, 3, 19, 20, 7, '2024-10-31', '2024-11-07', '2024-10-07 23:27:20', 1);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (12, 9, 9, 12, 1, 4, '2024-10-11', '2024-10-13', '2024-10-08 09:55:15', 1);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (4, 1, 12, 14, 13, 12, '2024-10-10', '2024-10-14', '2024-10-07 23:27:20', 1);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (19, 16, 11, 1, 10, 9, '2024-11-04', '2024-11-10', '2024-10-08 09:55:15', 1);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (8, 3, 1, 16, 5, 18, '2024-10-25', '2024-10-28', '2024-10-07 23:27:20', 4);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (1, 18, 4, 6, 13, 2, '2024-10-24', '2024-10-29', '2024-10-08 09:55:15', 3);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (5, 1, 14, 7, 5, 14, '2024-10-25', '2024-10-30', '2024-10-07 23:27:20', 3);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (18, 12, 17, 9, 20, 1, '2024-10-29', '2024-11-02', '2024-10-08 09:55:15', 1);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (12, 5, 18, 14, 9, 11, '2024-10-31', '2024-11-03', '2024-10-07 23:27:20', 3);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (12, 6, 14, 14, 2, 12, '2024-10-14', '2024-10-20', '2024-10-08 09:55:15', 3);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (7, 9, 10, 3, 7, 2, '2024-10-31', '2024-11-03', '2024-10-07 23:27:20', 1);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (6, 4, 16, 11, 15, 15, '2024-10-29', '2024-11-01', '2024-10-08 09:55:15', 2);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (19, 6, 8, 10, 20, 1, '2024-10-21', '2024-10-26', '2024-10-07 23:27:20', 3);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (16, 5, 20, 17, 11, 18, '2024-10-19', '2024-10-20', '2024-10-08 09:55:15', 3);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (3, 15, 15, 17, 19, 13, '2024-10-12', '2024-10-18', '2024-10-07 23:27:20', 3);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (12, 17, 8, 11, 7, 7, '2024-11-01', '2024-11-02', '2024-10-08 09:55:15', 3);
     
 
-        INSERT INTO bokning (rum_id, kund_id, huvud_g�st_id, personal_id, rum_pris_id, grupp_bokning_id, 
-                             datum_incheck, datum_utcheck, booking_datum, antal_g�ster)
-        VALUES (16, 15, 7, 9, 10, 20, '2024-10-30', '2024-11-01', '2024-10-07 23:27:20', 4);
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+                             datum_incheck, datum_utcheck, booking_datum, antal_gaster)
+        VALUES (14, 6, 14, 17, 10, 16, '2024-10-12', '2024-10-19', '2024-10-08 09:55:15', 1);
     
-SELECT * FROM bokning;
