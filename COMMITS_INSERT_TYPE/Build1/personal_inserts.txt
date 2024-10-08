@@ -1,80 +1,86 @@
+INSERT INTO personal (fÃ¶rnamn, efternamn, roll)
+VALUES ("Hedvig", "Hansson", "HotelldirektÃ¶r"),
+       ("Klara", "Karlsson", "Receptionist"),
+       ("Per", "Persson", "Receptionist"),
+       ("Nils", "Nilsson", "StÃ¤dpersonal");
 
-        INSERT INTO personal (förnamn, efternamn, roll)
-        VALUES ('Björn', 'Larsson', 'Cleaner');
+        
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
+        VALUES ('Bjï¿½rn', 'Larsson', 'Cleaner');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
         VALUES ('Cecilia', 'Larsson', 'Receptionist');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
-        VALUES ('Björn', 'Nilsson', 'Manager');
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
+        VALUES ('Bjï¿½rn', 'Nilsson', 'Manager');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
         VALUES ('Anna', 'Nilsson', 'Manager');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
-        VALUES ('Björn', 'Larsson', 'Manager');
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
+        VALUES ('Bjï¿½rn', 'Larsson', 'Manager');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
-        VALUES ('Björn', 'Karlsson', 'Cleaner');
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
+        VALUES ('Bjï¿½rn', 'Karlsson', 'Cleaner');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
-        VALUES ('Björn', 'Larsson', 'Receptionist');
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
+        VALUES ('Bjï¿½rn', 'Larsson', 'Receptionist');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
         VALUES ('Anna', 'Karlsson', 'Cleaner');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
         VALUES ('David', 'Larsson', 'Manager');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
         VALUES ('Cecilia', 'Karlsson', 'Receptionist');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
         VALUES ('David', 'Johansson', 'Cleaner');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
         VALUES ('Anna', 'Karlsson', 'Receptionist');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
-        VALUES ('Björn', 'Johansson', 'Manager');
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
+        VALUES ('Bjï¿½rn', 'Johansson', 'Manager');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
         VALUES ('Erik', 'Karlsson', 'Receptionist');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
         VALUES ('David', 'Nilsson', 'Manager');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
         VALUES ('Anna', 'Johansson', 'Manager');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
         VALUES ('Cecilia', 'Larsson', 'Cleaner');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
         VALUES ('David', 'Nilsson', 'Cleaner');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
-        VALUES ('Björn', 'Johansson', 'Manager');
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
+        VALUES ('Bjï¿½rn', 'Johansson', 'Manager');
     
 
-        INSERT INTO personal (förnamn, efternamn, roll)
+        INSERT INTO personal (fï¿½rnamn, efternamn, roll)
         VALUES ('David', 'Nilsson', 'Manager');
     
