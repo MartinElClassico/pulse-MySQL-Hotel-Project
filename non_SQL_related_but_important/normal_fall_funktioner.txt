@@ -18,6 +18,10 @@ Receptionist:
     Se om gäst checkat in
     Se om gäst checkat ut
     Se vem i personalen som gjort bokning / incheckning / utcheckning
+    Ändra datum i bokningar
+    Skriva ut räkning för bokningar
+    Skriva ut räkning för gruppbokningar
+    
 
 
 Städare:
