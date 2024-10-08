@@ -3,6 +3,7 @@ Ordning för att infoga INSERT-satser i databasen per tabellnamn:
 1. a
 rum_typ
 Inga beroenden.
+OBS: har inte en autogenerad ID. 
 
 2.
 erbjudande
