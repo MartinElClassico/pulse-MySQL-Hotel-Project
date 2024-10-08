@@ -77,4 +77,5 @@
 
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum)
         VALUES (17, 5, '2024-10-07 23:27:20');
-    
+
+SELECT * FROM middag;

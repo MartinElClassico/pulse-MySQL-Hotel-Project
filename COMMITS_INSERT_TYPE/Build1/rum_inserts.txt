@@ -78,3 +78,4 @@
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
         VALUES ('dubbelrum', 6, 1, 1);
     
+SELECT * FROM rum;

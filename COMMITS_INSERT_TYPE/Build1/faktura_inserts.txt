@@ -78,3 +78,4 @@
         INSERT INTO faktura (personal_id, erbjudande_id)
         VALUES (3, 2);
     
+SELECT * FROM faktura;

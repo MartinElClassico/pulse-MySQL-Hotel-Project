@@ -1,80 +1,81 @@
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Peter', 'Persson', '9778@example.com', '+46760263196');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Sofia', 'Persson', '8972@example.com', '+46725987222');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Peter', 'Olsson', '3872@example.com', '+46748332232');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Eva', 'Lund', '6832@example.com', '+46729680935');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Maria', 'Nilsson', '8036@example.com', '+46779440243');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Eva', 'Lund', '9703@example.com', '+46748740025');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Eva', 'Persson', '8931@example.com', '+46710536379');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Maria', 'Olsson', '5769@example.com', '+46768828973');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Peter', 'Persson', '9150@example.com', '+46784901363');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Eva', 'Nilsson', '3165@example.com', '+46736447869');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Peter', 'Olsson', '5216@example.com', '+46757598907');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Peter', 'Lund', '8380@example.com', '+46719352057');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Maria', 'Lund', '8110@example.com', '+46796450719');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Sofia', 'Olsson', '1741@example.com', '+46736192733');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Eva', 'Olsson', '3519@example.com', '+46779520393');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Maria', 'Nilsson', '3938@example.com', '+46748518891');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Eva', 'Persson', '9260@example.com', '+46768836616');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Maria', 'Persson', '2123@example.com', '+46738592968');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Sofia', 'Persson', '1023@example.com', '+46793045720');
     
 
-        INSERT INTO huvud_gäst (förnamn, efternamn, mejl_address, telefon_nummer)
+        INSERT INTO huvud_gï¿½st (fï¿½rnamn, efternamn, mejl_address, telefon_nummer)
         VALUES ('Peter', 'Nilsson', '8940@example.com', '+46720755940');
     
+SELECT * FROM huvud_gÃ¤st;

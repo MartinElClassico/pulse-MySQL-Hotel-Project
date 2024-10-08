@@ -78,3 +78,4 @@
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
         VALUES ('dubbelrum', 327.57, '2024-10-01', '2024-12-31');
     
+SELECT * FROM rum_pris;

@@ -84,3 +84,4 @@ VALUES ("Hedvig", "Hansson", "Hotelldirektör"),
         INSERT INTO personal (f�rnamn, efternamn, roll)
         VALUES ('David', 'Nilsson', 'Manager');
     
+SELECT * FROM personal;

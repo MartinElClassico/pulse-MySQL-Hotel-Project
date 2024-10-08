@@ -78,3 +78,4 @@
         INSERT INTO grupp_bokning (personal_id, faktura_id)
         VALUES (11, 15);
     
+SELECT * FROM grupp_bokning;
