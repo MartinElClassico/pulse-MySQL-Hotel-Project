@@ -1,6 +1,9 @@
 import random
 import datetime
 
+# number of testcases viz. input statements per table
+numberOfInputs = 20
+
 # Store the generated primary key values for foreign key references
 personal_ids = []
 erbjudande_ids = []
@@ -11,10 +14,19 @@ kund_ids = []
 huvud_gast_ids = []
 rum_pris_ids = []
 grupp_bokning_ids = []
+erbjudande_ids = []
 
+# AUXILIARY FUNCTIONS:::
 # Generate random date between today and a future date within a certain range (e.g., 30 days from today)
 def generate_random_date(start_date, days_range):
     return start_date + datetime.timedelta(days=random.randint(0, days_range))
+
+# Generate offer price start and end date
+def generate_offer_startend_dates():
+    today = datetime.date.today()
+    offer_start = generate_random_date(today, 90)  # Random start date of offer within 90 days from today
+    offer_end = offer_start + datetime.timedelta(days=random.randint(5, 14))  # Random end date of offer between 5-14 days after offer start
+    return offer_start, offer_end
 
 # Generate check-in and check-out dates
 def generate_checkin_checkout_dates():
@@ -22,6 +34,36 @@ def generate_checkin_checkout_dates():
     checkin_date = generate_random_date(today, 30)  # Random check-in within 30 days from today
     checkout_date = checkin_date + datetime.timedelta(days=random.randint(1, 7))  # Random stay between 1-7 days
     return checkin_date, checkout_date
+
+# extra
+def price_intervalls_per_room_type(room_type_id):
+    if room_type_id == "enkelrum":
+        return round(random.uniform(400.0, 550.0), 2)
+    if room_type_id == "dubbelrum":
+        return round(random.uniform(600.0, 950.0), 2)
+    if room_type_id == "familjerum":
+        return round(random.uniform(1000.0, 1400.0), 2)
+# extra
+
+
+
+# INPUT STATEMENT GENERATORS:::
+# new proj
+def generate_erbjudande_insert():
+    erbjudande_query = """
+        INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
+        VALUES ('{}', {}, '{}', '{}');
+    """
+    start_datum, slut_datum = generate_offer_startend_dates()  # Get random dates
+    erbjudande_values = (
+        #random.choice(rum_typ_ids),  # Room type ID must be "enkelrum", "familjerum", or "dubbelrum"
+        round(random.uniform(100.0, 300.0), 2),  # Price per night
+        "PLACEHOLDER villkor",
+        start_datum, 
+        slut_datum
+    )
+    return erbjudande_query.format(*erbjudande_values)
+# end new proj
 
 def generate_personal_insert():
     personal_query = """
@@ -79,11 +121,17 @@ def generate_rum_pris_insert():
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
         VALUES ('{}', {}, '{}', '{}');
     """
+    rum_typ_id = random.choice(rum_typ_ids)
+    pris_per_natt = price_intervalls_per_room_type(rum_typ_ids)
+    pris_start_datum, pris_slut_datum = generate_offer_startend_dates()
     rum_pris_values = (
-        random.choice(rum_typ_ids),  # Room type ID must be "enkelrum", "familjerum", or "dubbelrum"
-        round(random.uniform(100.0, 500.0), 2),  # Price per night
-        '2024-10-01',  # Price start date
-        '2024-12-31'   # Price end date
+        rum_typ_id,  # Room type ID must be "enkelrum", "familjerum", or "dubbelrum"
+        pris_per_natt,
+        #case round(random.uniform(100.0, 500.0), 2),  # Price per night OLDVER
+        pris_start_datum,
+        pris_slut_datum
+        #'2024-10-01',  # Price start date OLDVER
+        #'2024-12-31'   # Price end date OLDVER
     )
     return rum_pris_query.format(*rum_pris_values)
 
@@ -150,11 +198,11 @@ def write_to_file(filename, queries):
     print(f"Data written to {filename}")
 
 def main():
-    global personal_ids, erbjudande_ids, faktura_ids, rum_ids, kund_ids, huvud_gast_ids, rum_pris_ids, grupp_bokning_ids
+    global personal_ids, erbjudande_ids, faktura_ids, rum_ids, kund_ids, huvud_gast_ids, rum_pris_ids, grupp_bokning_ids, erbjudande_ids
 
     # Generate 'personal' table so we have IDs to reference
-    personal_queries = [generate_personal_insert() for _ in range(20)]
-    personal_ids = list(range(1, 21))  # Assuming auto-increment starts at 1 for personal
+    personal_queries = [generate_personal_insert() for _ in range(numberOfInputs)]
+    personal_ids = list(range(1, numberOfInputs+1))  # Assuming auto-increment starts at 1 for personal
 
     # Generate 'rum_typ' table with predefined values
     rum_typ_queries = [
@@ -162,36 +210,40 @@ def main():
         "INSERT INTO rum_typ (rum_typ_id, max_antal_personer) VALUES ('familjerum', 4);",
         "INSERT INTO rum_typ (rum_typ_id, max_antal_personer) VALUES ('dubbelrum', 2);"
     ]
+    # Generate 'erbjudande' table so we have IDs to reference
+    erbjudande_queries = [generate_erbjudande_insert() for _ in range(numberOfInputs)]
+    erbjudande_ids = list(range(1, numberOfInputs+1))  # Assuming auto-increment starts at 1 for kund
 
     # Generate 'kund' table so we have IDs to reference
-    kund_queries = [generate_kund_insert() for _ in range(20)]
-    kund_ids = list(range(1, 21))  # Assuming auto-increment starts at 1 for kund
+    kund_queries = [generate_kund_insert() for _ in range(numberOfInputs)]
+    kund_ids = list(range(1, numberOfInputs+1))  # Assuming auto-increment starts at 1 for kund
 
     # Generate 'huvud_gast' table so we have IDs to reference
-    huvud_gast_queries = [generate_huvud_gast_insert() for _ in range(20)]
-    huvud_gast_ids = list(range(1, 21))  # Assuming auto-increment starts at 1 for huvud_gast
+    huvud_gast_queries = [generate_huvud_gast_insert() for _ in range(numberOfInputs)]
+    huvud_gast_ids = list(range(1, numberOfInputs+1))  # Assuming auto-increment starts at 1 for huvud_gast
 
     # Generate 'rum_pris' table so we have IDs to reference
-    rum_pris_queries = [generate_rum_pris_insert() for _ in range(20)]
-    rum_pris_ids = list(range(1, 21))  # Assuming auto-increment starts at 1 for rum_pris
+    rum_pris_queries = [generate_rum_pris_insert() for _ in range(numberOfInputs)]
+    rum_pris_ids = list(range(1, numberOfInputs+1))  # Assuming auto-increment starts at 1 for rum_pris
 
     # Generate 'rum' table so we have IDs to reference
-    rum_queries = [generate_rum_insert() for _ in range(20)]
-    rum_ids = list(range(1, 21))  # Assuming auto-increment starts at 1 for rum
+    rum_queries = [generate_rum_insert() for _ in range(numberOfInputs)]
+    rum_ids = list(range(1, numberOfInputs+1))  # Assuming auto-increment starts at 1 for rum
 
     # Generate 'faktura' table so we have IDs to reference
-    faktura_queries = [generate_faktura_insert() for _ in range(20)]
-    faktura_ids = list(range(1, 21))  # Assuming auto-increment starts at 1 for faktura
+    faktura_queries = [generate_faktura_insert() for _ in range(numberOfInputs)]
+    faktura_ids = list(range(1, numberOfInputs+1))  # Assuming auto-increment starts at 1 for faktura
 
     # Generate 'grupp_bokning' table so we have IDs to reference
-    grupp_bokning_queries = [generate_grupp_bokning_insert() for _ in range(20)]
-    grupp_bokning_ids = list(range(1, 21))  # Assuming auto-increment starts at 1 for grupp_bokning
+    grupp_bokning_queries = [generate_grupp_bokning_insert() for _ in range(numberOfInputs)]
+    grupp_bokning_ids = list(range(1, numberOfInputs+1))  # Assuming auto-increment starts at 1 for grupp_bokning
 
     # Generate other queries
-    bokning_queries = [generate_bokning_insert() for _ in range(20)]
-    middag_queries = [generate_middag_insert() for _ in range(20)]
+    bokning_queries = [generate_bokning_insert() for _ in range(numberOfInputs)]
+    middag_queries = [generate_middag_insert() for _ in range(numberOfInputs)]
 
     # Write to text files
+    write_to_file('erbjudande_inserts.txt', erbjudande_queries)
     write_to_file('personal_inserts.txt', personal_queries)
     write_to_file('rum_typ_inserts.txt', rum_typ_queries)
     write_to_file('kund_inserts.txt', kund_queries)

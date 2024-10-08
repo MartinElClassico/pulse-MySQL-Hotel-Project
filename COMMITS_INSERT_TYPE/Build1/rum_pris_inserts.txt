@@ -1,80 +1,80 @@
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('dubbelrum', 271.47, '2024-10-01', '2024-12-31');
+        VALUES ('familjerum', None, '2024-12-13', '2024-12-19');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('dubbelrum', 214.27, '2024-10-01', '2024-12-31');
+        VALUES ('familjerum', None, '2024-11-26', '2024-12-08');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('familjerum', 229.29, '2024-10-01', '2024-12-31');
+        VALUES ('dubbelrum', None, '2024-11-16', '2024-11-23');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('enkelrum', 293.56, '2024-10-01', '2024-12-31');
+        VALUES ('enkelrum', None, '2024-10-10', '2024-10-16');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('familjerum', 226.42, '2024-10-01', '2024-12-31');
+        VALUES ('familjerum', None, '2024-10-19', '2024-10-25');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('enkelrum', 120.22, '2024-10-01', '2024-12-31');
+        VALUES ('dubbelrum', None, '2025-01-04', '2025-01-14');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('familjerum', 461.15, '2024-10-01', '2024-12-31');
+        VALUES ('dubbelrum', None, '2024-11-18', '2024-11-23');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('dubbelrum', 132.93, '2024-10-01', '2024-12-31');
+        VALUES ('dubbelrum', None, '2024-11-07', '2024-11-21');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('familjerum', 130.6, '2024-10-01', '2024-12-31');
+        VALUES ('dubbelrum', None, '2024-12-05', '2024-12-19');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('familjerum', 268.34, '2024-10-01', '2024-12-31');
+        VALUES ('dubbelrum', None, '2024-10-28', '2024-11-07');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('familjerum', 423.04, '2024-10-01', '2024-12-31');
+        VALUES ('dubbelrum', None, '2024-11-01', '2024-11-07');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('enkelrum', 467.49, '2024-10-01', '2024-12-31');
+        VALUES ('familjerum', None, '2024-10-24', '2024-11-03');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('familjerum', 247.43, '2024-10-01', '2024-12-31');
+        VALUES ('dubbelrum', None, '2024-12-16', '2024-12-25');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('enkelrum', 361.32, '2024-10-01', '2024-12-31');
+        VALUES ('enkelrum', None, '2025-01-03', '2025-01-15');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('familjerum', 140.11, '2024-10-01', '2024-12-31');
+        VALUES ('enkelrum', None, '2024-11-08', '2024-11-18');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('familjerum', 325.44, '2024-10-01', '2024-12-31');
+        VALUES ('familjerum', None, '2024-12-31', '2025-01-11');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('enkelrum', 442.0, '2024-10-01', '2024-12-31');
+        VALUES ('dubbelrum', None, '2024-11-22', '2024-11-29');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('dubbelrum', 488.84, '2024-10-01', '2024-12-31');
+        VALUES ('dubbelrum', None, '2024-11-09', '2024-11-15');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('enkelrum', 173.17, '2024-10-01', '2024-12-31');
+        VALUES ('familjerum', None, '2024-11-12', '2024-11-18');
     
 
         INSERT INTO rum_pris (rum_typ_id, pris_per_natt, pris_start_datum, pris_slut_datum)
-        VALUES ('enkelrum', 195.84, '2024-10-01', '2024-12-31');
+        VALUES ('dubbelrum', None, '2024-10-12', '2024-10-24');
     

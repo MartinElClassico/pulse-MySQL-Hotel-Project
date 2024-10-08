@@ -1,80 +1,80 @@
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('dubbelrum', 12, 0, 0);
+        VALUES ('dubbelrum', 4, 1, 0);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('familjerum', 12, 0, 1);
+        VALUES ('enkelrum', 12, 1, 0);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('enkelrum', 16, 0, 0);
+        VALUES ('enkelrum', 8, 0, 1);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('enkelrum', 16, 0, 1);
+        VALUES ('enkelrum', 20, 0, 1);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('familjerum', 3, 1, 1);
+        VALUES ('dubbelrum', 15, 0, 1);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('dubbelrum', 4, 0, 0);
+        VALUES ('familjerum', 6, 0, 1);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('enkelrum', 11, 1, 0);
+        VALUES ('familjerum', 9, 1, 0);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('familjerum', 12, 1, 0);
+        VALUES ('familjerum', 10, 1, 1);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('enkelrum', 7, 1, 0);
+        VALUES ('dubbelrum', 4, 1, 0);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('enkelrum', 7, 0, 0);
+        VALUES ('dubbelrum', 4, 1, 0);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('enkelrum', 14, 0, 0);
+        VALUES ('dubbelrum', 14, 1, 0);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('enkelrum', 17, 0, 1);
+        VALUES ('familjerum', 19, 1, 1);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('enkelrum', 20, 1, 1);
+        VALUES ('dubbelrum', 16, 1, 1);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('dubbelrum', 12, 0, 0);
+        VALUES ('enkelrum', 17, 1, 1);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('dubbelrum', 3, 1, 0);
+        VALUES ('familjerum', 7, 0, 1);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('familjerum', 4, 1, 1);
+        VALUES ('enkelrum', 5, 0, 1);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('enkelrum', 13, 1, 0);
+        VALUES ('familjerum', 19, 1, 0);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('enkelrum', 4, 1, 0);
+        VALUES ('familjerum', 4, 0, 1);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('enkelrum', 14, 1, 1);
+        VALUES ('enkelrum', 7, 0, 1);
     
 
         INSERT INTO rum (rum_typ_id, personal_id, checked_in, checked_out)
-        VALUES ('familjerum', 2, 1, 0);
+        VALUES ('dubbelrum', 18, 1, 1);
     
