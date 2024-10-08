@@ -1,0 +1,2 @@
+1. Fix so it automatically inserts an:
+    "SELECT * from {table name}
