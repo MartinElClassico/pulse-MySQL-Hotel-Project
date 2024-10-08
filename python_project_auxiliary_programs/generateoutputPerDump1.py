@@ -1,8 +1,15 @@
 import random
 import datetime
+import math
 
 # number of testcases viz. input statements per table
 numberOfInputs = 20
+# number of "grupp_bokningar"
+numberOfInputs_gb = 3
+# number of bookings per group booking
+bookings_per_groupb = math.floor(round((numberOfInputs)/2)/numberOfInputs_gb) # 50 percent of the booking divided by number of group bookings rounded down.
+
+
 
 # Store the generated primary key values for foreign key references
 personal_ids = []
@@ -15,6 +22,9 @@ huvud_gast_ids = []
 rum_pris_ids = []
 grupp_bokning_ids = []
 erbjudande_ids = []
+
+# fixed length list of number of bookings assigned to each group booking
+bookings_added_per_groupb = [0] * numberOfInputs_gb
 
 # AUXILIARY FUNCTIONS:::
 # Generate random date between today and a future date within a certain range (e.g., 30 days from today)
@@ -35,7 +45,7 @@ def generate_checkin_checkout_dates():
     checkout_date = checkin_date + datetime.timedelta(days=random.randint(1, 7))  # Random stay between 1-7 days
     return checkin_date, checkout_date
 
-# extra
+# generate price intervalls for each room based on it's roop type
 def price_intervalls_per_room_type(room_type_id):
     if room_type_id == "enkelrum":
         return round(random.uniform(400.0, 550.0), 2)
@@ -43,7 +53,17 @@ def price_intervalls_per_room_type(room_type_id):
         return round(random.uniform(600.0, 950.0), 2)
     if room_type_id == "familjerum":
         return round(random.uniform(1000.0, 1400.0), 2)
-# extra
+
+# return "NULL" as reference to "grupp_bokning" in "bokning" when group has been filled
+def value_for_grupp_bokning_reference(grupp_bokning_ids):
+    global bookings_added_per_groupb
+    shouldHaveGroup = random.randint(0, 1)# radomly decide if to assign NULL or to a group foreign ID.
+    if shouldHaveGroup:
+        if bookings_added_per_groupb[grupp_bokning_ids-1] < 3:
+            bookings_added_per_groupb[grupp_bokning_ids-1] += 1
+            return grupp_bokning_ids
+        else: return "NULL" # if it is filled return NULL.
+    else: return "NULL"
 
 
 
@@ -166,13 +186,14 @@ def generate_bokning_insert():
         VALUES ({}, {}, {}, {}, {}, {}, '{}', '{}', '{}', {});
     """
     checkin_date, checkout_date = generate_checkin_checkout_dates()  # Get random dates
+    grupp_bokning_assigned_value = value_for_grupp_bokning_reference(random.choice(grupp_bokning_ids)) # returns null or fk_grupp_bokning
     bokning_values = (
         random.choice(rum_ids),  # Room ID must exist in 'rum'
         random.choice(kund_ids),  # Customer ID must exist in 'kund'
         random.choice(huvud_gast_ids),  # Main guest ID must exist in 'huvud_gast'
         random.choice(personal_ids),  # Personal ID must exist in 'personal'
         random.randint(1, 20),  # Assuming room price IDs are within this range
-        random.choice(grupp_bokning_ids),  # Group booking ID must exist in 'grupp_bokning'
+        grupp_bokning_assigned_value,  # Group booking ID must exist in 'grupp_bokning'
         checkin_date,  # Randomized check-in date
         checkout_date,  # Randomized check-out date
         datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'),  # Booking date
@@ -235,8 +256,8 @@ def main():
     faktura_ids = list(range(1, numberOfInputs+1))  # Assuming auto-increment starts at 1 for faktura
 
     # Generate 'grupp_bokning' table so we have IDs to reference
-    grupp_bokning_queries = [generate_grupp_bokning_insert() for _ in range(numberOfInputs)]
-    grupp_bokning_ids = list(range(1, numberOfInputs+1))  # Assuming auto-increment starts at 1 for grupp_bokning
+    grupp_bokning_queries = [generate_grupp_bokning_insert() for _ in range(numberOfInputs_gb)]
+    grupp_bokning_ids = list(range(1, numberOfInputs_gb+1))  # Assuming auto-increment starts at 1 for grupp_bokning
 
     # Generate other queries
     bokning_queries = [generate_bokning_insert() for _ in range(numberOfInputs)]

@@ -1,80 +1,80 @@
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('109.46', PLACEHOLDER villkor, '2024-11-08', '2024-11-15');
+        VALUES ('176.94', PLACEHOLDER villkor, '2024-10-30', '2024-11-12');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('127.12', PLACEHOLDER villkor, '2024-11-01', '2024-11-15');
+        VALUES ('107.97', PLACEHOLDER villkor, '2024-11-13', '2024-11-26');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('259.53', PLACEHOLDER villkor, '2025-01-06', '2025-01-19');
+        VALUES ('225.95', PLACEHOLDER villkor, '2024-12-10', '2024-12-16');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('180.91', PLACEHOLDER villkor, '2024-12-22', '2025-01-01');
+        VALUES ('269.81', PLACEHOLDER villkor, '2024-12-04', '2024-12-09');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('221.97', PLACEHOLDER villkor, '2025-01-06', '2025-01-14');
+        VALUES ('247.18', PLACEHOLDER villkor, '2024-11-30', '2024-12-14');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('150.24', PLACEHOLDER villkor, '2024-12-04', '2024-12-18');
+        VALUES ('297.42', PLACEHOLDER villkor, '2024-11-18', '2024-11-24');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('191.0', PLACEHOLDER villkor, '2024-11-30', '2024-12-10');
+        VALUES ('275.24', PLACEHOLDER villkor, '2024-10-16', '2024-10-24');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('168.2', PLACEHOLDER villkor, '2024-11-05', '2024-11-12');
+        VALUES ('224.03', PLACEHOLDER villkor, '2024-11-28', '2024-12-12');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('218.27', PLACEHOLDER villkor, '2024-10-22', '2024-11-01');
+        VALUES ('252.43', PLACEHOLDER villkor, '2024-10-14', '2024-10-22');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('183.62', PLACEHOLDER villkor, '2024-11-09', '2024-11-22');
+        VALUES ('167.74', PLACEHOLDER villkor, '2024-11-16', '2024-11-23');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('207.15', PLACEHOLDER villkor, '2024-12-14', '2024-12-26');
+        VALUES ('153.5', PLACEHOLDER villkor, '2024-10-23', '2024-10-28');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('204.57', PLACEHOLDER villkor, '2024-11-02', '2024-11-07');
+        VALUES ('279.03', PLACEHOLDER villkor, '2024-12-14', '2024-12-28');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('213.48', PLACEHOLDER villkor, '2024-11-18', '2024-11-30');
+        VALUES ('147.58', PLACEHOLDER villkor, '2024-11-09', '2024-11-20');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('270.02', PLACEHOLDER villkor, '2024-11-07', '2024-11-12');
+        VALUES ('192.59', PLACEHOLDER villkor, '2024-12-11', '2024-12-25');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('258.5', PLACEHOLDER villkor, '2024-11-29', '2024-12-11');
+        VALUES ('237.78', PLACEHOLDER villkor, '2024-10-18', '2024-10-30');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('288.36', PLACEHOLDER villkor, '2024-12-13', '2024-12-23');
+        VALUES ('176.73', PLACEHOLDER villkor, '2024-11-14', '2024-11-27');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('153.24', PLACEHOLDER villkor, '2024-10-14', '2024-10-21');
+        VALUES ('241.79', PLACEHOLDER villkor, '2024-11-02', '2024-11-08');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('104.44', PLACEHOLDER villkor, '2024-12-10', '2024-12-24');
+        VALUES ('144.14', PLACEHOLDER villkor, '2024-11-05', '2024-11-15');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('223.9', PLACEHOLDER villkor, '2025-01-05', '2025-01-11');
+        VALUES ('172.39', PLACEHOLDER villkor, '2024-12-29', '2025-01-04');
     
 
         INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum)
-        VALUES ('131.94', PLACEHOLDER villkor, '2024-10-28', '2024-11-02');
+        VALUES ('109.88', PLACEHOLDER villkor, '2024-12-01', '2024-12-11');
     

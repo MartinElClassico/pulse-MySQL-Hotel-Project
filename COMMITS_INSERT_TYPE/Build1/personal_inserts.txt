@@ -1,22 +1,42 @@
 
         INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Peter', 'Svensson', 'Manager');
+        VALUES ('Erik', 'Svensson', 'Manager');
     
 
         INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('David', 'Johansson', 'Receptionist');
+        VALUES ('David', 'Nilsson', 'Cleaner');
     
 
         INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Erik', 'Karlsson', 'Cleaner');
+        VALUES ('Erik', 'Johansson', 'Cleaner');
     
 
         INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Anna', 'Karlsson', 'Manager');
+        VALUES ('Peter', 'Karlsson', 'Manager');
     
 
         INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Erik', 'Johansson', 'Receptionist');
+        VALUES ('Cecilia', 'Svensson', 'Receptionist');
+    
+
+        INSERT INTO personal (fornamn, efternamn, roll)
+        VALUES ('David', 'Larsson', 'Manager');
+    
+
+        INSERT INTO personal (fornamn, efternamn, roll)
+        VALUES ('Peter', 'Johansson', 'Receptionist');
+    
+
+        INSERT INTO personal (fornamn, efternamn, roll)
+        VALUES ('Anna', 'Svensson', 'Manager');
+    
+
+        INSERT INTO personal (fornamn, efternamn, roll)
+        VALUES ('Cecilia', 'Svensson', 'Cleaner');
+    
+
+        INSERT INTO personal (fornamn, efternamn, roll)
+        VALUES ('David', 'Svensson', 'Receptionist');
     
 
         INSERT INTO personal (fornamn, efternamn, roll)
@@ -24,51 +44,11 @@
     
 
         INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Cecilia', 'Nilsson', 'Cleaner');
+        VALUES ('Anna', 'Larsson', 'Cleaner');
     
 
         INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Anna', 'Karlsson', 'Receptionist');
-    
-
-        INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Peter', 'Svensson', 'Cleaner');
-    
-
-        INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Cecilia', 'Nilsson', 'Cleaner');
-    
-
-        INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Cecilia', 'Karlsson', 'Receptionist');
-    
-
-        INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Erik', 'Karlsson', 'Cleaner');
-    
-
-        INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Anna', 'Svensson', 'Cleaner');
-    
-
-        INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Cecilia', 'Larsson', 'Receptionist');
-    
-
-        INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Cecilia', 'Svensson', 'Manager');
-    
-
-        INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Anna', 'Svensson', 'Receptionist');
-    
-
-        INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('David', 'Svensson', 'Manager');
-    
-
-        INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Erik', 'Karlsson', 'Manager');
+        VALUES ('Cecilia', 'Johansson', 'Cleaner');
     
 
         INSERT INTO personal (fornamn, efternamn, roll)
@@ -76,5 +56,25 @@
     
 
         INSERT INTO personal (fornamn, efternamn, roll)
-        VALUES ('Anna', 'Johansson', 'Manager');
+        VALUES ('Erik', 'Karlsson', 'Receptionist');
+    
+
+        INSERT INTO personal (fornamn, efternamn, roll)
+        VALUES ('Anna', 'Karlsson', 'Manager');
+    
+
+        INSERT INTO personal (fornamn, efternamn, roll)
+        VALUES ('Cecilia', 'Svensson', 'Cleaner');
+    
+
+        INSERT INTO personal (fornamn, efternamn, roll)
+        VALUES ('David', 'Larsson', 'Manager');
+    
+
+        INSERT INTO personal (fornamn, efternamn, roll)
+        VALUES ('David', 'Johansson', 'Manager');
+    
+
+        INSERT INTO personal (fornamn, efternamn, roll)
+        VALUES ('Cecilia', 'Larsson', 'Receptionist');
     

@@ -1,80 +1,80 @@
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Ellen', 'Gustafsson', '1892@example.com', '+46700516256');
+        VALUES ('Lina', 'Berg', '2094@example.com', '+46791081072');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Fredrik', 'Gustafsson', '3271@example.com', '+46769027570');
+        VALUES ('Fredrik', 'Andersson', '8571@example.com', '+46718597969');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Lina', 'Andersson', '1905@example.com', '+46709696153');
+        VALUES ('Fredrik', 'Eriksson', '9890@example.com', '+46700316065');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Lina', 'Andersson', '7520@example.com', '+46736815717');
+        VALUES ('Fredrik', 'Lind', '5291@example.com', '+46709849774');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Ellen', 'Andersson', '4987@example.com', '+46768991358');
+        VALUES ('Sara', 'Lind', '3323@example.com', '+46704090498');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Ellen', 'Berg', '4436@example.com', '+46775837810');
+        VALUES ('Sara', 'Berg', '2513@example.com', '+46783797331');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Lina', 'Gustafsson', '9839@example.com', '+46716432097');
+        VALUES ('Sara', 'Andersson', '8896@example.com', '+46710147501');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Sara', 'Eriksson', '3851@example.com', '+46703417203');
+        VALUES ('Oskar', 'Berg', '1630@example.com', '+46749713634');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Oskar', 'Andersson', '1100@example.com', '+46755037915');
+        VALUES ('Ellen', 'Gustafsson', '9909@example.com', '+46779339411');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Oskar', 'Gustafsson', '1687@example.com', '+46724355842');
+        VALUES ('Lina', 'Lind', '4336@example.com', '+46701308662');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Lina', 'Lind', '8211@example.com', '+46787551913');
+        VALUES ('Fredrik', 'Lind', '7198@example.com', '+46793485257');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Sara', 'Eriksson', '5175@example.com', '+46723096898');
+        VALUES ('Lina', 'Berg', '5653@example.com', '+46743447055');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Fredrik', 'Eriksson', '9456@example.com', '+46702920599');
+        VALUES ('Lina', 'Eriksson', '2601@example.com', '+46737333094');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Oskar', 'Lind', '7977@example.com', '+46721009543');
+        VALUES ('Sara', 'Eriksson', '7903@example.com', '+46788192798');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Ellen', 'Eriksson', '2643@example.com', '+46723203127');
+        VALUES ('Lina', 'Gustafsson', '7432@example.com', '+46724395536');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Sara', 'Andersson', '7390@example.com', '+46723627827');
+        VALUES ('Oskar', 'Berg', '4677@example.com', '+46731097479');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Sara', 'Lind', '3726@example.com', '+46705495352');
+        VALUES ('Lina', 'Gustafsson', '7084@example.com', '+46740655335');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Sara', 'Gustafsson', '8991@example.com', '+46767501276');
+        VALUES ('Sara', 'Andersson', '6675@example.com', '+46750730025');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Ellen', 'Berg', '7095@example.com', '+46731816828');
+        VALUES ('Oskar', 'Andersson', '5907@example.com', '+46716862618');
     
 
         INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer)
-        VALUES ('Lina', 'Berg', '4830@example.com', '+46730661434');
+        VALUES ('Fredrik', 'Andersson', '9797@example.com', '+46726552797');
     
