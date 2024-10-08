@@ -12,7 +12,7 @@ CREATE TABLE rum_typ(
 -- @block
 CREATE TABLE erbjudande(
     erbjudande_id  INT PRIMARY KEY AUTO_INCREMENT,
-    prisavdrag DECIMAL,
+    prisavdrag DECIMAL(8,2),
     villkor VARCHAR(255),
     start_datum TIMESTAMP,
     slut_datum TIMESTAMP
