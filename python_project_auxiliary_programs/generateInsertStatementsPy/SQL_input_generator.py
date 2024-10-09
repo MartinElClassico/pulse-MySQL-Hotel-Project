@@ -270,42 +270,15 @@ def generate_grupp_bokning_dict(p_id):
     return grupp_bokning_dict
 #endregion
 
-#region INPUT STATEMENT GENERATORS:::
+#region INSERT STATEMENT STRING GENERATOR:::
 
-# FIXME: IMPORTANT! fix logic in dict_to_sql_insert_str to take another argument for wether p_key is auto generated or not!
-# if not then print all, if it is, then ommit first column print!
-def generate_rum_typ_insert(dict):
-    return dict_to_sql_insert_str("rum_typ", dict)
+# INPUTS:
+#   table_name: name of table for insert statement
+#   dict: the dictionary to be converted to an SQL insert statement
+#   b_p_key_auto_increment: boolean, if the primary key is auto increment --> true; otherwise --> false.
+def generate_insert_statement(table_name, dict, b_p_key_auto_increment):
+    return dict_to_sql_insert_str(table_name, dict, b_p_key_auto_increment)
 
-def generate_erbjudande_insert(dict):
-    return dict_to_sql_insert_str("erbjudande", dict)
-
-def generate_personal_insert(dict):
-    return dict_to_sql_insert_str("personal", dict)
-
-def generate_kund_insert(dict):
-    return dict_to_sql_insert_str("kund", dict)
-
-def generate_huvud_gast_insert(dict):
-    return dict_to_sql_insert_str("huvud_gast", dict)
-
-def generate_rum_insert(dict):
-    return dict_to_sql_insert_str("rum", dict)
-    
-def generate_rum_pris_insert(dict):
-    return dict_to_sql_insert_str("rum_pris", dict)
-
-def generate_middag_insert(dict):
-    return dict_to_sql_insert_str("middag", dict)
-
-def generate_faktura_insert(dict):
-    return dict_to_sql_insert_str("faktura", dict)
-
-def generate_bokning_insert(dict):
-    return dict_to_sql_insert_str("bokning", dict)
-
-def generate_grupp_bokning_insert(dict):
-    return dict_to_sql_insert_str("grupp_bokning", dict)
 #endregion
 
 
@@ -409,61 +382,64 @@ def main():
                 l_factura_id_w_gb.append(bokning_dict['faktura_id']) 
                 # TODO: HAD TO BREAK HERE TO CHANGE LOGIC FOR HOW DICTIONARIES ARE INCLUDED TO INCLUDE PRIMARY KEY!    
 
-
-
-
-
     #endregion
     
-    #region old code for generating queries, need to be revised before runtime!
-    # Generate 'personal' table so we have IDs to reference
-    personal_queries = [generate_personal_insert(personal_dicts(i)) for i in range(personal_n)]
-
-    # Generate 'erbjudande' table so we have IDs to reference
-    erbjudande_queries = [generate_erbjudande_insert() for _ in range(erbjudande_n)]
-
-    # Generate 'kund' table so we have IDs to reference
-    kund_queries = [generate_kund_insert() for _ in range(kund_n)]
-
-    # Generate 'huvud_gast' table so we have IDs to reference
-    huvud_gast_queries = [generate_huvud_gast_insert() for _ in range(huvud_gast_n)]
-
-    # Generate 'rum_pris' table so we have IDs to reference
-    rum_pris_queries = [generate_rum_pris_insert() for _ in range(rum_pris_n)]
-
-    # Generate 'rum' table so we have IDs to reference
-    rum_queries = [generate_rum_insert() for _ in range(rum_n)]
-
-    # Generate 'faktura' table so we have IDs to reference
-    faktura_queries = [generate_faktura_insert() for _ in range(faktura_n)]
-
-    # Generate 'grupp_bokning' table so we have IDs to reference
-    grupp_bokning_queries = [generate_grupp_bokning_insert() for _ in range(grupp_boking_n)]
-
-    # Generate booking queries
-    bokning_queries = [generate_bokning_insert() for _ in range(booking_n)]
-
+    #region create strings with all the sql queries for write to file!
+    
     # generate room_type queries
-    rum_typ_queries = [generate_rum_typ_insert() for _ in range(numberOfRooms)]
+    rum_typ_queries = [generate_insert_statement("rum_typ", l_rum_typ_dicts[i], False) for i in range(rum_typ_n)]
+
+    # Generate 'erbjudande' queries.
+    erbjudande_queries = [generate_insert_statement("erbjudande", l_erbjudande_dicts[i], True) for i in range(erbjudande_n)]
+
+    # Generate 'personal' queries
+    personal_queries = [generate_insert_statement("personal", l_personal_dicts[i], True) for i in range(personal_n)]
+
+    # Generate 'huvud_gast' queries 
+    huvud_gast_queries = [generate_insert_statement("huvud_gast", l_huvud_gast_dicts[i], True) for i in range(huvud_gast_n)]
+
+    # Generate 'kund' queries 
+    kund_queries = [generate_insert_statement("kund", l_kund_dicts[i], True) for i in range(kund_n)]
+
+    # Generate 'rum_pris' queries 
+    rum_pris_queries = [generate_insert_statement("rum_pris", l_rum_pris_dicts[i], True) for i in range(rum_pris_n)]
+
+    # Generate 'rum' queries 
+    rum_queries = [generate_insert_statement("rum", l_rum_dicts[i], True) for i in range(rum_n)]
+
+    # Generate 'faktura' queries 
+    faktura_queries = [generate_insert_statement("faktura", l_faktura_dicts[i], True) for i in range(faktura_n)]
+
+    # Generate 'grupp_bokning' queries 
+    grupp_bokning_queries = [generate_insert_statement("grupp_bokning", l_grupp_bokning_dicts[i], True) for i in range(grupp_boking_n)]
 
     # generate middag queries
-    middag_queries = [generate_middag_insert() for _ in range(numberOfRooms)]
+    middag_queries = [generate_insert_statement("middag", l_middag_dicts[i], True) for i in range(middag_n)]
+
+    # generate forsaljning queries
+    forsaljning_queries = [generate_insert_statement("forsaljning", l_forsaljning_dicts[i], True) for i in range(forsaljning_n)]
+
+    # Generate booking queries
+    bokning_queries = [generate_insert_statement("bokning", l_bokning_dicts[i], True) for i in range(booking_n)]
+
     #endregion
 
+    #region Write to text files
 
+    write_to_file('1_rum_typ_inserts.txt', rum_typ_queries)
+    write_to_file('2_erbjudande_inserts.txt', erbjudande_queries)
+    write_to_file('3_personal_inserts.txt', personal_queries)
+    write_to_file('4_huvud_gast_inserts.txt', huvud_gast_queries)
+    write_to_file('5_kund_inserts.txt', kund_queries)
+    write_to_file('6_rum_pris_inserts.txt', rum_pris_queries)
+    write_to_file('7_rum_inserts.txt', rum_queries)
+    write_to_file('8_faktura_inserts.txt', faktura_queries)
+    write_to_file('9_grupp_bokning_inserts.txt', grupp_bokning_queries)
+    write_to_file('10_middag_inserts.txt', middag_queries)
+    write_to_file('11_forsaljning_inserts.txt', forsaljning_queries)
+    write_to_file('12_bokning_inserts.txt', bokning_queries)
 
-    # Write to text files
-    write_to_file('erbjudande_inserts.txt', erbjudande_queries)
-    write_to_file('personal_inserts.txt', personal_queries)
-    write_to_file('rum_typ_inserts.txt', rum_typ_queries)
-    write_to_file('kund_inserts.txt', kund_queries)
-    write_to_file('huvud_gast_inserts.txt', huvud_gast_queries)
-    write_to_file('rum_pris_inserts.txt', rum_pris_queries)
-    write_to_file('rum_inserts.txt', rum_queries)
-    write_to_file('faktura_inserts.txt', faktura_queries)
-    write_to_file('grupp_bokning_inserts.txt', grupp_bokning_queries)
-    write_to_file('bokning_inserts.txt', bokning_queries)
-    write_to_file('middag_inserts.txt', middag_queries)
+    #endregion
 
 if __name__ == '__main__':
     main()
