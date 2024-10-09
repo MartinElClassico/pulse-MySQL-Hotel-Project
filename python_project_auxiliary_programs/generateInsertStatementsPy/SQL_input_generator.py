@@ -7,7 +7,7 @@ from utils import name_surname_generator, generate_checked_in_or_out, generate_r
 from utils import write_to_file, generate_random_date, generate_offer_startend_dates, price_intervalls_per_room_type, generate_checkin_checkout_dates
 #endregion
 
-#region handle number of INSERT statements generated
+#region global variables
 # number of testcases viz. input statements per table
 numberOfRooms = 20
 # number of "grupp_bokningar"
@@ -16,10 +16,8 @@ numberOfRooms_gb = 3
 p_gr_b = 0.50
 # number of bookings per group booking
 bookings_per_groupb = math.floor(round((numberOfRooms)*p_gr_b)/numberOfRooms_gb) # percent of the booking divided by number of group bookings rounded down.
-#endregion
 
-#region global values for auxiliary purposes
-#region Store the generated primary key values for foreign key references
+# Store the generated primary key values for foreign key references
 personal_ids = []
 erbjudande_ids = []
 faktura_ids = []
@@ -34,25 +32,22 @@ middag_ids = []
 forsaljning_ids = []
 bokning_ids = []
 
-#endregion
-
-#region Store output from value_for_grupp_bokning_reference for later referal for "faktura"
+# Store output from value_for_grupp_bokning_reference for later referal for "faktura"
 l_values_generated_gbokning_ref = []
 int_current_call_from_factura = 0
 l_calls_when_gbokning_not_null = []
-#endregion
 
 # fixed length list of number of bookings assigned to each group booking
 boknings_added_per_groupb = [0] * numberOfRooms_gb
 
 # a start date so we don't have different ones everywhere:
 g_set_start_date = "2024-10-08"
+
 #endregion
 
 # TODO: see if these can be migrated to "utils", ugly and distracting to have them here...
 #region AUXILIARY FUNCTIONS
 
-# AUXILIARY TABLE FUNCTIONS:::
 
 # generate price intervalls for each room based on it's roop type
 def price_intervalls_per_room_type(room_type_id):
@@ -186,8 +181,6 @@ def generate_rum_dict(p_id):
     }
     return rum_dict
 
-
-
 # foreign keys used: rum_typ_ids
 def generate_rum_pris_dict(p_id):
     rum_typ_id = random.choice(rum_typ_ids)
@@ -204,7 +197,6 @@ def generate_rum_pris_dict(p_id):
     
     return rum_pris_dict
 
-
 # foreign keys used: grupp_bokning_ids
 def generate_middag_dict(p_id):
     middag_dict = {
@@ -214,7 +206,6 @@ def generate_middag_dict(p_id):
         'datum': "UPDATED LATER VIA MAIN"  # FIXME: Placeholder for date of the meal, updated later since dependent on bookings
     }
     return middag_dict
-
 
 # foreign keys used: personal_ids
 def generate_faktura_dict(p_id):
@@ -305,7 +296,6 @@ def main():
     booking_n = numberOfRooms # same as number of rooms.
     #endregion
 
-
     #region generate all autoincrement primary ids as ref for foreign key etc.
     rum_typ_ids = ["enkelrum", "dubbelrum", "familjerum"]
     erbjudande_ids = list(range(1, erbjudande_n+1)) 
@@ -320,9 +310,6 @@ def main():
     forsaljning_ids = list(range(1, forsaljning_n+1)) 
     bokning_ids = list(range(1, booking_n+1)) 
     #endregion
-
-    #array_keys = [personal_ids, erbjudande_ids, faktura_ids, rum_ids, kund_ids, huvud_gast_ids, rum_pris_ids, grupp_bokning_ids, erbjudande_ids]
-    #dict_of_primary_keys = call_function(array_keys)
 
     #region Generate all the dictionaries.
 
@@ -381,6 +368,18 @@ def main():
                     else: pass # do nothing, viz. keep it as null.
                 l_factura_id_w_gb.append(bokning_dict['faktura_id']) 
                 # TODO: HAD TO BREAK HERE TO CHANGE LOGIC FOR HOW DICTIONARIES ARE INCLUDED TO INCLUDE PRIMARY KEY!    
+
+    #endregion
+
+    #region tabulate: to show what each dictionary contains!
+    
+    #firsly you need to install tabulate via pip, if you dont have pip you need to install that first.
+    #install tabulate: 
+    #      pip install tabulate
+    #import tabulate: 
+    #      from tabulate import tabulate
+    # Print using tabulate
+    #       print(tabulate(l_rum_typ_dicts, headers="keys"))
 
     #endregion
     
