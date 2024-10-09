@@ -1,0 +1,5 @@
+INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum) VALUES ('prisavdrag', 'villkor', 'start_datum', 'slut_datum');
+INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum) VALUES ('prisavdrag', 'villkor', 'start_datum', 'slut_datum');
+INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum) VALUES ('prisavdrag', 'villkor', 'start_datum', 'slut_datum');
+INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum) VALUES ('prisavdrag', 'villkor', 'start_datum', 'slut_datum');
+INSERT INTO erbjudande (prisavdrag, villkor, start_datum, slut_datum) VALUES ('prisavdrag', 'villkor', 'start_datum', 'slut_datum');

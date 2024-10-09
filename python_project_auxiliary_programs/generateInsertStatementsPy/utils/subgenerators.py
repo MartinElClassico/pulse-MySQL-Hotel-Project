@@ -41,20 +41,25 @@ def generate_random_timestamp(i_s_date, i_e_date_days):
 
 # Generate random date between today and a future date within a certain range (e.g., 30 days from today)
 def generate_random_date(start_date, days_range):
-    return start_date + datetime.timedelta(days=random.randint(0, days_range))
+    # parse string to a datetime object
+    if isinstance(start_date, str):
+        start_date = datetime.strptime(start_date, "%Y-%m-%d")
+    
+    # Generate a random number of days and add it to start_date
+    return start_date + timedelta(days=random.randint(0, days_range))
 
 # Generate offer price start and end date
 def generate_offer_startend_dates():
-    today = datetime.date.today()
+    today = datetime.today()
     offer_start = generate_random_date(today, 90)  # Random start date of offer within 90 days from today
-    offer_end = offer_start + datetime.timedelta(days=random.randint(5, 14))  # Random end date of offer between 5-14 days after offer start
+    offer_end = offer_start + timedelta(days=random.randint(5, 14))  # Random end date of offer between 5-14 days after offer start
     return offer_start, offer_end
 
 # Generate check-in and check-out dates
 def generate_checkin_checkout_dates():
-    today = datetime.date.today()
+    today = datetime.today()
     checkin_date = generate_random_date(today, 30)  # Random check-in within 30 days from today
-    checkout_date = checkin_date + datetime.timedelta(days=random.randint(1, 7))  # Random stay between 1-7 days
+    checkout_date = checkin_date + timedelta(days=random.randint(1, 7))  # Random stay between 1-7 days
     return checkin_date, checkout_date
 
 # e.g. input = 100.11, 500, 2
@@ -62,6 +67,15 @@ def generate_checkin_checkout_dates():
 def generate_random_decimal_pricesum(l_limit, u_limit, n_of_dec_places):
     random_value = random.uniform(l_limit, u_limit)
     return round(random_value, n_of_dec_places)
+
+# generate price intervalls for each room based on it's roop type
+def price_intervalls_per_room_type(room_type_id):
+    if room_type_id == "enkelrum":
+        return round(random.uniform(400.0, 550.0), 2)
+    if room_type_id == "dubbelrum":
+        return round(random.uniform(600.0, 950.0), 2)
+    if room_type_id == "familjerum":
+        return round(random.uniform(1000.0, 1400.0), 2)
 
 # write string to a created output directory with date and time of runtime as part of it's name.
 def write_to_file(filename, queries):

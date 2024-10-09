@@ -11,11 +11,11 @@ from utils import write_to_file, generate_random_date, generate_offer_startend_d
 # number of testcases viz. input statements per table
 numberOfRooms = 20
 # number of "grupp_bokningar"
-numberOfRooms_gb = 3
+grupp_bokning_n = 3
 # percentage of bookings that should be group bookings:
 p_gr_b = 0.50
 # number of bookings per group booking
-bookings_per_groupb = math.floor(round((numberOfRooms)*p_gr_b)/numberOfRooms_gb) # percent of the booking divided by number of group bookings rounded down.
+bookings_per_groupb = math.floor(round((numberOfRooms)*p_gr_b)/grupp_bokning_n) # percent of the booking divided by number of group bookings rounded down.
 
 # Store the generated primary key values for foreign key references
 personal_ids = []
@@ -38,7 +38,7 @@ int_current_call_from_factura = 0
 l_calls_when_gbokning_not_null = []
 
 # fixed length list of number of bookings assigned to each group booking
-boknings_added_per_groupb = [0] * numberOfRooms_gb
+boknings_added_per_groupb = [0] * grupp_bokning_n
 
 # a start date so we don't have different ones everywhere:
 g_set_start_date = "2024-10-08"
@@ -47,16 +47,6 @@ g_set_start_date = "2024-10-08"
 
 # TODO: see if these can be migrated to "utils", ugly and distracting to have them here...
 #region AUXILIARY FUNCTIONS
-
-
-# generate price intervalls for each room based on it's roop type
-def price_intervalls_per_room_type(room_type_id):
-    if room_type_id == "enkelrum":
-        return round(random.uniform(400.0, 550.0), 2)
-    if room_type_id == "dubbelrum":
-        return round(random.uniform(600.0, 950.0), 2)
-    if room_type_id == "familjerum":
-        return round(random.uniform(1000.0, 1400.0), 2)
 
 # return "NULL" as reference to "grupp_bokning" in "bokning" when group has been filled
 # TODO: DELETE THIS IF NO LONGER NEEDED.
@@ -76,7 +66,7 @@ def value_for_grupp_bokning_reference(grupp_bokning_ids):
     global l_values_generated_gbokning_ref
     shouldHaveGroup = random.randint(0, 1)# radomly decide if to assign NULL or to a group foreign ID.
     if shouldHaveGroup:
-        if boknings_added_per_groupb[grupp_bokning_ids-1] < numberOfRooms_gb:
+        if boknings_added_per_groupb[grupp_bokning_ids-1] < grupp_bokning_n:
             boknings_added_per_groupb[grupp_bokning_ids-1] += 1
             l_values_generated_gbokning_ref.append(str(grupp_bokning_ids))#save for faktura table.
             return grupp_bokning_ids
@@ -111,7 +101,7 @@ def value_for_grupp_bokning_reference_faktura():
 # to make data accesible but still editable in case of foreign key conflicts etc.
 
 # ID is not auto increment here: has to be manually assigned.
-def generate_rum_typ_dict(p_id, max_antal_personer_inp):
+def generate_rum_typ_dict(p_id):
     max_antal_personer = 1 if p_id == "enkelrum" else 2 if p_id == "dubbelrum" else 4 if p_id == "familjerum" else 0
     rum_typ_dict = {
         'rum_typ_id': p_id,
@@ -283,16 +273,16 @@ def main():
 
     #region number of entities per entity-type, based on NumberOfRooms
     rum_typ_n = 3 # hardcoded as per specification to 3.
-    erbjudande_n = numberOfRooms/4 # 25% of number of rooms.
-    personal_n = numberOfRooms/4 # 25% of number of rooms.
+    erbjudande_n = math.floor(numberOfRooms/4) # 25% of number of rooms.
+    personal_n = math.floor(numberOfRooms/4) # 25% of number of rooms.
     huvud_gast_n = numberOfRooms # same as number of rooms, since same in number of bookings.
     kund_n = numberOfRooms # NOTE: for now keep the same, see if break or not.
     rum_pris_n = numberOfRooms # same as number of rooms.
     rum_n = numberOfRooms # same as number of rooms.
     faktura_n = numberOfRooms # same as number of rooms.
-    grupp_boking_n = grupp_bokning_ids  # has different amount, see global value at start. # NOTE: move globals to here.
-    middag_n = numberOfRooms_gb*2 # we thinks it's resonable that every group has two dinners. 
-    forsaljning_n = numberOfRooms/4 # 25 % of number of rooms: only 25% of guests buy stuff and put on room bill.
+    #grupp_bokning_n = grupp_boking_n  # has different amount, see global value at start. # TODO: move globals to here.
+    middag_n = grupp_bokning_n*2 # we thinks it's resonable that every group has two dinners. 
+    forsaljning_n = math.floor(numberOfRooms/4) # 25 % of number of rooms: only 25% of guests buy stuff and put on room bill.
     booking_n = numberOfRooms # same as number of rooms.
     #endregion
 
@@ -305,7 +295,7 @@ def main():
     rum_pris_ids = list(range(1, rum_pris_n+1)) 
     rum_ids = list(range(1, rum_n+1)) 
     faktura_ids = list(range(1, faktura_n+1)) 
-    grupp_bokning_ids = list(range(1, grupp_boking_n+1))
+    grupp_bokning_ids = list(range(1, grupp_bokning_n+1))
     middag_ids = list(range(1, middag_n+1)) 
     forsaljning_ids = list(range(1, forsaljning_n+1)) 
     bokning_ids = list(range(1, booking_n+1)) 
@@ -321,7 +311,7 @@ def main():
     l_rum_pris_dicts = [generate_rum_pris_dict(rum_pris_ids[i]) for i in range(rum_pris_n)]
     l_rum_dicts  = [generate_rum_dict(rum_ids[i]) for i in range(rum_n)]
     l_faktura_dicts = [generate_faktura_dict(faktura_ids[i]) for i in range(faktura_n)]
-    l_grupp_bokning_dicts = [generate_grupp_bokning_dict(grupp_bokning_ids[i]) for i in range(grupp_boking_n)]
+    l_grupp_bokning_dicts = [generate_grupp_bokning_dict(grupp_bokning_ids[i]) for i in range(grupp_bokning_n)]
     l_middag_dicts = [generate_middag_dict(middag_ids[i]) for i in range(middag_n)]
     l_forsaljning_dicts = [generate_forsaljning_dict(forsaljning_ids[i]) for i in range(forsaljning_n)]
     l_bokning_dicts = [generate_bokning_dict(bokning_ids[i]) for i in range(booking_n)]
@@ -410,7 +400,7 @@ def main():
     faktura_queries = [generate_insert_statement("faktura", l_faktura_dicts[i], True) for i in range(faktura_n)]
 
     # Generate 'grupp_bokning' queries 
-    grupp_bokning_queries = [generate_insert_statement("grupp_bokning", l_grupp_bokning_dicts[i], True) for i in range(grupp_boking_n)]
+    grupp_bokning_queries = [generate_insert_statement("grupp_bokning", l_grupp_bokning_dicts[i], True) for i in range(grupp_bokning_n)]
 
     # generate middag queries
     middag_queries = [generate_insert_statement("middag", l_middag_dicts[i], True) for i in range(middag_n)]
