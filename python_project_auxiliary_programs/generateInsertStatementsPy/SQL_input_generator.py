@@ -5,6 +5,7 @@ import math
 # import our own modules from utils child directory.
 from utils import dict_to_sql_insert_str
 from utils import name_surname_generator, generate_checked_in_or_out, generate_random_timestamp, generate_random_decimal_pricesum
+from utils import write_to_file
 #endregion
 
 #region handle number of INSERT statements generated
@@ -316,11 +317,7 @@ def generate_grupp_bokning_insert(dict):
     return dict_to_sql_insert_str("grupp_bokning", dict)
 #endregion
 
-def write_to_file(filename, queries):
-    with open(filename, 'w', encoding='utf-8') as file:
-        for query in queries:
-            file.write(query + '\n')
-    print(f"Data written to {filename}")
+
 
 # FIXME: have not updated this part yet....
 # made all dict functions 

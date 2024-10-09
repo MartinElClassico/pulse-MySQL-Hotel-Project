@@ -1,5 +1,5 @@
 # utils/subgenerators.py
-import random
+import random, os
 from datetime import datetime, timedelta
 
 # source: https://en.wiktionary.org/wiki/Appendix:Swedish_given_names#The_most_common_given_names_in_Sweden_1890_-_2008
@@ -44,3 +44,23 @@ def generate_random_timestamp(i_s_date, i_e_date_days):
 def generate_random_decimal_pricesum(l_limit, u_limit, n_of_dec_places):
     random_value = random.uniform(l_limit, u_limit)
     return round(random_value, n_of_dec_places)
+
+# write string to a created output directory with date and time of runtime as part of it's name.
+def write_to_file(filename, queries):
+    current_time = datetime.now().strftime('%Y%m%d_%H%M%S')
+    folder_name = f"output_{current_time}"
+    
+    # Get the parent directory of the current directory
+    parent_directory = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    
+    # Create the folder in the parent directory
+    full_folder_path = os.path.join(parent_directory, folder_name)
+    os.makedirs(full_folder_path, exist_ok=True)
+    
+    full_path = os.path.join(folder_name, filename)
+    
+    with open(full_path, 'w', encoding='utf-8') as file:
+        for query in queries:
+            file.write(query + '\n')
+    
+    print(f"Data written to {full_path}")
