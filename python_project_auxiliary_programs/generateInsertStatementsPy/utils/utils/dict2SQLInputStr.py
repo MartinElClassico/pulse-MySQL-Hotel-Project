@@ -1,5 +1,7 @@
 # utils/dict2SQLInputStr.py
 
+# FIXME: IMPORTANT! fix logic in dict_to_sql_insert_str to take another argument for wether p_key is auto generated or not!
+# if not then print all, if it is, then ommit first column print!
 def dict_to_sql_insert_str(table_name, sql_dict):
     # corresponds to vales {} as in INSERT INTO [table_name] ({})
     fields_as_str = ', '.join(sql_dict.keys())
