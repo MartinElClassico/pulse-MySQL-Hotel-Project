@@ -39,6 +39,24 @@ def generate_random_timestamp(i_s_date, i_e_date_days):
     # Return the random timestamp as a string in "YYYY-MM-DD HH:MM:SS" format
     return random_timestamp.strftime("%Y-%m-%d %H:%M:%S")
 
+# Generate random date between today and a future date within a certain range (e.g., 30 days from today)
+def generate_random_date(start_date, days_range):
+    return start_date + datetime.timedelta(days=random.randint(0, days_range))
+
+# Generate offer price start and end date
+def generate_offer_startend_dates():
+    today = datetime.date.today()
+    offer_start = generate_random_date(today, 90)  # Random start date of offer within 90 days from today
+    offer_end = offer_start + datetime.timedelta(days=random.randint(5, 14))  # Random end date of offer between 5-14 days after offer start
+    return offer_start, offer_end
+
+# Generate check-in and check-out dates
+def generate_checkin_checkout_dates():
+    today = datetime.date.today()
+    checkin_date = generate_random_date(today, 30)  # Random check-in within 30 days from today
+    checkout_date = checkin_date + datetime.timedelta(days=random.randint(1, 7))  # Random stay between 1-7 days
+    return checkin_date, checkout_date
+
 # e.g. input = 100.11, 500, 2
 # e.g. output = 432.11
 def generate_random_decimal_pricesum(l_limit, u_limit, n_of_dec_places):

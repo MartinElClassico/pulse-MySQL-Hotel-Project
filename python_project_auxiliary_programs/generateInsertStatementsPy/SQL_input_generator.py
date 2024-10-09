@@ -1,11 +1,10 @@
 #region import statements
 import random
-import datetime
 import math
 # import our own modules from utils child directory.
 from utils import dict_to_sql_insert_str
 from utils import name_surname_generator, generate_checked_in_or_out, generate_random_timestamp, generate_random_decimal_pricesum
-from utils import write_to_file
+from utils import write_to_file, generate_random_date, generate_offer_startend_dates, price_intervalls_per_room_type
 #endregion
 
 #region handle number of INSERT statements generated
@@ -16,7 +15,7 @@ numberOfRooms_gb = 3
 # percentage of bookings that should be group bookings:
 p_gr_b = 0.50
 # number of bookings per group booking
-bookings_per_groupb = math.floor(round((numberOfRooms)*p_gr_b)/numberOfRooms_gb) # 50 percent of the booking divided by number of group bookings rounded down.
+bookings_per_groupb = math.floor(round((numberOfRooms)*p_gr_b)/numberOfRooms_gb) # percent of the booking divided by number of group bookings rounded down.
 #endregion
 
 #region global values for auxiliary purposes
@@ -33,18 +32,18 @@ grupp_bokning_ids = []
 erbjudande_ids = []
 middag_ids = []
 forsaljning_ids = []
-booking_ids = []
+bokning_ids = []
 
 #endregion
 
 #region Store output from value_for_grupp_bokning_reference for later referal for "faktura"
 l_values_generated_gbokning_ref = []
 int_current_call_from_factura = 0
-l_calls_when_gbooking_not_null = []
+l_calls_when_gbokning_not_null = []
 #endregion
 
 # fixed length list of number of bookings assigned to each group booking
-bookings_added_per_groupb = [0] * numberOfRooms_gb
+boknings_added_per_groupb = [0] * numberOfRooms_gb
 
 # a start date so we don't have different ones everywhere:
 g_set_start_date = "2024-10-08"
@@ -65,24 +64,6 @@ def generate_all_rum_typ_dicts():
         rum_typ_dicts.append(generate_rum_typ_dict(room_type_ids[i], room_type_max_people[i]))
     return room_type_ids, rum_typ_dicts
 
-# Generate random date between today and a future date within a certain range (e.g., 30 days from today)
-def generate_random_date(start_date, days_range):
-    return start_date + datetime.timedelta(days=random.randint(0, days_range))
-
-# Generate offer price start and end date
-def generate_offer_startend_dates():
-    today = datetime.date.today()
-    offer_start = generate_random_date(today, 90)  # Random start date of offer within 90 days from today
-    offer_end = offer_start + datetime.timedelta(days=random.randint(5, 14))  # Random end date of offer between 5-14 days after offer start
-    return offer_start, offer_end
-
-# Generate check-in and check-out dates
-def generate_checkin_checkout_dates():
-    today = datetime.date.today()
-    checkin_date = generate_random_date(today, 30)  # Random check-in within 30 days from today
-    checkout_date = checkin_date + datetime.timedelta(days=random.randint(1, 7))  # Random stay between 1-7 days
-    return checkin_date, checkout_date
-
 # generate price intervalls for each room based on it's roop type
 def price_intervalls_per_room_type(room_type_id):
     if room_type_id == "enkelrum":
@@ -93,24 +74,25 @@ def price_intervalls_per_room_type(room_type_id):
         return round(random.uniform(1000.0, 1400.0), 2)
 
 # return "NULL" as reference to "grupp_bokning" in "bokning" when group has been filled
+# TODO: DELETE THIS IF NO LONGER NEEDED.
 """
 def value_for_grupp_bokning_reference(grupp_bokning_ids):
-    global bookings_added_per_groupb
+    global boknings_added_per_groupb
     shouldHaveGroup = random.randint(0, 1)# radomly decide if to assign NULL or to a group foreign ID.
     if shouldHaveGroup:
-        if bookings_added_per_groupb[grupp_bokning_ids-1] < 3:
-            bookings_added_per_groupb[grupp_bokning_ids-1] += 1
+        if boknings_added_per_groupb[grupp_bokning_ids-1] < 3:
+            boknings_added_per_groupb[grupp_bokning_ids-1] += 1
             return grupp_bokning_ids
         else: return "NULL" # if it is filled return NULL.
     else: return "NULL"
 """
 def value_for_grupp_bokning_reference(grupp_bokning_ids):
-    global bookings_added_per_groupb
+    global boknings_added_per_groupb
     global l_values_generated_gbokning_ref
     shouldHaveGroup = random.randint(0, 1)# radomly decide if to assign NULL or to a group foreign ID.
     if shouldHaveGroup:
-        if bookings_added_per_groupb[grupp_bokning_ids-1] < 3:
-            bookings_added_per_groupb[grupp_bokning_ids-1] += 1
+        if boknings_added_per_groupb[grupp_bokning_ids-1] < 3:
+            boknings_added_per_groupb[grupp_bokning_ids-1] += 1
             l_values_generated_gbokning_ref.append(str(grupp_bokning_ids))#save for faktura table.
             return grupp_bokning_ids
         else: 
@@ -120,17 +102,19 @@ def value_for_grupp_bokning_reference(grupp_bokning_ids):
         l_values_generated_gbokning_ref.append("NULL") #save for faktura table.
         return "NULL" 
     
+# TODO: DELETE THIS WHEN NEW VERSION WORKS!
+"""
 def populate_faktura_id_in_boking_queries(bokning_queries):
     for i in range(1, numberOfRooms_gb+1):
         if grupp_bokning_id_current != "NULL":
             bokning_queries[faktura_id] = "NULL"
         else: bokning_queries[faktura_id] = i
-    return bokning_queries
+    return bokning_queries"""
 
-# note, old code, might not work?
+# TODO:, old code, might not work?
 def value_for_grupp_bokning_reference_faktura():
     global int_current_call_from_factura
-    global l_calls_when_gbooking_not_null
+    global l_calls_when_gbokning_not_null
     # current grupp_bokning_id as per saved from corresponding program call to value_for_grupp_bokning_reference
     grupp_bokning_id_current = l_values_generated_gbokning_ref[int_current_call_from_factura]
     int_current_call_from_factura += 1 #increment so next call gives the right value.
@@ -236,7 +220,7 @@ def generate_faktura_dict():
     faktura_dict = {
         'personal_id': random.choice(personal_ids),  
         'erbjudande_id': random.choice(erbjudande_ids),
-        'grupp_bokning_id': "UPDATED LATER VIA MAIN"  # FIXME: updated later
+        'grupp_bokning_id': "UPDATED LATER VIA MAIN"  # FIXME: updated later via main, depends on grupp_bokning
     }
     return faktura_dict
 
@@ -258,7 +242,7 @@ def generate_forsaljning_dict():
 def generate_bokning_dict():
     checkin_date, checkout_date = generate_checkin_checkout_dates()  # Get random dates
     grupp_bokning_assigned_value = value_for_grupp_bokning_reference(random.choice(grupp_bokning_ids))  # Returns null or fk_grupp_bokning
-    booking_timestamp = generate_random_timestamp(g_set_start_date, 30) 
+    bokning_timestamp = generate_random_timestamp(g_set_start_date, 30) 
     bokning_dict = {
         'rum_id': random.choice(rum_ids),  
         'kund_id': random.choice(kund_ids),  
@@ -269,7 +253,7 @@ def generate_bokning_dict():
         'faktura_id': "faktura_id",  # FIXME: Placeholder for faktura ID, fixed later, either ID or NULL, is NULL when group id has ID.
         'datum_incheck': checkin_date,  # Randomized check-in date
         'datum_utcheck': checkout_date,  # Randomized check-out date
-        'booking_datum': generate_random_timestamp,  # Booking date, randomly generated
+        'booking_datum': bokning_timestamp,  # Booking date, randomly generated
         'antal_gaster': random.randint(1, 4)  # Number of guests
     }
     return bokning_dict
@@ -324,7 +308,7 @@ def generate_grupp_bokning_insert(dict):
 def main():
     # global values with IDs so we can keep track of foreign IDs etc.
     global personal_ids, erbjudande_ids, faktura_ids, rum_ids, kund_ids, huvud_gast_ids, rum_pris_ids, grupp_bokning_ids, erbjudande_ids
-    global middag_ids, forsaljning_ids, booking_ids, rum_typ_ids
+    global middag_ids, forsaljning_ids, bokning_ids, rum_typ_ids
 
     #region number of entities per entity-type, based on NumberOfRooms
     erbjudande_n = numberOfRooms/4 # 25% of number of rooms.
@@ -352,7 +336,7 @@ def main():
     grupp_bokning_ids = list(range(1, grupp_boking_n+1))
     middag_ids = list(range(1, middag_n+1)) 
     forsaljning_ids = list(range(1, forsaljning_n+1)) 
-    booking_ids = list(range(1, booking_n+1)) 
+    bokning_ids = list(range(1, booking_n+1)) 
     #endregion
 
     #array_keys = [personal_ids, erbjudande_ids, faktura_ids, rum_ids, kund_ids, huvud_gast_ids, rum_pris_ids, grupp_bokning_ids, erbjudande_ids]
@@ -381,14 +365,15 @@ def main():
     """ fetches the check_in and check_out DATE from l_booking_dicts that has a group booking,
         then creates a TIMESTAMP within that DATE interval and sets it to l_middag_dicts[datum]"""
     for _ in range(middag_n): 
+        pass
 
 
     #  Populates faktura with group IDS where it should have it. NOTE: will probably break.
     # functions like this:
     # TODO: migrate this functionality to below function
     """ checks if a booking has a group_booking and if it has that, gives the ID to factura.grupp_bokning_id
-        if it does have a group_booking_ID then it just assigns it with NULL instead"""
-    for _ in range(faktura_n): l_faktura_dicts[grupp_bokning_id] = value_for_grupp_bokning_reference_faktura()
+            if it does have a group_booking_ID then it just assigns it with NULL instead"""
+    for i in range(faktura_n): l_faktura_dicts[i]['grupp_bokning_id'] = value_for_grupp_bokning_reference_faktura()
     #bokning_queries = populate_faktura_id_in_boking_queries(bokning_queries)
 
     # update bokning_dicts with factura dict AND update faktura_dicts.
@@ -404,31 +389,37 @@ def main():
     
     #region old code for generating queries, need to be revised before runtime!
     # Generate 'personal' table so we have IDs to reference
-    personal_queries = [generate_personal_insert(personal_dicts(i)) for i in range(numberOfRooms)]
+    personal_queries = [generate_personal_insert(personal_dicts(i)) for i in range(personal_n)]
 
     # Generate 'erbjudande' table so we have IDs to reference
-    erbjudande_queries = [generate_erbjudande_insert() for _ in range(numberOfRooms)]
+    erbjudande_queries = [generate_erbjudande_insert() for _ in range(erbjudande_n)]
 
     # Generate 'kund' table so we have IDs to reference
-    kund_queries = [generate_kund_insert() for _ in range(numberOfRooms)]
+    kund_queries = [generate_kund_insert() for _ in range(kund_n)]
 
     # Generate 'huvud_gast' table so we have IDs to reference
-    huvud_gast_queries = [generate_huvud_gast_insert() for _ in range(numberOfRooms)]
+    huvud_gast_queries = [generate_huvud_gast_insert() for _ in range(huvud_gast_n)]
 
     # Generate 'rum_pris' table so we have IDs to reference
-    rum_pris_queries = [generate_rum_pris_insert() for _ in range(numberOfRooms)]
+    rum_pris_queries = [generate_rum_pris_insert() for _ in range(rum_pris_n)]
 
     # Generate 'rum' table so we have IDs to reference
-    rum_queries = [generate_rum_insert() for _ in range(numberOfRooms)]
+    rum_queries = [generate_rum_insert() for _ in range(rum_n)]
 
     # Generate 'faktura' table so we have IDs to reference
-    faktura_queries = [generate_faktura_insert() for _ in range(numberOfRooms)]
+    faktura_queries = [generate_faktura_insert() for _ in range(faktura_n)]
 
     # Generate 'grupp_bokning' table so we have IDs to reference
-    grupp_bokning_queries = [generate_grupp_bokning_insert() for _ in range(numberOfRooms_gb)]
+    grupp_bokning_queries = [generate_grupp_bokning_insert() for _ in range(grupp_boking_n)]
 
-    # Generate other queries
-    bokning_queries = [generate_bokning_insert() for _ in range(numberOfRooms)]
+    # Generate booking queries
+    bokning_queries = [generate_bokning_insert() for _ in range(booking_n)]
+
+    # generate room_type queries
+    rum_typ_queries = [generate_rum_typ_insert() for _ in range(numberOfRooms)]
+
+    # generate middag queries
+    middag_queries = [generate_middag_insert() for _ in range(numberOfRooms)]
     #endregion
 
 
