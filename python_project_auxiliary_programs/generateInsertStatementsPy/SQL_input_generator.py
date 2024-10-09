@@ -4,7 +4,7 @@ import math
 # import our own modules from utils child directory.
 from utils import dict_to_sql_insert_str
 from utils import name_surname_generator, generate_checked_in_or_out, generate_random_timestamp, generate_random_decimal_pricesum
-from utils import write_to_file, generate_random_date, generate_offer_startend_dates, price_intervalls_per_room_type
+from utils import write_to_file, generate_random_date, generate_offer_startend_dates, price_intervalls_per_room_type, generate_checkin_checkout_dates
 #endregion
 
 #region handle number of INSERT statements generated
