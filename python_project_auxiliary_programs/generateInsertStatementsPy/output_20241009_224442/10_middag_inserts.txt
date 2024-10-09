@@ -1,6 +1,0 @@
-INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES ('grupp_bokning_id', 'antal_personer', 'datum');
-INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES ('grupp_bokning_id', 'antal_personer', 'datum');
-INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES ('grupp_bokning_id', 'antal_personer', 'datum');
-INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES ('grupp_bokning_id', 'antal_personer', 'datum');
-INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES ('grupp_bokning_id', 'antal_personer', 'datum');
-INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES ('grupp_bokning_id', 'antal_personer', 'datum');

@@ -1,5 +1,0 @@
-INSERT INTO personal (fornamn, efternamn, roll) VALUES ('fornamn', 'efternamn', 'roll');
-INSERT INTO personal (fornamn, efternamn, roll) VALUES ('fornamn', 'efternamn', 'roll');
-INSERT INTO personal (fornamn, efternamn, roll) VALUES ('fornamn', 'efternamn', 'roll');
-INSERT INTO personal (fornamn, efternamn, roll) VALUES ('fornamn', 'efternamn', 'roll');
-INSERT INTO personal (fornamn, efternamn, roll) VALUES ('fornamn', 'efternamn', 'roll');

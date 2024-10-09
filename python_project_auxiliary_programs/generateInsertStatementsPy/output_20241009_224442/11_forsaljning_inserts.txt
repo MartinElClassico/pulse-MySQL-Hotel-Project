@@ -1,5 +1,0 @@
-INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum');
-INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum');
-INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum');
-INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum');
-INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum');
