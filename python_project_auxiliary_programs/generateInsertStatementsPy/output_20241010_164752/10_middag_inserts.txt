@@ -1,6 +1,0 @@
-INSERT INTO middag ('grupp_bokning_id', 'antal_personer', 'datum') VALUES (2, 6, 2024-10-13 01:37:54.107337);
-INSERT INTO middag ('grupp_bokning_id', 'antal_personer', 'datum') VALUES (2, 3, 2024-10-16 14:59:56.107337);
-INSERT INTO middag ('grupp_bokning_id', 'antal_personer', 'datum') VALUES (2, 9, 2024-10-13 17:08:03.107337);
-INSERT INTO middag ('grupp_bokning_id', 'antal_personer', 'datum') VALUES (2, 6, 2024-10-16 11:14:05.107337);
-INSERT INTO middag ('grupp_bokning_id', 'antal_personer', 'datum') VALUES (3, 5, 2024-11-08 10:05:30.107126);
-INSERT INTO middag ('grupp_bokning_id', 'antal_personer', 'datum') VALUES (1, 1, 2024-10-20 23:51:27.107423);

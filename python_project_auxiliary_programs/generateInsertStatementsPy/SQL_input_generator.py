@@ -5,7 +5,8 @@ import math
 from utils import dict_to_sql_insert_str # converts dictionary to sql formatted string
 from utils import name_surname_generator, generate_checked_in_or_out, generate_random_timestamp, generate_random_decimal_pricesum, tabulate_print
 from utils import write_to_file, generate_random_date, generate_offer_startend_dates, price_intervalls_per_room_type, generate_checkin_checkout_dates
-from utils import update_middag_dict_on_bookings 
+from utils import update_middag_dict_on_bookings, update_bokning_and_faktura_for_grupp_bokning, update_faktura_for_erbjudande_id
+from utils import value_for_grupp_bokning_reference # old code, should be updated one time...
 #endregion
 
 #region global variables
@@ -13,10 +14,10 @@ from utils import update_middag_dict_on_bookings
 numberOfRooms = 20
 # number of "grupp_bokningar"
 grupp_bokning_n = 3
-# percentage of bookings that should be group bookings:
-p_gr_b = 0.50
-# number of bookings per group booking
-bookings_per_groupb = math.floor(round((numberOfRooms)*p_gr_b)/grupp_bokning_n) # percent of the booking divided by number of group bookings rounded down.
+# percentage of bookings that should be group bookings: TODO: deprecated?
+#p_gr_b = 0.50
+# number of bookings per group booking TODO: deprecated?
+#bookings_per_groupb = math.floor(round((numberOfRooms)*p_gr_b)/grupp_bokning_n) # percent of the booking divided by number of group bookings rounded down.
 
 # Store the generated primary key values for foreign key references
 personal_ids = []
@@ -33,69 +34,12 @@ middag_ids = []
 forsaljning_ids = []
 bokning_ids = []
 
-# Store output from value_for_grupp_bokning_reference for later referal for "faktura"
-l_values_generated_gbokning_ref = []
-int_current_call_from_factura = 0
-l_calls_when_gbokning_not_null = []
-
 # fixed length list of number of bookings assigned to each group booking
 boknings_added_per_groupb = [0] * grupp_bokning_n
 
 # a start date so we don't have different ones everywhere:
 g_set_start_date = "2024-10-08"
 
-#endregion
-
-# TODO: see if these can be migrated to "utils", ugly and distracting to have them here...
-#region AUXILIARY FUNCTIONS
-
-# return "NULL" as reference to "grupp_bokning" in "bokning" when group has been filled
-# TODO: DELETE THIS IF NO LONGER NEEDED.
-"""
-def value_for_grupp_bokning_reference(grupp_bokning_ids):
-    global boknings_added_per_groupb
-    shouldHaveGroup = random.randint(0, 1)# radomly decide if to assign NULL or to a group foreign ID.
-    if shouldHaveGroup:
-        if boknings_added_per_groupb[grupp_bokning_ids-1] < 3:
-            boknings_added_per_groupb[grupp_bokning_ids-1] += 1
-            return grupp_bokning_ids
-        else: return "NULL" # if it is filled return NULL.
-    else: return "NULL"
-"""
-def value_for_grupp_bokning_reference(grupp_bokning_ids):
-    global boknings_added_per_groupb
-    global l_values_generated_gbokning_ref
-    shouldHaveGroup = random.randint(0, 1)# radomly decide if to assign NULL or to a group foreign ID.
-    if shouldHaveGroup:
-        if boknings_added_per_groupb[grupp_bokning_ids-1] < grupp_bokning_n:
-            boknings_added_per_groupb[grupp_bokning_ids-1] += 1
-            l_values_generated_gbokning_ref.append(str(grupp_bokning_ids))#save for faktura table.
-            return grupp_bokning_ids
-        else: 
-            l_values_generated_gbokning_ref.append("NULL") #save for faktura table.
-            return "NULL" # if it is filled return NULL.
-    else: 
-        l_values_generated_gbokning_ref.append("NULL") #save for faktura table.
-        return "NULL" 
-    
-# TODO: DELETE THIS WHEN NEW VERSION WORKS!
-
-def populate_faktura_id_in_boking_queries(bokning_queries):
-    for i in range(1, numberOfRooms_gb+1):
-        if grupp_bokning_id_current != "NULL":
-            bokning_queries[faktura_id] = "NULL"
-        else: bokning_queries[faktura_id] = i
-    return bokning_queries
-
-# TODO:, old code, might not work? move functionality to a new function!
-def value_for_grupp_bokning_reference_faktura():
-    global int_current_call_from_factura
-    global l_calls_when_gbokning_not_null
-    # current grupp_bokning_id as per saved from corresponding program call to value_for_grupp_bokning_reference
-    grupp_bokning_id_current = l_values_generated_gbokning_ref[int_current_call_from_factura]
-    int_current_call_from_factura += 1 #increment so next call gives the right value.
-    return grupp_bokning_id_current
-### END OF AUXILIARY FUNCTIONS
 #endregion
 
 #region DICTIONARY GENERATORS
@@ -175,8 +119,8 @@ def generate_rum_dict(p_id):
 # foreign keys used: rum_typ_ids
 def generate_rum_pris_dict(p_id):
     rum_typ_id = random.choice(rum_typ_ids)
-    pris_per_natt = price_intervalls_per_room_type(rum_typ_id)  # TODO: old function
-    pris_start_datum, pris_slut_datum = generate_offer_startend_dates() # TODO: old function
+    pris_per_natt = price_intervalls_per_room_type(rum_typ_id)  
+    pris_start_datum, pris_slut_datum = generate_offer_startend_dates() 
     
     rum_pris_dict = {
         'rum_pris_id': p_id,
@@ -194,7 +138,7 @@ def generate_middag_dict(p_id):
         'middag_id': p_id,
         'grupp_bokning_id': random.choice(grupp_bokning_ids),  # always has to have grupp_bokning_id to exist
         'antal_personer': random.randint(1, 10),  
-        'datum': "UPDATED LATER VIA MAIN"  # FIXME: Placeholder for date of the meal, updated later since dependent on bookings
+        'datum': "NULL"  # Placeholder for date of the meal, updated later since dependent on bookings
     }
     return middag_dict
 
@@ -204,7 +148,7 @@ def generate_faktura_dict(p_id):
         'faktura_id': p_id,
         'personal_id': random.choice(personal_ids),  
         'erbjudande_id': random.choice(erbjudande_ids),
-        'grupp_bokning_id': "UPDATED LATER VIA MAIN"  # FIXME: updated later via main, depends on grupp_bokning
+        'grupp_bokning_id': "NULL"  # updated later via main, depends on grupp_bokning
     }
     return faktura_dict
 
@@ -224,10 +168,14 @@ def generate_forsaljning_dict(p_id):
     return forsaljning_dict
 
 # foreign keys used: rum_ids, kund_ids, huvud_gast_ids, personal_ids, grupp_bokning_ids
-# FIXME: bokning_datum kan vara i framtiden relativt checkin_date, känns inte rätt
-def generate_bokning_dict(p_id):
+# TODO: bokning_datum kan vara i framtiden relativt checkin_date, känns inte rätt
+def generate_bokning_dict(p_id, grupp_bokning_n):
+    global boknings_added_per_groupb
     checkin_date, checkout_date = generate_checkin_checkout_dates()  # Get random dates
-    grupp_bokning_assigned_value = value_for_grupp_bokning_reference(random.choice(grupp_bokning_ids))  # Returns null or fk_grupp_bokning
+    # Returns null or fk_grupp_bokning and updates global list. 
+    grupp_bokning_assigned_value, boknings_added_per_groupb_updated = value_for_grupp_bokning_reference(
+        random.choice(grupp_bokning_ids), boknings_added_per_groupb, grupp_bokning_n)  
+    boknings_added_per_groupb = boknings_added_per_groupb_updated 
     bokning_timestamp = generate_random_timestamp(g_set_start_date, 30) 
     bokning_dict = {
         'bokning_id': p_id,
@@ -237,7 +185,7 @@ def generate_bokning_dict(p_id):
         'personal_id': random.choice(personal_ids),  
         'rum_pris_id': random.choice(rum_pris_ids),  
         'grupp_bokning_id': grupp_bokning_assigned_value,  # Group booking ID, either an ID or NULL
-        'faktura_id': "NULL",  # FIXME: Placeholder for faktura ID, fixed later, either ID or NULL, is NULL when group id has ID.
+        'faktura_id': "NULL",  # Placeholder for faktura ID, fixed later, either ID or NULL, is NULL when group id has ID.
         'datum_incheck': checkin_date,  # Randomized check-in date
         'datum_utcheck': checkout_date,  # Randomized check-out date
         'bokning_datum': bokning_timestamp,  # Booking date, randomly generated
@@ -266,7 +214,7 @@ def generate_insert_statement(table_name, dict, b_p_key_auto_increment):
 
 #
 
-# FIXME: have not updated this part yet....
+
 # made all dict functions 
 def main():
     # global values with IDs so we can keep track of foreign IDs etc.
@@ -288,8 +236,12 @@ def main():
     booking_n = numberOfRooms # same as number of rooms.
     #endregion
 
+    #region number of certain fields occurances
+    fakt_w_erb_n = math.floor(faktura_n/4) # 25 % of number of faktura: only 25% of guests will get discounts.
+
+
     #region generate all autoincrement primary ids as ref for foreign key etc.
-    rum_typ_ids = ["enkelrum", "dubbelrum", "familjerum"]
+    rum_typ_ids = ["enkelrum", "dubbelrum", "familjerum"] #  predefined
     erbjudande_ids = list(range(1, erbjudande_n+1)) 
     personal_ids = list(range(1, personal_n+1)) 
     huvud_gast_ids = list(range(1, huvud_gast_n+1)) 
@@ -327,7 +279,7 @@ def main():
     tabulate_print(l_middag_dicts, "middag", "pre_processing")
     l_forsaljning_dicts = [generate_forsaljning_dict(forsaljning_ids[i]) for i in range(forsaljning_n)]
     tabulate_print(l_forsaljning_dicts, "forsaljning", "pre_processing")
-    l_bokning_dicts = [generate_bokning_dict(bokning_ids[i]) for i in range(booking_n)]
+    l_bokning_dicts = [generate_bokning_dict(bokning_ids[i], grupp_bokning_n) for i in range(booking_n)]
     tabulate_print(l_bokning_dicts, "bokning", "pre_processing")
     #endregion
 
@@ -335,19 +287,8 @@ def main():
     #region TODO: update dictionaries with values:
 
     # update middag with date for dinner based on bookings:
-    # functions like this:
-    """ fetches the check_in and check_out DATE from l_booking_dicts that has a group booking,
-    then creates a TIMESTAMP within that DATE interval and sets it to l_middag_dicts[datum]"""
     update_middag_dict_on_bookings(l_middag_dicts, l_bokning_dicts)
     tabulate_print(l_middag_dicts, "middag", "after: update_middag_dict_on_bookings")
-
-    #  Populates faktura with group IDS where it should have it. NOTE: will probably break.
-    # functions like this:
-    # TODO: migrate this functionality to below function
-    """ checks if a booking has a group_booking and if it has that, gives the ID to factura.grupp_bokning_id
-            if it does have a group_booking_ID then it just assigns it with NULL instead"""
-    #for i in range(faktura_n): l_faktura_dicts[i]['grupp_bokning_id'] = value_for_grupp_bokning_reference_faktura()
-    #bokning_queries = populate_faktura_id_in_boking_queries(bokning_queries)
 
     # update bokning_dicts with factura dict AND update faktura_dicts.
     # functions like this:
@@ -356,23 +297,14 @@ def main():
                         AND saves (list: l_factura_id_w_gb) which factura_id has a group booking assigned to it.
                 else sets factura_id to an factura_id in bokning that doesn't (EXIST IN list: l_factura_id_w_gb)
                     have a group_booking assigned to it in a factura entity. """
-    """def update_bokning_and_faktura(l_bokning_dicts, l_faktura_dicts):
-        # NOTE: faktura_id in bokning_dict is always "NULL" before this function call
-        # NOTE: grupp_bokning_ID in faktura_dict is always "NULL" before this function call
-        l_factura_id_w_gb = [] # store which factura IDs have a group booking assigned
-        for bokning_dict in l_bokning_dicts:
-            # get group_bokning_id, if none to be found, get "Null"
-            g_bokning_id_f_bokning = bokning_dict.get('grupp_bokning_id', 'Null')
-            if g_bokning_id_f_bokning != 'NULL':
-                bokning_dict['faktura_id'] = 'NULL'
-                # we create grupp_bokning_id reference in the faktura_dict instead!
-                for faktura_dict in l_faktura_dicts:
-                    if faktura_dict['grupp_bokning_id'] == 'NULL': #will always be null first itt but not after.
-                        faktura_dict['grupp_bokning_id'] = g_bokning_id_f_bokning
-                    else: pass # do nothing, viz. keep it as null.
-                l_factura_id_w_gb.append(bokning_dict['faktura_id']) 
-                # TODO: HAD TO BREAK HERE TO CHANGE LOGIC FOR HOW DICTIONARIES ARE INCLUDED TO INCLUDE PRIMARY KEY!    
-    """
+    update_bokning_and_faktura_for_grupp_bokning(l_bokning_dicts, l_faktura_dicts)
+    tabulate_print(l_faktura_dicts, "faktura", "update_bokning_and_faktura_for_grupp_bokning")
+    tabulate_print(l_bokning_dicts, "bokning", "update_bokning_and_faktura_for_grupp_bokning")
+
+    # update erbjudande_id in faktura so that it will reflect the amount we want:
+    update_faktura_for_erbjudande_id(l_faktura_dicts, fakt_w_erb_n)
+    tabulate_print(l_faktura_dicts, "faktura", "update_faktura_for_erbjudande_id")
+
     #endregion
 
     #region create strings with all the sql queries for write to file!

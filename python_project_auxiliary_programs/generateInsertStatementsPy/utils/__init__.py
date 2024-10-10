@@ -4,10 +4,13 @@
 from .dict2SQLInputStr import dict_to_sql_insert_str
 from .subgenerators import name_surname_generator, generate_checked_in_or_out, generate_random_timestamp, generate_random_decimal_pricesum, write_to_file
 from .subgenerators import generate_random_date, generate_offer_startend_dates, generate_checkin_checkout_dates, price_intervalls_per_room_type
-from .subgenerators import tabulate_print, update_middag_dict_on_bookings
+from .subgenerators import tabulate_print, update_middag_dict_on_bookings, update_bokning_and_faktura_for_grupp_bokning
+from .subgenerators import value_for_grupp_bokning_reference, update_faktura_for_erbjudande_id
 
 # Define __all__ to control what is imported with "from utils import *"
 __all__ = ['dict_to_sql_insert_str', 'name_surname_generator', 'generate_checked_in_or_out',
            'generate_random_timestamp', 'generate_random_decimal_pricesum', 'write_to_file', 
            'generate_random_date', 'generate_offer_startend_dates', 'generate_checkin_checkout_dates',
-           'price_intervalls_per_room_type', 'tabulate_print', 'update_middag_dict_on_bookings']
+           'price_intervalls_per_room_type', 'tabulate_print', 'update_middag_dict_on_bookings', 
+           'update_bokning_and_faktura_for_grupp_bokning', 'value_for_grupp_bokning_reference',
+           'update_faktura_for_erbjudande_id']

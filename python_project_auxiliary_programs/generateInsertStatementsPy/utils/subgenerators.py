@@ -3,13 +3,6 @@ import random, os
 from datetime import datetime, timedelta
 from typing import List, Dict
 #import 3rd party module to visualize tables:
-    #firsly you need to install tabulate via pip, if you dont have pip you need to install that first.
-    #install tabulate: 
-    #      pip install tabulate
-    #import tabulate: 
-    #      from tabulate import tabulate
-    # Print using tabulate
-    #       print(tabulate(l_rum_typ_dicts, headers="keys"))
 from tabulate import tabulate
 
 # source: https://en.wiktionary.org/wiki/Appendix:Swedish_given_names#The_most_common_given_names_in_Sweden_1890_-_2008
@@ -19,10 +12,27 @@ _names = _names_male + _names_female
 # source: https://en.wiktionary.org/wiki/Category:Swedish_surnames
 _surnames = ["Abrahamsson", "Adamsberg", "Ahlman", "Alexandersson", "Alfvén", "Andersson", "André", "Andreasson", "Apell", "Arvidsson", "Ask", "Axelsson", "Backlund", "Backman", "Backström", "Bengtsson", "Berg", "Berggren", "Berglund", "Bergman", "Bergqvist", "Bergstrand", "Bergström", "Bergvall", "Bernadotte", "Berzelius", "Bildt", "Birgersson", "Björk", "Björklund", "Björkman", "Björn", "Blom", "Blomqvist", "Blomstrand", "Bolund", "Borg", "Boström", "Brovall", "Burman", "Bååth", "Bäcklund", "Bäckström", "Börjeson", "Carlsson", "Cederström", "Cronström", "Dahl", "Dahlberg", "Dahlbäck", "Dahlström", "Danielsson", "Davidsson", "Ehrling", "Ek", "Ekberg", "Ekdahl", "Ekelöf", "Ekerlid", "Ekholm", "Eklund", "Eklöf", "Ekström", "Eliasson", "Engberg", "Englund", "Engström", "Ericsson", "Eriksson", "Erlandsson", "Erlund", "Fagerlund", "Fallström", "Fjäll", "Fontelius", "Forsberg", "Forsman", "Forssell", "Fransson", "Fredriksson", "Friman", "Frisk", "Glad", "Grafström", "Granestrand", "Grönholm", "Grönroos", "Gucci", "Gunnarsson", "Gustafsson", "Gustavsson", "Göransson", "Hammare", "Hammarskjöld", "Hansson", "Haverling", "Hedborg", "Hedenskog", "Hedlund", "Hedman", "Helander", "Helenius", "Helin", "Hellström", "Henriksson", "Hermansson", "Hjelmqvist", "Holm", "Holmberg", "Holmgren", "Holmquist", "Holmström", "Hulth", "Hyltenstam", "Håkansson", "Hård", "Högberg", "Höglund", "Höxter", "Isaksson", "Ishizaki", "Ivarsson", "Jacobsson", "Jakobsson", "Jansson", "Johansson", "Johnson", "Johnsson", "Jonasson", "Jonsson", "Josefsson", "Jäderberg", "Jönsson", "Karlsson", "Kindstrand", "Kjellander", "Kjellberg", "Kjellström", "Kristersson", "Kvist", "Kvisth", "Kwist", "Lagerkvist", "Lagerlöf", "Larsdotter", "Larsson", "Leander", "Lenné", "Lind", "Lindberg", "Lindblad", "Lindblom", "Lindelöf", "Lindén", "Lindfors", "Lindgren", "Lindholm", "Lindqvist", "Lindroos", "Lindström", "Linnaeus", "Linné", "Ljungberg", "Ljungqvist", "Lundberg", "Lundgren", "Lundh", "Lundin", "Lundqvist", "Lundström", "Löfgren", "Magnusson", "Malin", "Malmquist", "Malmström", "Mankell", "Markström", "Martinsson", "Matsson", "Mattsson", "Månsson", "Mårtensson", "Nilsson", "Nobel", "Nobelius", "Norberg", "Nordin", "Nordquist", "Nordqvist", "Nordström", "Norén", "Nyberg", "Nylund", "Nyman", "Nyström", "Nåjde", "Olofsson", "Olsson", "Palm", "Palme", "Palmquist", "Palmqvist", "Parkstad", "Pehrson", "Pehrsson", "Person", "Persson", "Petersson", "Pettersson", "Pourmokhtari", "Quist", "Quisth", "Qvist", "Qvisth", "Qwist", "Rangström", "Rask", "Renström", "Ribbing", "Ringberg", "Roos", "Ros", "Rosberg", "Rosengren", "Rosenqvist", "Rothschild", "Rudbeck", "Rudolfsson", "Rydberg", "Rydbäck", "Rydkvist", "Rydqvist", "Rydstedt", "Rydström", "Rydvall", "Ryttberg", "Råberg", "Rådström", "Sahlin", "Saleh", "Samuelsson", "Sandberg", "Sandelin", "Sandell", "Sandström", "Schyman", "Sellström", "Sievert", "Sirén", "Sjöberg", "Sjöblom", "Sjögren", "Sjökvist", "Sjölund", "Sjöquist", "Sjöqvist", "Skarsgård", "Skog", "Skoglund", "Snellman", "Spahandelin", "Spjuth", "Spångberg", "Stare", "Staxäng", "Stenqvist", "Stenström", "Strand", "Strid", "Ström", "Strömberg", "Ståhl", "Ståhlbrand", "Sundberg", "Sundkvist", "Sundqvist", "Sundström", "Svanstedt", "Svanström", "Svedberg", "Svensson", "Svinhufvud", "Säfström", "Söder", "Söderberg", "Södergren", "Söderström", "Thunberg", "Thörnqvist", "Torvalds", "Tunberg", "Tungel", "Tungelfelt", "Tvilling", "Wahlroos", "Wahlström", "Wallander", "Wallin", "Westerberg", "Westerlund", "Westman", "Wickman", "Widforss", "Wiktorin", "Åberg", "Ågren", "Åhlström", "Åkerblom", "Åkerlund", "Åkerman", "Åkerström", "Åkesson", "Ångström", "Åslund", "Åström", "Ärlig", "Öberg", "Östberg", "Österberg", "Österman", "Östlund", "Östman"]
 
+def _shuffle_list(l_ints: List[int]) -> List[int]:
+    return random.sample(l_ints, len(l_ints))
+
 def tabulate_print(l_dict2tabulate: List[Dict], table_name: str, context_str: str) -> None:
     header2print = "\n" + table_name + "  -  " + context_str
     print(header2print)
     print(tabulate(l_dict2tabulate, headers="keys"))
+
+# TODO: this could be done a lot cleaner... old code from string handling and not dict handling.
+def value_for_grupp_bokning_reference(grupp_bokning_ids, bookings_added_per_groupb, grupp_bokning_n):
+    #global bookings_added_per_groupb
+    #global l_values_generated_gbokning_ref
+    shouldHaveGroup = random.randint(0, 1)# radomly decide if to assign NULL or to a group foreign ID.
+    if shouldHaveGroup:
+        if bookings_added_per_groupb[grupp_bokning_ids-1] < grupp_bokning_n:
+            bookings_added_per_groupb[grupp_bokning_ids-1] += 1
+            return grupp_bokning_ids, bookings_added_per_groupb
+        else: 
+            return "NULL", bookings_added_per_groupb  # if it is filled return NULL.
+    else: 
+        return "NULL", bookings_added_per_groupb  
 
 def update_middag_dict_on_bookings(l_middag_dicts, l_bokning_dicts):
     for middag_dict in l_middag_dicts: 
@@ -35,6 +45,48 @@ def update_middag_dict_on_bookings(l_middag_dicts, l_bokning_dicts):
                 random_timestamp_interval = checkin_f_b + timedelta(seconds=random_delta_s)
                 middag_dict['datum'] = random_timestamp_interval
                 break # no need to check more in bokning dict now that we found our match
+
+# update bokning_dicts with factura dict AND update faktura_dicts.
+    # functions like this:
+    """ Check: if a booking has a group booking then it updates factura with that group booking ID  << UPDATES FAKTURA * 
+                        AND saves (list: l_factura_id_w_gb) which factura_id has a group booking assigned to it.
+                else sets factura_id to an factura_id in bokning that doesn't (EXIST IN list: l_factura_id_w_gb)
+                    have a group_booking assigned to it in a factura entity. """
+def update_bokning_and_faktura_for_grupp_bokning(l_bokning_dicts: List[Dict], l_faktura_dicts: List[Dict]) -> None:
+        # NOTE: faktura_id in bokning_dict is always "NULL" before this function call
+        # NOTE: grupp_bokning_ID in faktura_dict is always "NULL" before this function call
+        l_factura_id_w_gb = [] # store which factura IDs have a group booking assigned
+        for bokning_dict in l_bokning_dicts:
+            # update factura_dict with the right group_id
+            if bokning_dict['grupp_bokning_id'] != 'NULL':
+                for faktura_dict in l_faktura_dicts:
+                    if faktura_dict['grupp_bokning_id'] == 'NULL':
+                        faktura_dict['grupp_bokning_id'] = bokning_dict['grupp_bokning_id']
+                        l_factura_id_w_gb.append(faktura_dict['faktura_id']) #save this as to not assign it for booking without group.
+                        break # break out of for loop since we now found what we were looking for.
+            # update bokning_dict with non group booking assigned faktura_id when the booking isn't a group booking:
+        # we need a new for loop for this to make sure the list is fully populated first:
+        for bokning_dict in l_bokning_dicts:
+            # update bokning_dict with the right faktura_id
+            if bokning_dict['grupp_bokning_id'] == 'NULL':
+                for faktura_dict in l_faktura_dicts:
+                    if faktura_dict['faktura_id'] not in l_factura_id_w_gb:
+                        bokning_dict['faktura_id'] = faktura_dict['faktura_id']
+                        break # break out of for loop since we now found what we were looking for.
+
+def update_faktura_for_erbjudande_id(l_faktura_dicts: List[Dict], fakt_w_erb_n: int):
+    count_erbjudande = 0 # also works as index!
+    max_w_erbjudande = len(l_faktura_dicts) - fakt_w_erb_n
+    l_faktura_ids = [item['faktura_id'] for item in l_faktura_dicts]
+    random_order_ids = _shuffle_list(l_faktura_ids) # shuffle them around to make it random!
+    while count_erbjudande < max_w_erbjudande:
+        for faktura in l_faktura_dicts:
+            random_f_id = random_order_ids[count_erbjudande]
+            if (faktura['erbjudande_id'] != 'NULL' and
+            count_erbjudande < max_w_erbjudande and
+            faktura['faktura_id'] == random_f_id):
+                faktura['erbjudande_id'] = 'NULL'
+                count_erbjudande += 1
 
 def name_surname_generator() -> tuple[str, str]:
     name = random.choice(_names)  # First names
