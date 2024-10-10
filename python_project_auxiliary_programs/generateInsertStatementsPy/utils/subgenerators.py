@@ -90,6 +90,7 @@ def write_to_file(filename, queries):
     os.makedirs(full_folder_path, exist_ok=True)
     
     full_path = os.path.join(folder_name, filename)
+    print(str(full_path))
     
     with open(full_path, 'w', encoding='utf-8') as file:
         for query in queries:
