@@ -1,0 +1,6 @@
+INSERT INTO middag ('grupp_bokning_id', 'antal_personer', 'datum') VALUES (2, 3, 'UPDATED LATER VIA MAIN');
+INSERT INTO middag ('grupp_bokning_id', 'antal_personer', 'datum') VALUES (1, 9, 'UPDATED LATER VIA MAIN');
+INSERT INTO middag ('grupp_bokning_id', 'antal_personer', 'datum') VALUES (2, 8, 'UPDATED LATER VIA MAIN');
+INSERT INTO middag ('grupp_bokning_id', 'antal_personer', 'datum') VALUES (3, 5, 'UPDATED LATER VIA MAIN');
+INSERT INTO middag ('grupp_bokning_id', 'antal_personer', 'datum') VALUES (1, 10, 'UPDATED LATER VIA MAIN');
+INSERT INTO middag ('grupp_bokning_id', 'antal_personer', 'datum') VALUES (2, 7, 'UPDATED LATER VIA MAIN');
