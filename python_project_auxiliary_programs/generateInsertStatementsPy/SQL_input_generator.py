@@ -1,6 +1,15 @@
 #region import statements
 import random
 import math
+#import 3rd party module to visualize tables:
+    #firsly you need to install tabulate via pip, if you dont have pip you need to install that first.
+    #install tabulate: 
+    #      pip install tabulate
+    #import tabulate: 
+    #      from tabulate import tabulate
+    # Print using tabulate
+    #       print(tabulate(l_rum_typ_dicts, headers="keys"))
+from tabulate import tabulate
 # import our own modules from utils child directory.
 from utils import dict_to_sql_insert_str
 from utils import name_surname_generator, generate_checked_in_or_out, generate_random_timestamp, generate_random_decimal_pricesum
@@ -301,20 +310,32 @@ def main():
     bokning_ids = list(range(1, booking_n+1)) 
     #endregion
 
-    #region Generate all the dictionaries.
+    #region Generate all the dictionaries and tabulate the results to visualize them:
 
     l_rum_typ_dicts = [generate_rum_typ_dict(rum_typ_ids[i]) for i in range(rum_typ_n)]
+    tabulate(l_rum_typ_dicts, headers="keys")
     l_erbjudande_dicts = [generate_erbjudande_dict(erbjudande_ids[i]) for i in range(erbjudande_n)]
+    tabulate(l_erbjudande_dicts, headers="keys")
     l_personal_dicts = [generate_personal_dict(personal_ids[i]) for i in range(personal_n)]
+    tabulate(l_personal_dicts, headers="keys")
     l_huvud_gast_dicts = [generate_huvud_gast_dict(huvud_gast_ids[i]) for i in range(huvud_gast_n)]
+    tabulate(l_huvud_gast_dicts, headers="keys")
     l_kund_dicts = [generate_kund_dict(kund_ids[i]) for i in range(kund_n)]
+    tabulate(l_kund_dicts, headers="keys")
     l_rum_pris_dicts = [generate_rum_pris_dict(rum_pris_ids[i]) for i in range(rum_pris_n)]
+    tabulate(l_rum_pris_dicts, headers="keys")
     l_rum_dicts  = [generate_rum_dict(rum_ids[i]) for i in range(rum_n)]
+    tabulate(l_rum_dicts, headers="keys")
     l_faktura_dicts = [generate_faktura_dict(faktura_ids[i]) for i in range(faktura_n)]
+    tabulate(l_faktura_dicts, headers="keys")
     l_grupp_bokning_dicts = [generate_grupp_bokning_dict(grupp_bokning_ids[i]) for i in range(grupp_bokning_n)]
+    tabulate(l_grupp_bokning_dicts, headers="keys")
     l_middag_dicts = [generate_middag_dict(middag_ids[i]) for i in range(middag_n)]
+    tabulate(l_middag_dicts, headers="keys")
     l_forsaljning_dicts = [generate_forsaljning_dict(forsaljning_ids[i]) for i in range(forsaljning_n)]
+    tabulate(l_forsaljning_dicts, headers="keys")
     l_bokning_dicts = [generate_bokning_dict(bokning_ids[i]) for i in range(booking_n)]
+    tabulate(l_bokning_dicts, headers="keys")
     #endregion
 
     #region TODO: update dictionaries with values:
@@ -361,18 +382,7 @@ def main():
 
     #endregion
 
-    #region tabulate: to show what each dictionary contains!
-    
-    #firsly you need to install tabulate via pip, if you dont have pip you need to install that first.
-    #install tabulate: 
-    #      pip install tabulate
-    #import tabulate: 
-    #      from tabulate import tabulate
-    # Print using tabulate
-    #       print(tabulate(l_rum_typ_dicts, headers="keys"))
 
-    #endregion
-    
     #region create strings with all the sql queries for write to file!
     
     # generate room_type queries
