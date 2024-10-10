@@ -1,5 +1,0 @@
-INSERT INTO personal ('fornamn', 'efternamn', 'roll') VALUES (('Birgitta',), 'Tungel', 'Manager');
-INSERT INTO personal ('fornamn', 'efternamn', 'roll') VALUES (('Svea',), 'Spahandelin', 'Cleaner');
-INSERT INTO personal ('fornamn', 'efternamn', 'roll') VALUES (('Jan',), 'Rydvall', 'Cleaner');
-INSERT INTO personal ('fornamn', 'efternamn', 'roll') VALUES (('Malin',), 'Dahlström', 'Receptionist');
-INSERT INTO personal ('fornamn', 'efternamn', 'roll') VALUES (('Sonja',), 'Lindblad', 'Receptionist');
