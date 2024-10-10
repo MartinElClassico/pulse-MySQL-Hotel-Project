@@ -347,6 +347,15 @@ def main():
     for _ in range(middag_n): 
         pass
 
+    #TODO: another way to update middag with dinner, based on bookings which are found via the group booking id
+    # functions like this:
+    """ variable / list to save dates used in each group booking (to make sure several dinners of the same group booking isn't on the same date)
+        checks which group booking the dinner is for
+        checks which bookings have the same group booking id
+        get range of stay from one of those bookings
+        get one of the dates
+        randomize a time to create a TIMESTAMP """ #if ewe are sure we need the dinners to be TIMESTAMP and not just date?
+
 
     #  Populates faktura with group IDS where it should have it. NOTE: will probably break.
     # functions like this:
