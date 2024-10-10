@@ -24,7 +24,17 @@ def tabulate_print(l_dict2tabulate: List[Dict], table_name: str, context_str: st
     print(header2print)
     print(tabulate(l_dict2tabulate, headers="keys"))
 
-
+def update_middag_dict_on_bookings(l_middag_dicts, l_bokning_dicts):
+    for middag_dict in l_middag_dicts: 
+        for bokning_dict in l_bokning_dicts:
+            if bokning_dict['grupp_bokning_id'] == middag_dict['grupp_bokning_id']:
+                checkin_f_b = bokning_dict['datum_incheck']
+                checkout_f_b = bokning_dict['datum_utcheck']
+                delta_timedelta = checkout_f_b - checkin_f_b # store the difference between the two
+                random_delta_s = random.randint(0, int(delta_timedelta.total_seconds())) # random seconds within interval.
+                random_timestamp_interval = checkin_f_b + timedelta(seconds=random_delta_s)
+                middag_dict['datum'] = random_timestamp_interval
+                break # no need to check more in bokning dict now that we found our match
 
 def name_surname_generator() -> tuple[str, str]:
     name = random.choice(_names)  # First names

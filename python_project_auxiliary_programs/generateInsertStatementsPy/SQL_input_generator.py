@@ -2,9 +2,10 @@
 import random
 import math
 # import our own modules from utils child directory.
-from utils import dict_to_sql_insert_str
+from utils import dict_to_sql_insert_str # converts dictionary to sql formatted string
 from utils import name_surname_generator, generate_checked_in_or_out, generate_random_timestamp, generate_random_decimal_pricesum, tabulate_print
 from utils import write_to_file, generate_random_date, generate_offer_startend_dates, price_intervalls_per_room_type, generate_checkin_checkout_dates
+from utils import update_middag_dict_on_bookings 
 #endregion
 
 #region global variables
@@ -263,7 +264,7 @@ def generate_insert_statement(table_name, dict, b_p_key_auto_increment):
 
 #endregion
 
-
+#
 
 # FIXME: have not updated this part yet....
 # made all dict functions 
@@ -330,24 +331,23 @@ def main():
     tabulate_print(l_bokning_dicts, "bokning", "pre_processing")
     #endregion
 
+
     #region TODO: update dictionaries with values:
 
-    # TODO: update middag with date for dinner based on bookings:
+    # update middag with date for dinner based on bookings:
     # functions like this:
     """ fetches the check_in and check_out DATE from l_booking_dicts that has a group booking,
-        then creates a TIMESTAMP within that DATE interval and sets it to l_middag_dicts[datum]"""
-    for _ in range(middag_n): 
-        pass
-
+    then creates a TIMESTAMP within that DATE interval and sets it to l_middag_dicts[datum]"""
+    update_middag_dict_on_bookings(l_middag_dicts, l_bokning_dicts)
+    tabulate_print(l_middag_dicts, "middag", "after: update_middag_dict_on_bookings")
 
     #  Populates faktura with group IDS where it should have it. NOTE: will probably break.
     # functions like this:
     # TODO: migrate this functionality to below function
     """ checks if a booking has a group_booking and if it has that, gives the ID to factura.grupp_bokning_id
             if it does have a group_booking_ID then it just assigns it with NULL instead"""
-    for i in range(faktura_n): l_faktura_dicts[i]['grupp_bokning_id'] = value_for_grupp_bokning_reference_faktura()
-    tabulate_print(l_faktura_dicts, "faktura")
-    bokning_queries = populate_faktura_id_in_boking_queries(bokning_queries)
+    #for i in range(faktura_n): l_faktura_dicts[i]['grupp_bokning_id'] = value_for_grupp_bokning_reference_faktura()
+    #bokning_queries = populate_faktura_id_in_boking_queries(bokning_queries)
 
     # update bokning_dicts with factura dict AND update faktura_dicts.
     # functions like this:
@@ -356,7 +356,7 @@ def main():
                         AND saves (list: l_factura_id_w_gb) which factura_id has a group booking assigned to it.
                 else sets factura_id to an factura_id in bokning that doesn't (EXIST IN list: l_factura_id_w_gb)
                     have a group_booking assigned to it in a factura entity. """
-    def update_bokning_and_faktura(l_bokning_dicts, l_faktura_dicts):
+    """def update_bokning_and_faktura(l_bokning_dicts, l_faktura_dicts):
         # NOTE: faktura_id in bokning_dict is always "NULL" before this function call
         # NOTE: grupp_bokning_ID in faktura_dict is always "NULL" before this function call
         l_factura_id_w_gb = [] # store which factura IDs have a group booking assigned
@@ -372,9 +372,8 @@ def main():
                     else: pass # do nothing, viz. keep it as null.
                 l_factura_id_w_gb.append(bokning_dict['faktura_id']) 
                 # TODO: HAD TO BREAK HERE TO CHANGE LOGIC FOR HOW DICTIONARIES ARE INCLUDED TO INCLUDE PRIMARY KEY!    
-
+    """
     #endregion
-
 
     #region create strings with all the sql queries for write to file!
     
