@@ -223,6 +223,7 @@ def generate_forsaljning_dict(p_id):
     return forsaljning_dict
 
 # foreign keys used: rum_ids, kund_ids, huvud_gast_ids, personal_ids, grupp_bokning_ids
+# FIXME: bokning_datum kan vara i framtiden relativt checkin_date, känns inte rätt
 def generate_bokning_dict(p_id):
     checkin_date, checkout_date = generate_checkin_checkout_dates()  # Get random dates
     grupp_bokning_assigned_value = value_for_grupp_bokning_reference(random.choice(grupp_bokning_ids))  # Returns null or fk_grupp_bokning
@@ -238,7 +239,7 @@ def generate_bokning_dict(p_id):
         'faktura_id': "NULL",  # FIXME: Placeholder for faktura ID, fixed later, either ID or NULL, is NULL when group id has ID.
         'datum_incheck': checkin_date,  # Randomized check-in date
         'datum_utcheck': checkout_date,  # Randomized check-out date
-        'booking_datum': bokning_timestamp,  # Booking date, randomly generated
+        'bokning_datum': bokning_timestamp,  # Booking date, randomly generated
         'antal_gaster': random.randint(1, 4)  # Number of guests
     }
     return bokning_dict
