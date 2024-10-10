@@ -78,15 +78,15 @@ def value_for_grupp_bokning_reference(grupp_bokning_ids):
         return "NULL" 
     
 # TODO: DELETE THIS WHEN NEW VERSION WORKS!
-"""
+
 def populate_faktura_id_in_boking_queries(bokning_queries):
     for i in range(1, numberOfRooms_gb+1):
         if grupp_bokning_id_current != "NULL":
             bokning_queries[faktura_id] = "NULL"
         else: bokning_queries[faktura_id] = i
-    return bokning_queries"""
+    return bokning_queries
 
-# TODO:, old code, might not work?
+# TODO:, old code, might not work? move functionality to a new function!
 def value_for_grupp_bokning_reference_faktura():
     global int_current_call_from_factura
     global l_calls_when_gbokning_not_null
@@ -346,7 +346,8 @@ def main():
     """ checks if a booking has a group_booking and if it has that, gives the ID to factura.grupp_bokning_id
             if it does have a group_booking_ID then it just assigns it with NULL instead"""
     for i in range(faktura_n): l_faktura_dicts[i]['grupp_bokning_id'] = value_for_grupp_bokning_reference_faktura()
-    #bokning_queries = populate_faktura_id_in_boking_queries(bokning_queries)
+    tabulate_print(l_faktura_dicts, "faktura")
+    bokning_queries = populate_faktura_id_in_boking_queries(bokning_queries)
 
     # update bokning_dicts with factura dict AND update faktura_dicts.
     # functions like this:
