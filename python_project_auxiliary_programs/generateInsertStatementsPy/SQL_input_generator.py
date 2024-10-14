@@ -349,9 +349,9 @@ def main():
     # bokning datum_utcheck -> utcheckning
     change_key_name_in_l(l_bokning_dicts, "datum_utcheck", "utcheckning") 
     # rum checked_in -> incheckad
-    change_key_name_in_l(l_rum_dicts, "checked_in", "incheckad")
+    change_key_name_in_l(l_rum_dicts, "checked_in", "checkat_in")
     # rum checked_out -> utcheckad
-    change_key_name_in_l(l_rum_dicts, "checked_out", "utcheckad")
+    change_key_name_in_l(l_rum_dicts, "checked_out", "checkat_ut")
 
     #endregion
 
