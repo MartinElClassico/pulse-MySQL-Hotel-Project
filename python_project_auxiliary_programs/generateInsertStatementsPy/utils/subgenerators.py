@@ -87,7 +87,7 @@ def update_faktura_for_erbjudande_id(l_faktura_dicts: List[Dict], fakt_w_erb_n: 
             faktura['faktura_id'] == random_f_id):
                 faktura['erbjudande_id'] = 'NULL'
                 count_erbjudande += 1
-                
+
 #region check dates and make sure they're right:
 
 # Helper function to generate a random datetime within a given range
@@ -186,10 +186,14 @@ def generate_checked_in_or_out() -> tuple[str, str]:
 
 def generate_random_timestamp(i_s_date: str, i_e_date_days: str) -> datetime:
     # Parse the input start date
-    start_date = datetime.strptime(i_s_date, "%Y-%m-%d")
+    if isinstance(i_s_date, datetime):
+        start_date = i_s_date
+    else:
+        start_date = datetime.strptime(i_s_date, "%Y-%m-%d")
     
     # Generate a random number of days between 0 and i_e_date_days
-    random_days = random.randint(0, i_e_date_days)
+    
+    random_days = random.randint(0, int(i_e_date_days))
     
     # Generate random time (hours, minutes, seconds, microseconds)
     # total number of seconds in a day: 24 * 60 * 60

@@ -1,0 +1,5 @@
+INSERT INTO erbjudande ('prisavdrag', 'villkor', 'start_datum', 'slut_datum', 'start', 'slut') VALUES (197.23, 'PLACEHOLDER villkor', 2024-11-07 16:09:19.358565, 2024-11-15 16:09:19.358565, 2024-12-31 05:21:16, 2025-02-14 12:55:20);
+INSERT INTO erbjudande ('prisavdrag', 'villkor', 'start_datum', 'slut_datum', 'start', 'slut') VALUES (175.05, 'PLACEHOLDER villkor', 2024-10-20 16:09:19.358614, 2024-10-29 16:09:19.358614, 2024-12-04 03:17:41, 2025-01-24 19:44:00);
+INSERT INTO erbjudande ('prisavdrag', 'villkor', 'start_datum', 'slut_datum', 'start', 'slut') VALUES (139.56, 'PLACEHOLDER villkor', 2024-11-06 16:09:19.358624, 2024-11-14 16:09:19.358624, 2024-11-15 13:32:47, 2025-03-02 08:43:20);
+INSERT INTO erbjudande ('prisavdrag', 'villkor', 'start_datum', 'slut_datum', 'start', 'slut') VALUES (117.14, 'PLACEHOLDER villkor', 2024-12-29 16:09:19.358630, 2025-01-12 16:09:19.358630, 2024-12-11 23:43:51, 2025-03-03 07:40:55);
+INSERT INTO erbjudande ('prisavdrag', 'villkor', 'start_datum', 'slut_datum', 'start', 'slut') VALUES (208.06, 'PLACEHOLDER villkor', 2024-11-21 16:09:19.358634, 2024-11-28 16:09:19.358634, 2024-11-26 19:48:51, 2025-02-16 08:58:33);
