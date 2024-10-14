@@ -61,6 +61,12 @@ CREATE TABLE rum(
     CONSTRAINT rum_fk_personal FOREIGN KEY (personal_id) REFERENCES personal(personal_id)
 );
 -- @block
+CREATE TABLE grupp_bokning(
+    grupp_bokning_id INT PRIMARY KEY AUTO_INCREMENT,
+    personal_id INT NOT NULL,
+    CONSTRAINT grupp_bokning_fk_personal FOREIGN KEY (personal_id) REFERENCES personal(personal_id),
+);
+-- @block
 CREATE TABLE faktura(
     faktura_id INT PRIMARY KEY AUTO_INCREMENT,
     personal_id INT NOT NULL,
@@ -69,12 +75,6 @@ CREATE TABLE faktura(
     CONSTRAINT faktura_fk_personal FOREIGN KEY (personal_id) REFERENCES personal(personal_id),
     CONSTRAINT faktura_fk_erbjudande FOREIGN KEY (erbjudande_id) REFERENCES erbjudande(erbjudande_id),
     CONSTRAINT faktura_fk_grupp_bokning FOREIGN KEY (grupp_bokning_id) REFERENCES grupp_bokning(grupp_bokning_id)
-);
--- @block
-CREATE TABLE grupp_bokning(
-    grupp_bokning_id INT PRIMARY KEY AUTO_INCREMENT,
-    personal_id INT NOT NULL,
-    CONSTRAINT grupp_bokning_fk_personal FOREIGN KEY (personal_id) REFERENCES personal(personal_id),
 );
 -- @block
 CREATE TABLE middag(
