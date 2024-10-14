@@ -14,8 +14,8 @@ CREATE TABLE erbjudande(
     erbjudande_id  INT PRIMARY KEY AUTO_INCREMENT,
     prisavdrag DECIMAL(8,2) NOT NULL,
     villkor VARCHAR(255),
-    start_datum TIMESTAMP NOT NULL,
-    slut_datum TIMESTAMP
+    start TIMESTAMP NOT NULL,
+    slut TIMESTAMP
 );
 -- @block
 CREATE TABLE personal(
@@ -45,8 +45,8 @@ CREATE TABLE rum_pris(
     rum_pris_id INT PRIMARY KEY AUTO_INCREMENT,
     rum_typ_id VARCHAR(255) NOT NULL,
     pris_per_natt DECIMAL(8,2) NOT NULL,
-    pris_start_datum TIMESTAMP NOT NULL,
-    pris_slut_datum TIMESTAMP,
+    start TIMESTAMP NOT NULL,
+    slut TIMESTAMP,
     -- eventuellt lägga till var för om priset är aktuellt just nu eller inte
     CONSTRAINT rum_pris_fk_rum_typ FOREIGN KEY (rum_typ_id) REFERENCES rum_typ(rum_typ_id)
 );
@@ -55,8 +55,8 @@ CREATE TABLE rum(
     rum_id INT PRIMARY KEY AUTO_INCREMENT,
     rum_typ_id VARCHAR(255)  NOT NULL,
     personal_id INT NOT NULL,
-    checked_in BOOLEAN DEFAULT FALSE NOT NULL,
-    checked_out BOOLEAN DEFAULT FALSE NOT NULL,
+    checkat_in BOOLEAN DEFAULT FALSE NOT NULL,
+    checkat_ut BOOLEAN DEFAULT FALSE NOT NULL,
     CONSTRAINT rum_fk_rum_typ FOREIGN KEY (rum_typ_id) REFERENCES rum_typ(rum_typ_id),
     CONSTRAINT rum_fk_personal FOREIGN KEY (personal_id) REFERENCES personal(personal_id)
 );
@@ -106,9 +106,9 @@ CREATE TABLE bokning(
     rum_pris_id INT NOT NULL,
     grupp_bokning_id INT, -- note: auto generator always has values for this attribute
     faktura_id INT, -- note: can be null if there is a "grupp bokning" for said booking and other related bookings.
-    datum_incheck DATE NOT NULL,
-    datum_utcheck DATE NOT NULL,
-    booking_datum TIMESTAMP NOT NULL,
+    incheckning DATE NOT NULL,
+    utcheckning DATE NOT NULL,
+    bokning_datum TIMESTAMP NOT NULL,
     antal_gaster SMALLINT NOT NULL,
     CONSTRAINT bokning_fk_rum FOREIGN KEY (rum_id) REFERENCES rum(rum_id),
     CONSTRAINT bokning_fk_kund FOREIGN KEY (kund_id) REFERENCES kund(kund_id),
