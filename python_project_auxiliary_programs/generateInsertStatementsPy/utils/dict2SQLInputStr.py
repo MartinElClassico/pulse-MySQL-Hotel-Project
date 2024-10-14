@@ -24,7 +24,7 @@ def _formatValues(dict_values, field: bool):
                  l_sql_values.append(value)
             else:
                 l_sql_values.append("'" + value + "'")
-        if isinstance(value, date):
+        elif isinstance(value, date):
             l_sql_values.append("'" + str(value) + "'")
         else:
             l_sql_values.append(str(value))
