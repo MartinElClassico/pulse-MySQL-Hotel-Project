@@ -1,0 +1,5 @@
+INSERT INTO forsaljning ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum') VALUES (7, 4, 8, 359.63, 2024-10-30 00:00:00);
+INSERT INTO forsaljning ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum') VALUES (15, 3, 19, 176.68, 2024-10-14 00:00:00);
+INSERT INTO forsaljning ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum') VALUES (6, 4, 16, 69.88, 2024-10-16 00:00:00);
+INSERT INTO forsaljning ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum') VALUES (20, 4, 16, 388.17, 2024-10-19 00:00:00);
+INSERT INTO forsaljning ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum') VALUES (14, 4, 5, 141.81, 2024-10-09 00:00:00);

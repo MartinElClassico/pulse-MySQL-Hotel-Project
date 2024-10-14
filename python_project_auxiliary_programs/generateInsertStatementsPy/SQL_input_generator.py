@@ -9,6 +9,7 @@ from utils import write_to_file, generate_random_date, generate_offer_startend_d
 from utils import update_middag_dict_on_bookings, update_bokning_and_faktura_for_grupp_bokning, update_faktura_for_erbjudande_id
 from utils import value_for_grupp_bokning_reference # old code, should be updated one time...
 from utils import update_date_range
+from utils import conv_timestamp2datetime_l, conv_timestamp2date_l, change_key_name_in_l
 #endregion
 
 #region global variables
@@ -129,8 +130,8 @@ def generate_rum_pris_dict(p_id):
         'rum_pris_id': p_id,
         'rum_typ_id': rum_typ_id,  
         'pris_per_natt': pris_per_natt,  
-        'pris_start_datum': pris_start_datum,  
-        'pris_slut_datum': pris_slut_datum  
+        'start_datum': pris_start_datum,  
+        'slut_datum': pris_slut_datum  
     }
     
     return rum_pris_dict
@@ -308,13 +309,65 @@ def main():
     update_faktura_for_erbjudande_id(l_faktura_dicts, fakt_w_erb_n)
     tabulate_print(l_faktura_dicts, "faktura", "update_faktura_for_erbjudande_id")
 
-  
+    # make sure dates are within a good range, #TODO: doesn't take FK and PM into regard, so might come out mixed anyhow. >.<
     update_date_range(g_set_start_date, g_set_end_date, l_erbjudande_dicts, l_bokning_dicts, l_rum_pris_dicts, l_middag_dicts)
     tabulate_print(l_erbjudande_dicts, "erbjudande", "update_date_range")
     tabulate_print(l_bokning_dicts, "bokning", "update_date_range")
     tabulate_print(l_rum_pris_dicts, "rum_pris", "update_date_range")
     tabulate_print(l_middag_dicts, "middag", "update_date_range")
 
+    # change format for dates!
+    # erbjudande:
+    conv_timestamp2datetime_l(l_erbjudande_dicts, "start_datum")
+    conv_timestamp2datetime_l(l_erbjudande_dicts, "slut_datum")
+    # försäljning
+    conv_timestamp2datetime_l(l_forsaljning_dicts, "datum")
+    # bokning
+    conv_timestamp2date_l(l_bokning_dicts, "datum_incheck")
+    conv_timestamp2date_l(l_bokning_dicts, "datum_utcheck")
+    conv_timestamp2datetime_l(l_bokning_dicts, "bokning_datum")
+    # rum_pris
+    conv_timestamp2datetime_l(l_rum_pris_dicts, "start_datum")
+    conv_timestamp2datetime_l(l_rum_pris_dicts, "slut_datum")
+    # middag
+    conv_timestamp2datetime_l(l_middag_dicts, "datum")
+
+    # change key name for certain dictionaries.
+    # erbjudande start_datum -> start_datum_tid
+    change_key_name_in_l(l_erbjudande_dicts, "start_datum", "start")
+    # erbjudande slut_datum -> datum_datum_tid
+    change_key_name_in_l(l_erbjudande_dicts, "slut_datum", "slut")
+    # middag datum -> datum_tid
+    # bokning datum -> datum_tid
+    # rum_pris start_datum -> start_datum_tid
+    change_key_name_in_l(l_rum_pris_dicts, "start_datum", "start")
+    # rum_pris slut_datum -> slut_datum_tid
+    change_key_name_in_l(l_rum_pris_dicts, "slut_datum", "slut")
+    # forsaljning datum -> datum_tid
+    # bokning datum_incheck --> incheckning
+    change_key_name_in_l(l_bokning_dicts, "datum_incheck", "incheckning")
+    # bokning datum_utcheck -> utcheckning
+    change_key_name_in_l(l_bokning_dicts, "datum_utcheck", "utcheckning") 
+    # rum checked_in -> incheckad
+    change_key_name_in_l(l_rum_dicts, "checked_in", "incheckad")
+    # rum checked_out -> utcheckad
+    change_key_name_in_l(l_rum_dicts, "checked_out", "utcheckad")
+
+    #endregion
+
+    #region tabulate final version before conversion to sql query stings
+    tabulate_print(l_rum_typ_dicts, "rum_typ", "final")
+    tabulate_print(l_erbjudande_dicts, "erbjudande", "final")
+    tabulate_print(l_personal_dicts, "personal", "final")
+    tabulate_print(l_huvud_gast_dicts, "huvud_gast", "final")
+    tabulate_print(l_kund_dicts, "kund", "final")
+    tabulate_print(l_rum_pris_dicts, "rum_pris_typ", "final")
+    tabulate_print(l_rum_dicts, "rum", "final")
+    tabulate_print(l_faktura_dicts, "faktura", "final")
+    tabulate_print(l_grupp_bokning_dicts, "grupp_bokning", "final")
+    tabulate_print(l_middag_dicts, "middag", "final")
+    tabulate_print(l_forsaljning_dicts, "forsaljning", "final")
+    tabulate_print(l_bokning_dicts, "bokning", "final")
     #endregion
 
     #region create strings with all the sql queries for write to file!

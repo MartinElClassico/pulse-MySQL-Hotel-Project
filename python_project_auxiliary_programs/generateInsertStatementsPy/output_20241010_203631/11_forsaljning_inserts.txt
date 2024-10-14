@@ -1,5 +1,0 @@
-INSERT INTO forsaljning ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum') VALUES (15, 5, 1, 177.2, 2024-10-17 00:00:00);
-INSERT INTO forsaljning ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum') VALUES (20, 4, 4, 461.93, 2024-10-13 00:00:00);
-INSERT INTO forsaljning ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum') VALUES (9, 5, 17, 328.18, 2024-11-04 00:00:00);
-INSERT INTO forsaljning ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum') VALUES (18, 2, 18, 290.06, 2024-10-11 00:00:00);
-INSERT INTO forsaljning ('rum_id', 'personal_id', 'faktura_id', 'summa', 'datum') VALUES (11, 1, 7, 473.17, 2024-10-21 00:00:00);

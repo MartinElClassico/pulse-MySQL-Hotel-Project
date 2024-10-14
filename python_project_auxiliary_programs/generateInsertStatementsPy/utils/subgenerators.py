@@ -101,16 +101,16 @@ def _random_date(start: datetime, end: datetime) -> datetime:
 def _validate_dates(erbjudande: Dict, pris: Dict, bokning: Dict, middag: Dict) -> bool:
     """Ensure generated dates are valid according to your rules."""
     # Check the offer period
-    if not (erbjudande['start'] <= bokning['booking_date'] <= erbjudande['slut']):
+    if not (erbjudande['start_datum'] <= bokning['bokning_datum'] <= erbjudande['slut_datum']):
         return False
     # Check the price period
-    if not (pris['start'] <= bokning['booking_date'] < pris['slut']):
+    if not (pris['start_datum'] <= bokning['bokning_datum'] < pris['slut_datum']):
         return False
     # Check booking and check-in/out dates
-    if not (bokning['booking_date'] <= bokning['checkin_date'] < bokning['checkout_date']):
+    if not (bokning['bokning_datum'] <= bokning['datum_incheck'] < bokning['datum_utcheck']):
         return False
     # Check if the dinner date is within the check-in and check-out dates
-    if not (bokning['checkin_date'] <= middag['datum'] <= bokning['checkout_date']):
+    if not (bokning['datum_incheck'] <= middag['datum'] <= bokning['datum_utcheck']):
         return False
     
     return True
@@ -129,7 +129,7 @@ def update_date_range(
     
     1. Erbjudande_t-start <= bokning_t-bookingDate <= erbjudande_t-slut
     2. Pris_t-start <= bokning_t-bookingDate < pris_t-slut
-    3. Bokning_t-booking_date <= bokning_t-checkin_date < bokning_t-checkout_date
+    3. Bokning_t-bokning_datum <= bokning_t-checkin_date < bokning_t-checkout_date
     4. Bokning_t-checkin_date <= middag_t-datum <= bokning_t-checkout_date
     """
     # Iterate over the lists safely, ensuring that shorter lists do not cause index errors
@@ -143,17 +143,17 @@ def update_date_range(
         # Keep generating valid dates until all conditions are satisfied
         while True:
             # Generate random dates within the valid range
-            erbjudande['start'] = _random_date(lower_limit, upper_limit)
-            erbjudande['slut'] = _random_date(erbjudande['start'], upper_limit)
+            erbjudande['start_datum'] = _random_date(lower_limit, upper_limit)
+            erbjudande['slut_datum'] = _random_date(erbjudande['start_datum'], upper_limit)
             
-            pris['start'] = _random_date(lower_limit, upper_limit)
-            pris['slut'] = _random_date(pris['start'], upper_limit)
+            pris['start_datum'] = _random_date(lower_limit, upper_limit)
+            pris['slut_datum'] = _random_date(pris['start_datum'], upper_limit)
             
-            bokning['booking_date'] = _random_date(lower_limit, upper_limit)
-            bokning['checkin_date'] = _random_date(bokning['booking_date'], upper_limit)
-            bokning['checkout_date'] = _random_date(bokning['checkin_date'], upper_limit)
+            bokning['bokning_datum'] = _random_date(lower_limit, upper_limit)
+            bokning['datum_incheck'] = _random_date(bokning['bokning_datum'], upper_limit)
+            bokning['datum_utcheck'] = _random_date(bokning['datum_incheck'], upper_limit)
             
-            middag['datum'] = _random_date(bokning['checkin_date'], bokning['checkout_date'])
+            middag['datum'] = _random_date(bokning['datum_incheck'], bokning['datum_utcheck'])
             
             # Validate the generated dates
             if _validate_dates(erbjudande, pris, bokning, middag):
@@ -169,7 +169,21 @@ def update_date_range(
         if i < len(l_middag_dict):
             l_middag_dict[i] = middag
 
+def change_key_name_in_l(dict_l: List[Dict], old_key_n: str, new_key_n: str) -> None:
+    for my_dict in dict_l:
+        my_dict[new_key_n] = my_dict.pop(old_key_n)
+
 #endregion 
+
+def conv_timestamp2datetime_l(l_x_dict: List[Dict], key_name: str) -> None:
+    for dict in l_x_dict:
+        print("DATATYPE IS:\t" + str(type(dict[key_name])))
+        dict[key_name] = dict[key_name].replace(microsecond=0)
+
+def conv_timestamp2date_l(l_x_dict: List[Dict], key_name: str) -> None:
+    for dict in l_x_dict:
+        dict[key_name] = dict[key_name].date()
+
 
 def name_surname_generator() -> tuple[str, str]:
     name = random.choice(_names)  # First names
