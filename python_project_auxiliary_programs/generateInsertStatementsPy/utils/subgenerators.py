@@ -177,7 +177,6 @@ def change_key_name_in_l(dict_l: List[Dict], old_key_n: str, new_key_n: str) -> 
 
 def conv_timestamp2datetime_l(l_x_dict: List[Dict], key_name: str) -> None:
     for dict in l_x_dict:
-        print("DATATYPE IS:\t" + str(type(dict[key_name])))
         dict[key_name] = dict[key_name].replace(microsecond=0)
 
 def conv_timestamp2date_l(l_x_dict: List[Dict], key_name: str) -> None:
