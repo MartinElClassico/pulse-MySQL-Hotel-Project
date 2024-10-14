@@ -1,18 +1,9 @@
 #region import statements
 import random
 import math
-#import 3rd party module to visualize tables:
-    #firsly you need to install tabulate via pip, if you dont have pip you need to install that first.
-    #install tabulate: 
-    #      pip install tabulate
-    #import tabulate: 
-    #      from tabulate import tabulate
-    # Print using tabulate
-    #       print(tabulate(l_rum_typ_dicts, headers="keys"))
-from tabulate import tabulate
 # import our own modules from utils child directory.
 from utils import dict_to_sql_insert_str
-from utils import name_surname_generator, generate_checked_in_or_out, generate_random_timestamp, generate_random_decimal_pricesum
+from utils import name_surname_generator, generate_checked_in_or_out, generate_random_timestamp, generate_random_decimal_pricesum, tabulate_print
 from utils import write_to_file, generate_random_date, generate_offer_startend_dates, price_intervalls_per_room_type, generate_checkin_checkout_dates
 #endregion
 
@@ -232,6 +223,7 @@ def generate_forsaljning_dict(p_id):
     return forsaljning_dict
 
 # foreign keys used: rum_ids, kund_ids, huvud_gast_ids, personal_ids, grupp_bokning_ids
+# FIXME: bokning_datum kan vara i framtiden relativt checkin_date, känns inte rätt
 def generate_bokning_dict(p_id):
     checkin_date, checkout_date = generate_checkin_checkout_dates()  # Get random dates
     grupp_bokning_assigned_value = value_for_grupp_bokning_reference(random.choice(grupp_bokning_ids))  # Returns null or fk_grupp_bokning
@@ -247,7 +239,7 @@ def generate_bokning_dict(p_id):
         'faktura_id': "NULL",  # FIXME: Placeholder for faktura ID, fixed later, either ID or NULL, is NULL when group id has ID.
         'datum_incheck': checkin_date,  # Randomized check-in date
         'datum_utcheck': checkout_date,  # Randomized check-out date
-        'booking_datum': bokning_timestamp,  # Booking date, randomly generated
+        'bokning_datum': bokning_timestamp,  # Booking date, randomly generated
         'antal_gaster': random.randint(1, 4)  # Number of guests
     }
     return bokning_dict
@@ -313,29 +305,29 @@ def main():
     #region Generate all the dictionaries and tabulate the results to visualize them:
 
     l_rum_typ_dicts = [generate_rum_typ_dict(rum_typ_ids[i]) for i in range(rum_typ_n)]
-    print(tabulate(l_rum_typ_dicts, headers="keys"))
+    tabulate_print(l_rum_typ_dicts, "rum_typ", "pre_processing")
     l_erbjudande_dicts = [generate_erbjudande_dict(erbjudande_ids[i]) for i in range(erbjudande_n)]
-    print(tabulate(l_erbjudande_dicts, headers="keys"))
+    tabulate_print(l_erbjudande_dicts, "erbjudande", "pre_processing")
     l_personal_dicts = [generate_personal_dict(personal_ids[i]) for i in range(personal_n)]
-    print(tabulate(l_personal_dicts, headers="keys"))
+    tabulate_print(l_personal_dicts, "personal", "pre_processing")
     l_huvud_gast_dicts = [generate_huvud_gast_dict(huvud_gast_ids[i]) for i in range(huvud_gast_n)]
-    print(tabulate(l_huvud_gast_dicts, headers="keys"))
+    tabulate_print(l_huvud_gast_dicts, "huvud_gast", "pre_processing")
     l_kund_dicts = [generate_kund_dict(kund_ids[i]) for i in range(kund_n)]
-    print(tabulate(l_kund_dicts, headers="keys"))
+    tabulate_print(l_kund_dicts, "kund", "pre_processing")
     l_rum_pris_dicts = [generate_rum_pris_dict(rum_pris_ids[i]) for i in range(rum_pris_n)]
-    print(tabulate(l_rum_pris_dicts, headers="keys"))
+    tabulate_print(l_rum_pris_dicts, "rum_pris_typ", "pre_processing")
     l_rum_dicts  = [generate_rum_dict(rum_ids[i]) for i in range(rum_n)]
-    print(tabulate(l_rum_dicts, headers="keys"))
+    tabulate_print(l_rum_dicts, "rum", "pre_processing")
     l_faktura_dicts = [generate_faktura_dict(faktura_ids[i]) for i in range(faktura_n)]
-    print(tabulate(l_faktura_dicts, headers="keys"))
+    tabulate_print(l_faktura_dicts, "faktura", "pre_processing")
     l_grupp_bokning_dicts = [generate_grupp_bokning_dict(grupp_bokning_ids[i]) for i in range(grupp_bokning_n)]
-    print(tabulate(l_grupp_bokning_dicts, headers="keys"))
+    tabulate_print(l_grupp_bokning_dicts, "grupp_bokning", "pre_processing")
     l_middag_dicts = [generate_middag_dict(middag_ids[i]) for i in range(middag_n)]
-    print(tabulate(l_middag_dicts, headers="keys"))
+    tabulate_print(l_middag_dicts, "middag", "pre_processing")
     l_forsaljning_dicts = [generate_forsaljning_dict(forsaljning_ids[i]) for i in range(forsaljning_n)]
-    print(tabulate(l_forsaljning_dicts, headers="keys"))
+    tabulate_print(l_forsaljning_dicts, "forsaljning", "pre_processing")
     l_bokning_dicts = [generate_bokning_dict(bokning_ids[i]) for i in range(booking_n)]
-    print(tabulate(l_bokning_dicts, headers="keys"))
+    tabulate_print(l_bokning_dicts, "bokning", "pre_processing")
     #endregion
 
     #region TODO: update dictionaries with values:
