@@ -1,4 +1,5 @@
 # utils/dict2SQLInputStr.py
+from datetime import date
 
 # converts dictionary into a string that corresponds to an SQL INSERT INTO statement
 def dict_to_sql_insert_str(table_name, sql_dict, auto_gen_key):
@@ -17,12 +18,14 @@ def dict_to_sql_insert_str(table_name, sql_dict, auto_gen_key):
 def _formatValues(dict_values, field: bool):
     l_sql_values = []
     for value in dict_values:
-        #if string type then make it so that SQL also sees it as string, otherwise just cast to string.
+        #if string type then make it so that SQL also sees it as string, otherwise just cast to string.       
         if isinstance(value, str):
             if field:
                  l_sql_values.append(value)
             else:
                 l_sql_values.append("'" + value + "'")
+        if isinstance(value, date):
+            l_sql_values.append("'" + str(value) + "'")
         else:
             l_sql_values.append(str(value))
     return l_sql_values
