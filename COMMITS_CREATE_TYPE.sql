@@ -64,7 +64,7 @@ CREATE TABLE rum(
 CREATE TABLE grupp_bokning(
     grupp_bokning_id INT PRIMARY KEY AUTO_INCREMENT,
     personal_id INT NOT NULL,
-    CONSTRAINT grupp_bokning_fk_personal FOREIGN KEY (personal_id) REFERENCES personal(personal_id),
+    CONSTRAINT grupp_bokning_fk_personal FOREIGN KEY (personal_id) REFERENCES personal(personal_id)
 );
 -- @block
 CREATE TABLE faktura(
