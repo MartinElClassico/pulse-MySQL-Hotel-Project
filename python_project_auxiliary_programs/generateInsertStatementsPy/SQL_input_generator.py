@@ -230,7 +230,7 @@ def main():
     rum_pris_n = numberOfRooms # same as number of rooms.
     rum_n = numberOfRooms # same as number of rooms.
     faktura_n = numberOfRooms # same as number of rooms.
-    #grupp_bokning_n = grupp_boking_n  # has different amount, see global value at start. # TODO: move globals to here.
+    #grupp_bokning_n = grupp_boking_n  # has different amount, see global value at start. 
     middag_n = grupp_bokning_n*2 # we thinks it's resonable that every group has two dinners. 
     forsaljning_n = math.floor(numberOfRooms/4) # 25 % of number of rooms: only 25% of guests buy stuff and put on room bill.
     booking_n = numberOfRooms # same as number of rooms.

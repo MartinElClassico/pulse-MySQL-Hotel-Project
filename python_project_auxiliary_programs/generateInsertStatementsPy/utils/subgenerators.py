@@ -88,6 +88,17 @@ def update_faktura_for_erbjudande_id(l_faktura_dicts: List[Dict], fakt_w_erb_n: 
                 faktura['erbjudande_id'] = 'NULL'
                 count_erbjudande += 1
 
+def update_date_range(l_erbjudande_dict, l_bokning_dict, l_pris_dict, l_middag_dict):
+    """Order of dates from oldest to newest
+        Erbjudande_t-start <= bokning_t-bookingDate <= erbjudande_t-slut
+
+        Pris_t-start <= bokning_t- bokningDate < pris_t-slut
+
+        Bokning_t-Booking_date <= bokning_t-checkin_date < bokning_t-checkout_date
+
+        bokning_t-checkin_date <= middag_date <= bokning_t-checkout_date"""
+    pass
+
 def name_surname_generator() -> tuple[str, str]:
     name = random.choice(_names)  # First names
     surname = random.choice(_surnames)  # Last names
