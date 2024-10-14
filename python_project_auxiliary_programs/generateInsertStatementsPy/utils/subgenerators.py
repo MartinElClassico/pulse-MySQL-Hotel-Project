@@ -87,17 +87,89 @@ def update_faktura_for_erbjudande_id(l_faktura_dicts: List[Dict], fakt_w_erb_n: 
             faktura['faktura_id'] == random_f_id):
                 faktura['erbjudande_id'] = 'NULL'
                 count_erbjudande += 1
+                
+#region check dates and make sure they're right:
 
-def update_date_range(l_erbjudande_dict, l_bokning_dict, l_pris_dict, l_middag_dict):
-    """Order of dates from oldest to newest
-        Erbjudande_t-start <= bokning_t-bookingDate <= erbjudande_t-slut
+# Helper function to generate a random datetime within a given range
+def _random_date(start: datetime, end: datetime) -> datetime:
+    """Generate a random datetime between `start` and `end`."""
+    time_delta = end - start
+    random_seconds = random.randint(0, int(time_delta.total_seconds()))
+    return start + timedelta(seconds=random_seconds)
 
-        Pris_t-start <= bokning_t- bokningDate < pris_t-slut
+# Validation function to ensure generated dates follow the rules
+def _validate_dates(erbjudande: Dict, pris: Dict, bokning: Dict, middag: Dict) -> bool:
+    """Ensure generated dates are valid according to your rules."""
+    # Check the offer period
+    if not (erbjudande['start'] <= bokning['booking_date'] <= erbjudande['slut']):
+        return False
+    # Check the price period
+    if not (pris['start'] <= bokning['booking_date'] < pris['slut']):
+        return False
+    # Check booking and check-in/out dates
+    if not (bokning['booking_date'] <= bokning['checkin_date'] < bokning['checkout_date']):
+        return False
+    # Check if the dinner date is within the check-in and check-out dates
+    if not (bokning['checkin_date'] <= middag['datum'] <= bokning['checkout_date']):
+        return False
+    
+    return True
 
-        Bokning_t-Booking_date <= bokning_t-checkin_date < bokning_t-checkout_date
+# Function to update date ranges for lists of dictionaries
+def update_date_range(
+    lower_limit: datetime, 
+    upper_limit: datetime, 
+    l_erbjudande_dict: List[Dict], 
+    l_bokning_dict: List[Dict], 
+    l_pris_dict: List[Dict], 
+    l_middag_dict: List[Dict]
+) -> None:
+    """
+    Updates the dates for the lists of dictionaries according to the specified rules:
+    
+    1. Erbjudande_t-start <= bokning_t-bookingDate <= erbjudande_t-slut
+    2. Pris_t-start <= bokning_t-bookingDate < pris_t-slut
+    3. Bokning_t-booking_date <= bokning_t-checkin_date < bokning_t-checkout_date
+    4. Bokning_t-checkin_date <= middag_t-datum <= bokning_t-checkout_date
+    """
+    # Iterate over the lists safely, ensuring that shorter lists do not cause index errors
+    for i in range(max(len(l_erbjudande_dict), len(l_bokning_dict), len(l_pris_dict), len(l_middag_dict))):
+        # Safely get elements from each list, defaulting to empty dictionaries if out of range
+        erbjudande = l_erbjudande_dict[i] if i < len(l_erbjudande_dict) else {}
+        bokning = l_bokning_dict[i] if i < len(l_bokning_dict) else {}
+        pris = l_pris_dict[i] if i < len(l_pris_dict) else {}
+        middag = l_middag_dict[i] if i < len(l_middag_dict) else {}
 
-        bokning_t-checkin_date <= middag_date <= bokning_t-checkout_date"""
-    pass
+        # Keep generating valid dates until all conditions are satisfied
+        while True:
+            # Generate random dates within the valid range
+            erbjudande['start'] = _random_date(lower_limit, upper_limit)
+            erbjudande['slut'] = _random_date(erbjudande['start'], upper_limit)
+            
+            pris['start'] = _random_date(lower_limit, upper_limit)
+            pris['slut'] = _random_date(pris['start'], upper_limit)
+            
+            bokning['booking_date'] = _random_date(lower_limit, upper_limit)
+            bokning['checkin_date'] = _random_date(bokning['booking_date'], upper_limit)
+            bokning['checkout_date'] = _random_date(bokning['checkin_date'], upper_limit)
+            
+            middag['datum'] = _random_date(bokning['checkin_date'], bokning['checkout_date'])
+            
+            # Validate the generated dates
+            if _validate_dates(erbjudande, pris, bokning, middag):
+                break
+
+        # Update the lists with the newly generated dates
+        if i < len(l_erbjudande_dict):
+            l_erbjudande_dict[i] = erbjudande
+        if i < len(l_bokning_dict):
+            l_bokning_dict[i] = bokning
+        if i < len(l_pris_dict):
+            l_pris_dict[i] = pris
+        if i < len(l_middag_dict):
+            l_middag_dict[i] = middag
+
+#endregion 
 
 def name_surname_generator() -> tuple[str, str]:
     name = random.choice(_names)  # First names

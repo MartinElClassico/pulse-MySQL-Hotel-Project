@@ -1,12 +1,14 @@
 #region import statements
 import random
 import math
+from datetime import datetime
 # import our own modules from utils child directory.
 from utils import dict_to_sql_insert_str # converts dictionary to sql formatted string
 from utils import name_surname_generator, generate_checked_in_or_out, generate_random_timestamp, generate_random_decimal_pricesum, tabulate_print
 from utils import write_to_file, generate_random_date, generate_offer_startend_dates, price_intervalls_per_room_type, generate_checkin_checkout_dates
 from utils import update_middag_dict_on_bookings, update_bokning_and_faktura_for_grupp_bokning, update_faktura_for_erbjudande_id
 from utils import value_for_grupp_bokning_reference # old code, should be updated one time...
+from utils import update_date_range
 #endregion
 
 #region global variables
@@ -38,7 +40,8 @@ bokning_ids = []
 boknings_added_per_groupb = [0] * grupp_bokning_n
 
 # a start date so we don't have different ones everywhere:
-g_set_start_date = "2024-10-08"
+g_set_start_date = datetime(2024, 10, 8) # "2024-10-08"
+g_set_end_date = datetime(2025,3,5)
 
 #endregion
 
@@ -304,6 +307,13 @@ def main():
     # update erbjudande_id in faktura so that it will reflect the amount we want:
     update_faktura_for_erbjudande_id(l_faktura_dicts, fakt_w_erb_n)
     tabulate_print(l_faktura_dicts, "faktura", "update_faktura_for_erbjudande_id")
+
+  
+    update_date_range(g_set_start_date, g_set_end_date, l_erbjudande_dicts, l_bokning_dicts, l_rum_pris_dicts, l_middag_dicts)
+    tabulate_print(l_erbjudande_dicts, "erbjudande", "update_date_range")
+    tabulate_print(l_bokning_dicts, "bokning", "update_date_range")
+    tabulate_print(l_rum_pris_dicts, "rum_pris", "update_date_range")
+    tabulate_print(l_middag_dicts, "middag", "update_date_range")
 
     #endregion
 
