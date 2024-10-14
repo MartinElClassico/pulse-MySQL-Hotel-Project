@@ -23,7 +23,11 @@ def _formatValues(dict_values, field: bool):
             if field:
                  l_sql_values.append(value)
             else:
-                l_sql_values.append("'" + value + "'")
+                # reserved keywords should be withing text brackets in SQL
+                if value == 'TRUE' or value == 'FALSE' or value == 'NULL':
+                    l_sql_values.append(value)
+                else:
+                    l_sql_values.append("'" + value + "'")
         elif isinstance(value, date):
             l_sql_values.append("'" + str(value) + "'")
         else:
