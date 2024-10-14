@@ -14,8 +14,8 @@ CREATE TABLE erbjudande(
     erbjudande_id  INT PRIMARY KEY AUTO_INCREMENT,
     prisavdrag DECIMAL(8,2) NOT NULL,
     villkor VARCHAR(255),
-    start TIMESTAMP NOT NULL,
-    slut TIMESTAMP
+    start DATETIME NOT NULL,
+    slut DATETIME
 );
 -- @block
 CREATE TABLE personal(
@@ -45,8 +45,8 @@ CREATE TABLE rum_pris(
     rum_pris_id INT PRIMARY KEY AUTO_INCREMENT,
     rum_typ_id VARCHAR(255) NOT NULL,
     pris_per_natt DECIMAL(8,2) NOT NULL,
-    start TIMESTAMP NOT NULL,
-    slut TIMESTAMP,
+    start DATETIME NOT NULL,
+    slut DATETIME,
     -- eventuellt lägga till var för om priset är aktuellt just nu eller inte
     CONSTRAINT rum_pris_fk_rum_typ FOREIGN KEY (rum_typ_id) REFERENCES rum_typ(rum_typ_id)
 );
@@ -81,7 +81,7 @@ CREATE TABLE middag(
     middag_id INT PRIMARY KEY AUTO_INCREMENT,
     grupp_bokning_id INT NOT NULL,
     antal_personer SMALLINT NOT NULL,
-    datum TIMESTAMP NOT NULL,
+    datum DATETIME NOT NULL,
     CONSTRAINT middag_fk_grupp_bokning FOREIGN KEY (grupp_bokning_id) REFERENCES grupp_bokning(grupp_bokning_id)
 );
 -- @block
@@ -91,7 +91,7 @@ CREATE TABLE forsaljning(
     personal_id INT NOT NULL,
     faktura_id INT NOT NULL,
     summa DECIMAL(8,2) NOT NULL,
-    datum TIMESTAMP NOT NULL,
+    datum DATETIME NOT NULL,
     CONSTRAINT forsaljning_fk_rum FOREIGN KEY (rum_id) REFERENCES rum(rum_id),
     CONSTRAINT forsaljning_fk_personal FOREIGN KEY (personal_id) REFERENCES personal(personal_id),
     CONSTRAINT forsaljning_fk_faktura FOREIGN KEY (faktura_id) REFERENCES faktura(faktura_id)
@@ -108,7 +108,7 @@ CREATE TABLE bokning(
     faktura_id INT, -- note: can be null if there is a "grupp bokning" for said booking and other related bookings.
     incheckning DATE NOT NULL,
     utcheckning DATE NOT NULL,
-    bokning_datum TIMESTAMP NOT NULL,
+    bokning_datum DATETIME NOT NULL,
     antal_gaster SMALLINT NOT NULL,
     CONSTRAINT bokning_fk_rum FOREIGN KEY (rum_id) REFERENCES rum(rum_id),
     CONSTRAINT bokning_fk_kund FOREIGN KEY (kund_id) REFERENCES kund(kund_id),
