@@ -17,5 +17,5 @@ INNER JOIN bokning ON personal.personal_id = bokning.personal_id;
 Relativt enkel select-sats
 *** SQL QUERY:::
 */
-SELECT rum_id FROM rum 
-WHERE status = 'checkat_ut';
+SELECT rum_id, `status`, rum_typ_id  FROM rum 
+WHERE `status` = 'checkat_ut';

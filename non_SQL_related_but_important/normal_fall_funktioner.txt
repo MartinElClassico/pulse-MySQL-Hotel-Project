@@ -106,7 +106,8 @@ Städare:
     Se vilka rum som är utcheckade
         Relativt enkel select-sats
         *** SQL QUERY:::
-        SELECT rum_id FROM rum WHERE status = 'checkat_ut';
+        SELECT rum_id, `status`, rum_typ_id  FROM rum 
+        WHERE `status` = 'checkat_ut';
 
 Från handledare.
 SELECT, UPDATE OCH INSERT SKA VARA MED.
