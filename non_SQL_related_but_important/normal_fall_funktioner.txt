@@ -3,7 +3,16 @@ Hotelldirektör:
         - viz. hitta mejl addresser till kunder, med namn och dylikt
         - viz. hitta/skapa erbjudanden. 
     Lägga in erbjudandens giltighetstid
+        ** enkel
         - viz. update
+    *** SQL::::
+        update erbjudande 
+        SET start = {startdatum}, slut = {startdatum}
+        WHERE erbjudande_id = {X}
+        ** EXAMPLE QUERY:
+                update erbjudande 
+                SET start = '2024-10-15 00:00:00', slut = '2024-11-15 23:59:59'
+                WHERE erbjudande_id = 1
     Statistik på vilken typ av rum som är attraktiva en viss period
         - först definera perioden <- input
         - bokning: lista över incheckning som faller inom denna tidsram.
@@ -12,7 +21,17 @@ Hotelldirektör:
     Se när det är middag bokad och för hur många personer 
         - SELECT X, y from middag. (order by date)
     Uppdatera hur många personer som ska äta
-        - update statement 
+        ** enkel
+        - update statement
+        *** SQL::::
+        update middag
+        SET antal_personer = {X}
+        WHERE middag_id = {Y}
+        ** EXAMPLE QUERY:
+        -- usecase example: en person har blivit sjuk och ska inte vara med på middagen men sova i rummet.
+        update middag
+        SET antal_personer = antal_personer - 1
+        WHERE middag_id = 1
 
 
 Receptionist:
@@ -35,6 +54,7 @@ Receptionist:
         göra fina ritningen. 
     Boka middag för grupp
         *** relativt enkel *** 
+        gå via gruppbokning till middag, lägg in nytt objekt i middag och uppdatera fältet för foreign key till den gruppbokningen det gäller.
     Se aktuella priser och erbjudanden: för att få reda på bokningskostad för kund.
         Kolla pris för visst typ av rum. 
         eventuella erbjudanden som är aktuella för sagt rum. 

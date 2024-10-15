@@ -25,3 +25,40 @@ ADD COLUMN status ENUM('checkat_in', 'checkat_ut', 'städas', 'underhållsarbeta
 -- TODO:
 -- note do not have testdate created for this yet! 
 -- endregion
+
+-- region
+/* 
+Lägga in erbjudandens giltighetstid
+        ** enkel
+        - viz. update
+*/
+update erbjudande 
+SET start = '2024-10-15 00:00:00', slut = '2024-11-15 23:59:59'
+WHERE erbjudande_id = 1
+
+-- endregion
+
+-- region
+/* 
+ Uppdatera hur många personer som ska äta
+        ** enkel
+        - update statement        
+*/
+-- usecase example: en person har blivit sjuk och ska inte vara med på middagen men sova i rummet.
+update middag
+SET antal_personer = antal_personer - 1
+WHERE middag_id = 1
+
+-- endregion
+
+-- region
+/* 
+XXXX
+        ** enkel
+        - viz. update
+*/
+update erbjudande 
+SET start = '2024-10-15 00:00:00', slut = '2024-11-15 23:59:59'
+WHERE erbjudande_id = 1
+
+-- endregion
