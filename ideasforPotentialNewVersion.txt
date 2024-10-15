@@ -1,0 +1,3 @@
+istället för att ha checked_in och checked_out ha enbart antingen checked_in eller eventuellt "status".
+Fördel med status är att kunna ha en lista över händelser som påverkar rummet, exempelvis: 
+    status ENUM('checkat_in', 'checkat_ut', 'städas', 'underhållsarbetas')
