@@ -10,3 +10,13 @@ i nutid: är den: pågående eller betald (avslutad)
 i dåtid: betald eller obetald (liggande)
 i framtid: kommande.
     status ENUM('pagaende', 'betald', 'obetald', 'kommande')
+
+
+>> rum
+lägga till beskrivningar för rum, iaf våningsplan kanske?
+OBS: motivera i rapporten att rum_id är samma som står på dörren, och inte det...
+... så behöver vi lägga till et fält för detta, tex "rum_nmr".
+
+>> rum & faktura
+ändra namn från "status" till något annat som inte är reserverat, i annat fall
+måste vi referera till status med `status`

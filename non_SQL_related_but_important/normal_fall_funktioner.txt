@@ -2,7 +2,9 @@ Hotelldirektör:
     Skicka erbjudanden via mejl
         - viz. hitta mejl addresser till kunder, med namn och dylikt
         - viz. hitta/skapa erbjudanden. 
-    Lägga in erbjudandens giltighetstid
+
+
+    [D]Lägga in erbjudandens giltighetstid
         ** enkel
         - viz. update
     *** SQL::::
@@ -13,17 +15,23 @@ Hotelldirektör:
                 update erbjudande 
                 SET start = '2024-10-15 00:00:00', slut = '2024-11-15 23:59:59'
                 WHERE erbjudande_id = 1
+    
+
     Statistik på vilken typ av rum som är attraktiva en viss period
         - först definera perioden <- input
         - bokning: lista över incheckning som faller inom denna tidsram.
         -> ta fram rum därifrån.
         -> från rum hitta rumtyp, räkna  (count) antal av varje rumtyp. 
-    Se när det är middag bokad och för hur många personer 
+
+
+    [D]Se när det är middag bokad och för hur många personer 
         - SELECT X, y from middag. (order by date)
         ** EXAMPLE QUERY:
         SELECT datum, antal_personer, grupp_bokning_id FROM middag 
         ORDER BY datum;
-    Uppdatera hur många personer som ska äta
+
+
+    [D]Uppdatera hur många personer som ska äta
         ** enkel
         - update statement
         *** SQL::::
@@ -35,6 +43,8 @@ Hotelldirektör:
         update middag
         SET antal_personer = antal_personer - 1
         WHERE middag_id = 1
+
+
 
 
 Receptionist:
@@ -55,11 +65,15 @@ Receptionist:
                 *** tänk på ordningen av operationer här: vilken tabell i vilken ordning? "Insert order per build1.txt"
     Boka rum för grupp <<<<
         göra fina ritningen. 
-    Boka middag för grupp
+
+
+    [D]Boka middag för grupp
         *** relativt enkel *** 
         gå via gruppbokning till middag, lägg in nytt objekt i middag och uppdatera fältet för foreign key till den gruppbokningen det gäller.
         ** EXAMPLE QUERY:
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES (1, 8, '2025-01-20 18:00:00');
+    
+    
     Se aktuella priser och erbjudanden: för att få reda på bokningskostad för kund.
         Kolla pris för visst typ av rum. 
         eventuella erbjudanden som är aktuella för sagt rum. 
@@ -87,12 +101,16 @@ Receptionist:
     Se om gäst checkat ut
         Gå från huvud_gast -> bokning -> rum
             Kontrollera om checkat_ut == TRUE
-    Se vem i personalen som gjort bokning 
+
+
+    [D]Se vem i personalen som gjort bokning 
         Selectsats med sökning i bokning samt personal
         *** SQL QUERY:::
             SELECT personal.fornamn, personal.efternamn, bokning.bokning_id, personal.personal_id
             FROM personal
             INNER JOIN bokning ON personal.personal_id = bokning.personal_id;
+
+    
     Ändra datum i bokningar
         Updatesats i bokning.incheck och/eller bokning.utcheck
     Skriva ut räkning för bokningar / gruppbokningar
