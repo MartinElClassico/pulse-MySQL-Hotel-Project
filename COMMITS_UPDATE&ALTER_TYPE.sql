@@ -5,16 +5,16 @@ ADD COLUMN status ENUM('checkat_in', 'checkat_ut', 'städas', 'underhållsarbeta
 
 UPDATE rum
 SET status = CASE
-    WHEN checked_in = TRUE THEN 'checkat_in'
-    WHEN checked_out = TRUE THEN 'checkat_ut'
+    WHEN checkat_in = TRUE THEN 'checkat_in'
+    WHEN checkat_ut = TRUE THEN 'checkat_ut'
     -- Add any other conditions if needed
     ELSE status  -- To handle cases where neither is set
 END;
 -- endregion
 
 ALTER TABLE rum
-DROP COLUMN checked_in,
-DROP COLUMN checked_out;
+DROP COLUMN checkat_in,
+DROP COLUMN checkat_ut;
 -- endregion
 
 -- region 
