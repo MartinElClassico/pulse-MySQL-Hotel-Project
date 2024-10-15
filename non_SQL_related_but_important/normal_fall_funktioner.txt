@@ -41,16 +41,33 @@ Receptionist:
         ** motivera i rapport varför vi ej substraherar här. Ta med vilkoren i rapporten och hur vi tänkt där.
         --> lista med pris för rummet samt aktuella erbjudanden (med villkoren). 
     Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
-        
+        Gå via bokning till faktura -> Kolla om det finns erbjudande i faktura
+        Kontrollera bokningsdatum
+            Söka i rum_pris efter det pris för rumtypen som var aktuellt när bokningen gjordes, derived value som utgår ifrån:
+                -> rum_pris.start -> rum_pris.slut 
+            ** På samma sätt som vi söker efter ledigt rum
     Checka in (huvud)gäster
+        ** Kan ske både med gästens namn / telefonnummer och med boknings-id
+        Söka fram rummet som hör till bokningen 
+            -> Kontrollera att rummet är utcheckat
+            -> Uppdatera checked_in till TRUE  (och checked_out till FALSE) 
     Checka ut (huvud)gäster
+        ** Kan ske både med gästens namn / telefonnummer och med boknings-id
+        Söka fram rummet som hör till bokningen 
+            -> Kontrollera att rummet är incheckat
+            -> Uppdatera checked_in till FALSE  (och checked_out till TRUE) 
     Se om gäst checkat in
+        Gå från huvud_gast -> bokning -> rum
+            Kontrollera om checkat_in == TRUE
     Se om gäst checkat ut
-    Se vem i personalen som gjort bokning / incheckning / utcheckning
+        Gå från huvud_gast -> bokning -> rum
+            Kontrollera om checkat_ut == TRUE
+    Se vem i personalen som gjort bokning 
+        Selectsats med sökning i bokning samt personal
     Ändra datum i bokningar
+        Updatesats i bokning.incheck och/eller bokning.utcheck
     Skriva ut räkning för bokningar
     Skriva ut räkning för gruppbokningar
-    
 
 
 Städare:
