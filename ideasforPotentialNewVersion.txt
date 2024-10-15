@@ -1,3 +1,12 @@
+>>rum
 istället för att ha checked_in och checked_out ha enbart antingen checked_in eller eventuellt "status".
 Fördel med status är att kunna ha en lista över händelser som påverkar rummet, exempelvis: 
     status ENUM('checkat_in', 'checkat_ut', 'städas', 'underhållsarbetas')
+
+>>faktura
+lägga in status för faktura dvs om den exempelvis är: pågående, betald, obetald, kommande.
+för att se om fakturan är aktuell eller inte:
+i nutid: är den: pågående eller betald (avslutad)
+i dåtid: betald eller obetald (liggande)
+i framtid: kommande.
+    status ENUM('pagaende', 'betald', 'obetald', 'kommande')
