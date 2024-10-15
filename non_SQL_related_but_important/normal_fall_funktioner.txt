@@ -20,6 +20,9 @@ Hotelldirektör:
         -> från rum hitta rumtyp, räkna  (count) antal av varje rumtyp. 
     Se när det är middag bokad och för hur många personer 
         - SELECT X, y from middag. (order by date)
+        ** EXAMPLE QUERY:
+        SELECT datum, antal_personer, grupp_bokning_id FROM middag 
+        ORDER BY datum;
     Uppdatera hur många personer som ska äta
         ** enkel
         - update statement
@@ -55,6 +58,8 @@ Receptionist:
     Boka middag för grupp
         *** relativt enkel *** 
         gå via gruppbokning till middag, lägg in nytt objekt i middag och uppdatera fältet för foreign key till den gruppbokningen det gäller.
+        ** EXAMPLE QUERY:
+        INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES (1, 8, '2025-01-20 18:00:00');
     Se aktuella priser och erbjudanden: för att få reda på bokningskostad för kund.
         Kolla pris för visst typ av rum. 
         eventuella erbjudanden som är aktuella för sagt rum. 
