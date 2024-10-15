@@ -10,6 +10,7 @@ SET status = CASE
     -- Add any other conditions if needed
     ELSE status  -- To handle cases where neither is set
 END;
+--endregion
 
 ALTER TABLE rum
 DROP COLUMN checked_in,
@@ -24,3 +25,4 @@ ALTER TABLE faktura
 ADD COLUMN status ENUM('checkat_in', 'checkat_ut', 'städas', 'underhållsarbetas')
 --TODO:
 -- note do not have testdate created for this yet! 
+--endregion
