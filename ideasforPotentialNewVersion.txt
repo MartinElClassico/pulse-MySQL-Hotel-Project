@@ -20,3 +20,6 @@ OBS: motivera i rapporten att rum_id är samma som står på dörren, och inte d
 >> rum & faktura
 ändra namn från "status" till något annat som inte är reserverat, i annat fall
 måste vi referera till status med `status`
+
+>> rum
+Lägga till status som motsvarar "pending" ser konstigt ut när en kund "checkat_ut" när de inte ens varit på plats...

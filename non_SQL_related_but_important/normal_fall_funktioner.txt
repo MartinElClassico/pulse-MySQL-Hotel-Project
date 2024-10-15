@@ -100,16 +100,23 @@ Receptionist:
         Söka fram rummet som hör till bokningen 
             -> Kontrollera att rummet är incheckat
             -> Uppdatera checked_in till FALSE  (och checked_out till TRUE) 
-    Se om gäst checkat in
+    [D]Se om gäst checkat in
         Gå från huvud_gast -> bokning -> rum
             - Sök upp huvud_gast_id från gästens namn
             - Hitta bokning-ID som har den huvudgästen
             - Sortera ut den bokningen som gäller just nu
             - Gå till rum som är kopplat till bokningen
             - Kontrollera status på rummet
-    Se om gäst checkat ut
+            SELECT hg.fornamn, hg.efternamn, r.status, b.incheckning, b.utcheckning
+            FROM huvud_gast hg
+            INNER JOIN bokning b ON hg.huvud_gast_id = b.huvud_gast_id
+            INNER JOIN rum r ON b.rum_id = r.rum_id
+            WHERE b.incheckning <= CURDATE() AND b.utcheckning >= CURDATE() -- testdata behövs för nutid och dåtid, inte bara framtid >.<
+            AND hg.fornamn = "Roger" AND hg.efternamn = "Skog"
+            -- AND r.status = "checkat_ut" -- kom ihåg till rapporten att motivera varför detta inte är med!
+    [D]Se om gäst checkat ut
         Gå från huvud_gast -> bokning -> rum
-            Kontrollera om checkat_ut == TRUE
+            SE OVAN!!
 
 
     [D]Se vem i personalen som gjort bokning 
