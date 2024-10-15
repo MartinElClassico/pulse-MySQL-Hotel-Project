@@ -66,13 +66,13 @@ Receptionist:
         Selectsats med sökning i bokning samt personal
     Ändra datum i bokningar
         Updatesats i bokning.incheck och/eller bokning.utcheck
-    Skriva ut räkning för bokningar
-    Skriva ut räkning för gruppbokningar
-
+    Skriva ut räkning för bokningar / gruppbokningar
+        Räkna ut totalpris per kund för specifik bokning / gruppbokning
+        Betalnings-spec/kvitto?
 
 Städare:
     Se vilka rum som är utcheckade
-    ev. se vilka rum som utcheckade.
+        Relativt enkel select-sats
 
 Från handledare.
 SELECT, UPDATE OCH INSERT SKA VARA MED.
