@@ -111,7 +111,7 @@ Receptionist:
             INNER JOIN bokning ON personal.personal_id = bokning.personal_id;
 
     
-    Ändra datum i bokningar
+    [D] Ändra datum i bokningar
         Updatesats i bokning.incheck och/eller bokning.utcheck
         *** SQL QUERY:::
             UPDATE bokning SET incheckning = '2024-12-01', utcheckning = '2024-12-15'
@@ -121,7 +121,7 @@ Receptionist:
         Betalnings-spec/kvitto?
 
 Städare:
-    Se vilka rum som är utcheckade
+    [D] Se vilka rum som är utcheckade
         Relativt enkel select-sats
         *** SQL QUERY:::
         SELECT rum_id, `status`, rum_typ_id  FROM rum 
