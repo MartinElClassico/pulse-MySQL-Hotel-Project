@@ -1,8 +1,13 @@
 Hotelldirektör:
-    Skicka erbjudanden via mejl
+    [D]Skicka erbjudanden via mejl ("skicka erbjudanden till tidigare kunder")
         - viz. hitta mejl addresser till kunder, med namn och dylikt
-        - viz. hitta/skapa erbjudanden. 
-
+        - viz. hitta erbjudanden. 
+    -- hitta vad som är relevant i kund.
+    select mejl_address, fornamn, efternamn from kund;
+    -- alla nutida och framtida erbjudanden.
+    select * from erbjudande WHERE now() < slut;
+    -- alla aktuella erbjudanden just nu.
+    select * from erbjudande WHERE now() < slut AND now() > `start`;
 
     [D]Lägga in erbjudandens giltighetstid
         ** enkel
