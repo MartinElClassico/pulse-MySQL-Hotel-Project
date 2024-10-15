@@ -102,7 +102,11 @@ Receptionist:
             -> Uppdatera checked_in till FALSE  (och checked_out till TRUE) 
     Se om gäst checkat in
         Gå från huvud_gast -> bokning -> rum
-            Kontrollera om checkat_in == TRUE
+            - Sök upp huvud_gast_id från gästens namn
+            - Hitta bokning-ID som har den huvudgästen
+            - Sortera ut den bokningen som gäller just nu
+            - Gå till rum som är kopplat till bokningen
+            - Kontrollera status på rummet
     Se om gäst checkat ut
         Gå från huvud_gast -> bokning -> rum
             Kontrollera om checkat_ut == TRUE
