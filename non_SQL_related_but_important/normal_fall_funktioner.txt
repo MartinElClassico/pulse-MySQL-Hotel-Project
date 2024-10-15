@@ -89,6 +89,10 @@ Receptionist:
             Kontrollera om checkat_ut == TRUE
     Se vem i personalen som gjort bokning 
         Selectsats med sökning i bokning samt personal
+        *** SQL QUERY:::
+            SELECT personal.fornamn, personal.efternamn, bokning.bokning_id, personal.personal_id
+            FROM personal
+            INNER JOIN bokning ON personal.personal_id = bokning.personal_id;
     Ändra datum i bokningar
         Updatesats i bokning.incheck och/eller bokning.utcheck
     Skriva ut räkning för bokningar / gruppbokningar
