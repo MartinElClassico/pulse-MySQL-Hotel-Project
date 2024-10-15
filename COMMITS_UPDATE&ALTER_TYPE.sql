@@ -10,7 +10,6 @@ SET status = CASE
     -- Add any other conditions if needed
     ELSE status  -- To handle cases where neither is set
 END;
--- endregion
 
 ALTER TABLE rum
 DROP COLUMN checkat_in,
