@@ -52,13 +52,11 @@ WHERE middag_id = 1
 -- endregion
 
 -- region
-/* 
-XXXX
-        ** enkel
-        - viz. update
+/*Ändra datum i bokningar
+Updatesats i bokning.incheck och/eller bokning.utcheck
+*** SQL QUERY:::
 */
-update erbjudande 
-SET start = '2024-10-15 00:00:00', slut = '2024-11-15 23:59:59'
-WHERE erbjudande_id = 1
+UPDATE bokning SET incheckning = '2024-12-01', utcheckning = '2024-12-15'
+WHERE bokning_id = 1;
 
 -- endregion
