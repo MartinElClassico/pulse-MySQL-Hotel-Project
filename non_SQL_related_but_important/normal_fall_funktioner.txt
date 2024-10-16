@@ -129,7 +129,7 @@ Receptionist:
             Söka i rum_pris efter det pris för rumtypen som var aktuellt när bokningen gjordes, derived value som utgår ifrån:
                 -> rum_pris.start -> rum_pris.slut 
             ** På samma sätt som vi söker efter ledigt rum
-            *** SQL QUERY::: -- FIXME: Måste lägga in en bokning med id 21 som har faktura med erbjudande för att detta ska fungera
+            *** SQL QUERY::: 
             SELECT rp.pris_per_natt, e.prisavdrag, e.villkor, b.bokning_id, f.faktura_id, f.personal_id
 	        FROM bokning b
 	        INNER JOIN faktura f ON b.faktura_id = f.faktura_id
