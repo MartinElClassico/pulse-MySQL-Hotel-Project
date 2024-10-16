@@ -108,15 +108,20 @@ Receptionist:
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES (1, 8, '2025-01-20 18:00:00');
     
     
-    Se aktuella priser och erbjudanden: för att få reda på bokningskostad för kund.
+    [D] Se aktuella priser 
         Kolla pris för visst typ av rum. 
-        eventuella erbjudanden som är aktuella för sagt rum. 
-        ** motivera i rapport varför vi ej substraherar här. Ta med vilkoren i rapporten och hur vi tänkt där.
-        --> lista med pris för rummet samt aktuella erbjudanden (med villkoren).
+        ** motivera i rapport varför vi visar rumpris och erbjudande separat
+        --> Ta fram aktuellt pris för rummet
         *** SQL QUERY::: 
         -- Usecase kund vill veta aktuellt pris för enkelrum 
         SELECT pris_per_natt, `start`, slut FROM rum_pris
         WHERE rum_typ_id = "enkelrum" AND `start` < now() AND slut > now(); 
+
+    [D] Se aktuella erbjudanden
+        Får en lista med erbjudanden som är aktuella
+        *** SQL QUERY::: 
+        SELECT * FROM erbjudande
+        WHERE `start` < now() AND slut > now(); 
 
     Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
         Gå via bokning till faktura -> Kolla om det finns erbjudande i faktura
