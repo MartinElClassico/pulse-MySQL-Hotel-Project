@@ -150,6 +150,13 @@ Receptionist:
                     SET r.status = "checkat_in"
                     WHERE r.status = "checkat_ut" AND hg.fornamn = "X" AND hg.efternamn = "Y" AND b.incheckning = CURDATE();
 
+                    FÖR TEST:::
+                    SELECT * FROM rum
+                    INNER JOIN bokning b ON r.rum_id = b.rum_id
+                    INNER JOIN huvud_gast hg ON hg.huvud_gast_id = b.huvud_gast_id
+                    WHERE r.status = "checkat_ut" AND hg.fornamn = "X" AND hg.efternamn = "Y" AND b.incheckning = CURDATE();
+
+
     [D-F]Checka ut (huvud)gäster
         ** Kan ske både med gästens namn / telefonnummer och med boknings-id
         Söka fram rummet som hör till bokningen 
