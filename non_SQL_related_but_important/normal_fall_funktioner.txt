@@ -29,6 +29,7 @@ Hotelldirektör:
         -> från rum hitta rumtyp, räkna  (count) antal av varje rumtyp. 
 
 
+
     [D]Se när det är middag bokad och för hur många personer 
         - SELECT X, y from middag. (order by date)
         ** EXAMPLE QUERY:
@@ -50,8 +51,6 @@ Hotelldirektör:
         WHERE middag_id = 1
 
 
-
-
 Receptionist:
     Se lediga rum av en viss typ en viss tidsperiod, 
         viz. en kund vill boka ett enkelrum
@@ -61,6 +60,7 @@ Receptionist:
             hämta alla rum_id som ej ej har träffar där.
         -> ta upp lista ur "join" från rum och rum_typ där rum id är från förra steget.
         -> skapa ny lista utifrån "join" med den rumtypen man söker och de rum som uppfyller kraven.
+        
     Boka rum  <<<<
         ***Går vidare från förra steget ovan***
         gå in bokning med valt rum_id från förra steget, updatera/insert bokning. 

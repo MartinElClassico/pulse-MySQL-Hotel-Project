@@ -14,7 +14,7 @@ from utils import conv_timestamp2datetime_l, conv_timestamp2date_l, change_key_n
 
 #region global variables
 # number of testcases viz. input statements per table
-numberOfRooms = 20
+numberOfRooms = 100
 # number of "grupp_bokningar"
 grupp_bokning_n = 3
 # percentage of bookings that should be group bookings: TODO: deprecated?
@@ -41,8 +41,8 @@ bokning_ids = []
 boknings_added_per_groupb = [0] * grupp_bokning_n
 
 # a start date so we don't have different ones everywhere:
-g_set_start_date = datetime(2024, 10, 8) # "2024-10-08"
-g_set_end_date = datetime(2025,3,5)
+g_set_start_date = datetime(2023, 10, 16) 
+g_set_end_date = datetime(2025,10,16)
 
 #endregion
 
