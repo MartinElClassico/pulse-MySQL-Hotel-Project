@@ -73,6 +73,23 @@ Receptionist:
             OR b.utcheckning <= "kundens inchecknignsdatum")
         );
 
+        -- Förslag på sätt att skriva det?
+        SELECT 
+        rum.rum_id, r.rum_typ_id 
+        FROM rum 
+        LEFT JOIN bokning 
+            ON (
+                bokning.rum_id = rum.rum_id AND 
+                NOT ( 
+                    (bokning.incheckning < X AND bokning.utheckning < X) 
+                    OR
+                    (bokning.incheckning > Y AND bokning.utcheckning > Y) 
+                    )
+                ) 
+        WHERE 
+            bokning.rum_id IS NULL; 
+
+
     Boka rum  <<<<
         ***Går vidare från förra steget ovan***
         gå in bokning med valt rum_id från förra steget, updatera/insert bokning. 
