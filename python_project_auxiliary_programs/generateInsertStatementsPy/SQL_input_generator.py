@@ -5,12 +5,12 @@ from datetime import datetime
 # import our own modules from utils child directory.
 from utils import dict_to_sql_insert_str # converts dictionary to sql formatted string
 from utils import name_surname_generator, generate_checked_in_or_out, generate_random_timestamp, generate_random_decimal_pricesum, tabulate_print
-from utils import write_to_file, generate_random_date, price_intervalls_per_room_type
+from utils import write_to_file, price_intervalls_per_room_type
 from utils import update_middag_dict_on_bookings, update_bokning_and_faktura_for_grupp_bokning, update_faktura_for_erbjudande_id
 from utils import value_for_grupp_bokning_reference # old code, should be updated one time...
 from utils import update_date_range
 from utils import conv_timestamp2datetime_l, conv_timestamp2date_l, change_key_name_in_l
-from utils import generate_random_interval_timestamp, generate_random_interval_date
+from utils import generate_random_interval_timestamp, generate_random_interval_defined_interval
 #endregion
 
 #FIXME: alla bokningar som har en faktura har samma fakturanummer.
@@ -18,12 +18,13 @@ from utils import generate_random_interval_timestamp, generate_random_interval_d
 #region global variables
 # number of testcases viz. input statements per table
 numberOfRooms = 100
-# number of "grupp_bokningar"
+# number of "grupp_bokningar" FIXME: cascades badly, need to revise. faktura needs to have enough field values for both gbokning and bokning.
 grupp_bokning_n = 3
 # percentage of bookings that should be group bookings: TODO: deprecated?
 #p_gr_b = 0.50
 # number of bookings per group booking TODO: deprecated?
 #bookings_per_groupb = math.floor(round((numberOfRooms)*p_gr_b)/grupp_bokning_n) # percent of the booking divided by number of group bookings rounded down.
+# FIXME: DATE RANGE IN BOOKINGS CAN BE AS LONG AS TWO YEARS....
 
 # Store the generated primary key values for foreign key references
 personal_ids = []
@@ -63,7 +64,7 @@ def generate_rum_typ_dict(p_id):
 
 def generate_erbjudande_dict(p_id):
     # Generate random erbjudande values
-    start_datum, slut_datum = generate_random_interval_timestamp(g_set_start_datetime, g_set_end_datetime)  # Get random dates
+    start_datum, slut_datum = generate_random_interval_defined_interval(g_set_start_datetime, g_set_end_datetime, 90)  # Get random dates
     erbjudande_dict = {
         #NOTE:  discount to work by fixed deduction since this is test data. Normally this would be manually entered and used manually as well.
         #random.choice(rum_typ_ids),  # Room type ID must be "enkelrum", "familjerum", or "dubbelrum"
@@ -127,7 +128,7 @@ def generate_rum_dict(p_id):
 def generate_rum_pris_dict(p_id):
     rum_typ_id = random.choice(rum_typ_ids)
     pris_per_natt = price_intervalls_per_room_type(rum_typ_id)  
-    pris_start_datum, pris_slut_datum = generate_random_interval_timestamp(g_set_start_datetime, g_set_end_datetime) 
+    pris_start_datum, pris_slut_datum = generate_random_interval_defined_interval(g_set_start_datetime, g_set_end_datetime, 90) 
     
     rum_pris_dict = {
         'rum_pris_id': p_id,
@@ -178,7 +179,8 @@ def generate_forsaljning_dict(p_id):
 # bokning_datum kan vara i framtiden relativt checkin_date, känns inte rätt, fixas senare i update dictionaries
 def generate_bokning_dict(p_id, grupp_bokning_n):
     global boknings_added_per_groupb
-    checkin_date, checkout_date = generate_random_interval_date(g_set_start_datetime, g_set_end_datetime)  # Get random dates
+    # Get random dates within 1 month
+    checkin_date, checkout_date = generate_random_interval_defined_interval(g_set_start_datetime, g_set_end_datetime, 30)  
     # Returns null or fk_grupp_bokning and updates global list. 
     grupp_bokning_assigned_value, boknings_added_per_groupb_updated = value_for_grupp_bokning_reference(
         random.choice(grupp_bokning_ids), boknings_added_per_groupb, grupp_bokning_n)  

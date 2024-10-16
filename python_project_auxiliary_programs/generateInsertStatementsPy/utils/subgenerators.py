@@ -234,6 +234,14 @@ def generate_random_interval_timestamp(start_datetime: datetime, end_datetime: d
         r_end_dt = generate_random_timestamp(start_datetime, end_datetime)
     return r_start_dt, r_end_dt
 
+def generate_random_interval_defined_interval(start_datetime: datetime, end_datetime: datetime, max_days: int) -> tuple[datetime, datetime]:
+    gives_diff_days = (end_datetime - start_datetime).days # to predefine
+    while(gives_diff_days > max_days):
+        start_datetime, end_datetime= generate_random_interval_timestamp(start_datetime, end_datetime)
+        gives_diff_days = (end_datetime - start_datetime).days
+    return start_datetime, end_datetime
+
+
 
 def generate_random_interval_date(start_datetime: datetime, end_datetime: datetime) -> tuple[datetime, datetime]:
     r_s_dt, r_e_dt = generate_random_interval_timestamp(start_datetime, end_datetime)
