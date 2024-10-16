@@ -229,10 +229,10 @@ def update_status_in_dict(l_data_dict):
             data_dict['status'] = 'checkat_ut'
         else:
             data_dict['status'] = 'unknown'  # Optional: handle cases where both are False or missing
+        # Delete the original boolean keys
+        del data_dict['checkat_in']
+        del data_dict['checkat_ut']
 
-    # Delete the original boolean keys
-    data_dict.pop('checked_in', None)
-    data_dict.pop('checked_ut', None)
 #
 
 
