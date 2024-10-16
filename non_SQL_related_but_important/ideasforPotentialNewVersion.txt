@@ -1,25 +1,30 @@
->>rum
+[D]>> rum
 istället för att ha checked_in och checked_out ha enbart antingen checked_in eller eventuellt "status".
 Fördel med status är att kunna ha en lista över händelser som påverkar rummet, exempelvis: 
     status ENUM('checkat_in', 'checkat_ut', 'städas', 'underhållsarbetas')
+=====> testdata only has "status" field but only field-values 'checkat_in' or 'checkat_ut'
 
->>faktura
+>> faktura
 lägga in status för faktura dvs om den exempelvis är: pågående, betald, obetald, kommande.
 för att se om fakturan är aktuell eller inte:
 i nutid: är den: pågående eller betald (avslutad)
 i dåtid: betald eller obetald (liggande)
 i framtid: kommande.
     status ENUM('pagaende', 'betald', 'obetald', 'kommande')
+====> in testdata we only have field status with field_values 
 
 
->> rum
+[D] >> rum
 lägga till beskrivningar för rum, iaf våningsplan kanske?
 OBS: motivera i rapporten att rum_id är samma som står på dörren, och inte det...
 ... så behöver vi lägga till et fält för detta, tex "rum_nmr".
+======> PLACEHOLDER DESCRIPTION
+'vaningsplan': "PLACEHOLDER VANINGSPLAN"
 
->> rum & faktura
-ändra namn från "status" till något annat som inte är reserverat, i annat fall
-måste vi referera till status med `status`
+[D] >> rum & faktura
+ändra namn från "status" till något annat som inte är reserverat, 
+======> i annat fall måste vi referera till status med `status`
 
->> rum
+[D] >> rum
 Lägga till status som motsvarar "pending" ser konstigt ut när en kund "checkat_ut" när de inte ens varit på plats...
+=====> motivera i rapporten. 

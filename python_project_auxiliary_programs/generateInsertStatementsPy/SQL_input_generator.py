@@ -13,7 +13,6 @@ from utils import conv_timestamp2datetime_l, conv_timestamp2date_l, change_key_n
 from utils import generate_random_interval_timestamp, generate_random_interval_defined_interval
 #endregion
 
-#FIXME: alla bokningar som har en faktura har samma fakturanummer.
 
 #region global variables
 # number of testcases viz. input statements per table
@@ -24,7 +23,6 @@ grupp_bokning_n = 3
 #p_gr_b = 0.50
 # number of bookings per group booking TODO: deprecated?
 #bookings_per_groupb = math.floor(round((numberOfRooms)*p_gr_b)/grupp_bokning_n) # percent of the booking divided by number of group bookings rounded down.
-# FIXME: DATE RANGE IN BOOKINGS CAN BE AS LONG AS TWO YEARS....
 
 # Store the generated primary key values for foreign key references
 personal_ids = []
@@ -120,7 +118,8 @@ def generate_rum_dict(p_id):
         'rum_typ_id': random.choice(rum_typ_ids),  # Room type ID (e.g., "enkelrum", "familjerum", "dubbelrum")
         'personal_id': random.choice(personal_ids),  # Personal ID must exist in 'personal'
         'checked_in': b_check_in,  # Checked in (0 or 1)
-        'checked_out': b_check_out  # Checked out (0 or 1)
+        'checked_out': b_check_out,  # Checked out (0 or 1)
+        'vaningsplan': "PLACEHOLDER VANINGSPLAN"
     }
     return rum_dict
 
@@ -221,6 +220,19 @@ def generate_insert_statement(table_name, dict, b_p_key_auto_increment):
 
 #endregion
 
+def update_status_in_dict(l_data_dict):
+    # Check which boolean value is True and assign the key name as a string
+    for data_dict in l_data_dict:
+        if data_dict['checkat_in'] == "TRUE":
+            data_dict['status'] = 'checkat_in'
+        elif data_dict['checkat_ut'] == "TRUE":
+            data_dict['status'] = 'checkat_ut'
+        else:
+            data_dict['status'] = 'unknown'  # Optional: handle cases where both are False or missing
+
+    # Delete the original boolean keys
+    data_dict.pop('checked_in', None)
+    data_dict.pop('checked_ut', None)
 #
 
 
@@ -357,6 +369,8 @@ def main():
     change_key_name_in_l(l_rum_dicts, "checked_in", "checkat_in")
     # rum checked_out -> utcheckad
     change_key_name_in_l(l_rum_dicts, "checked_out", "checkat_ut")
+    # now we use status instead:
+    update_status_in_dict(l_rum_dicts)
 
     #endregion
 
