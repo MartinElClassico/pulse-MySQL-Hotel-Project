@@ -112,7 +112,12 @@ Receptionist:
         Kolla pris för visst typ av rum. 
         eventuella erbjudanden som är aktuella för sagt rum. 
         ** motivera i rapport varför vi ej substraherar här. Ta med vilkoren i rapporten och hur vi tänkt där.
-        --> lista med pris för rummet samt aktuella erbjudanden (med villkoren). 
+        --> lista med pris för rummet samt aktuella erbjudanden (med villkoren).
+        *** SQL QUERY::: 
+        -- Usecase kund vill veta aktuellt pris för enkelrum 
+        SELECT pris_per_natt, `start`, slut FROM rum_pris
+        WHERE rum_typ_id = "enkelrum" AND `start` < now() AND slut > now(); 
+
     Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
         Gå via bokning till faktura -> Kolla om det finns erbjudande i faktura
         Kontrollera bokningsdatum
