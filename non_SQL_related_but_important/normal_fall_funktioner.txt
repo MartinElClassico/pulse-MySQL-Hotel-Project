@@ -123,9 +123,11 @@ Receptionist:
         SELECT * FROM erbjudande
         WHERE `start` < now() AND slut > now(); 
 
-    [D-F]Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
+    [D]Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
         Gå via bokning till faktura -> Kolla om det finns erbjudande i faktura
         Kontrollera bokningsdatum
+        vi vill kunna ta upp ett pris och erbjudande för en viss bokning. 
+
             Söka i rum_pris efter det pris för rumtypen som var aktuellt när bokningen gjordes, derived value som utgår ifrån:
                 -> rum_pris.start -> rum_pris.slut 
             ** På samma sätt som vi söker efter ledigt rum
@@ -134,8 +136,8 @@ Receptionist:
 	        FROM bokning b
 	        INNER JOIN faktura f ON b.faktura_id = f.faktura_id
 	        INNER JOIN rum_pris rp ON b.rum_pris_id = rp.rum_pris_id
-            INNER JOIN erbjudande e ON f.erbjudande_id = e.erbjudande_id
-	        WHERE bokning_id = 21;  
+            LEFT JOIN erbjudande e ON f.erbjudande_id = e.erbjudande_id
+	        WHERE bokning_id = 2;  
 
     [D-F]Checka in (huvud)gäster
         ** Kan ske både med gästens namn / telefonnummer och med boknings-id
