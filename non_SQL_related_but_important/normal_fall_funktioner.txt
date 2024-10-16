@@ -142,7 +142,7 @@ Receptionist:
         Söka fram rummet som hör till bokningen 
             -> Kontrollera att rummet är utcheckat
             -> Uppdatera checked_in till TRUE  (och checked_out till FALSE) 
-        -- FIXME: SAKNAS TESTDATA FÖR DENNA!
+        -- FIXME: SAKNAS TESTDATA FÖR DENNA! Finns inga bokningar med incheckning idag (problem noterat 2024-10-16)
         -- WHERE CLAUSE NEEDS: AND r.status = "pending"
                     UPDATE rum r
                     INNER JOIN bokning b ON r.rum_id = b.rum_id
