@@ -14,7 +14,7 @@ CREATE TABLE erbjudande(
     erbjudande_id  INT PRIMARY KEY AUTO_INCREMENT,
     prisavdrag DECIMAL(8,2) NOT NULL,
     villkor VARCHAR(255),
-    start DATETIME NOT NULL,
+    `start` DATETIME NOT NULL,
     slut DATETIME
 );
 -- @block
@@ -45,7 +45,7 @@ CREATE TABLE rum_pris(
     rum_pris_id INT PRIMARY KEY AUTO_INCREMENT,
     rum_typ_id VARCHAR(255) NOT NULL,
     pris_per_natt DECIMAL(8,2) NOT NULL,
-    start DATETIME NOT NULL,
+    `start` DATETIME NOT NULL,
     slut DATETIME,
     -- eventuellt lägga till var för om priset är aktuellt just nu eller inte
     CONSTRAINT rum_pris_fk_rum_typ FOREIGN KEY (rum_typ_id) REFERENCES rum_typ(rum_typ_id)
@@ -55,8 +55,8 @@ CREATE TABLE rum(
     rum_id INT PRIMARY KEY AUTO_INCREMENT,
     rum_typ_id VARCHAR(255)  NOT NULL,
     personal_id INT NOT NULL,
-    checkat_in BOOLEAN DEFAULT FALSE NOT NULL,
-    checkat_ut BOOLEAN DEFAULT FALSE NOT NULL,
+    `status` ENUM('checkat_in', 'checkat_ut', 'stadas', 'underhallsarbetas') NOT NULL,
+    vaningsplan VARCHAR(255),
     CONSTRAINT rum_fk_rum_typ FOREIGN KEY (rum_typ_id) REFERENCES rum_typ(rum_typ_id),
     CONSTRAINT rum_fk_personal FOREIGN KEY (personal_id) REFERENCES personal(personal_id)
 );
