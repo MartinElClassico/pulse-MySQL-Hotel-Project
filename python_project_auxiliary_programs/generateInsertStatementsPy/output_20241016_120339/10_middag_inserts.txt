@@ -1,0 +1,6 @@
+INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES (1, 2, '2025-10-11 00:47:44');
+INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES (3, 3, '2025-08-14 23:00:19');
+INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES (3, 10, '2025-08-08 22:16:39');
+INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES (3, 4, '2025-10-13 07:40:34');
+INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES (3, 7, '2025-10-01 02:34:11');
+INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES (3, 1, '2024-12-19 19:58:04');

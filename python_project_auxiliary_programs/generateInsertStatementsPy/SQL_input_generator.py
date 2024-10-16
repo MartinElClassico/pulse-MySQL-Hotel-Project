@@ -5,12 +5,15 @@ from datetime import datetime
 # import our own modules from utils child directory.
 from utils import dict_to_sql_insert_str # converts dictionary to sql formatted string
 from utils import name_surname_generator, generate_checked_in_or_out, generate_random_timestamp, generate_random_decimal_pricesum, tabulate_print
-from utils import write_to_file, generate_random_date, generate_offer_startend_dates, price_intervalls_per_room_type, generate_checkin_checkout_dates
+from utils import write_to_file, generate_random_date, price_intervalls_per_room_type
 from utils import update_middag_dict_on_bookings, update_bokning_and_faktura_for_grupp_bokning, update_faktura_for_erbjudande_id
 from utils import value_for_grupp_bokning_reference # old code, should be updated one time...
 from utils import update_date_range
 from utils import conv_timestamp2datetime_l, conv_timestamp2date_l, change_key_name_in_l
+from utils import generate_random_interval_timestamp, generate_random_interval_date
 #endregion
+
+#FIXME: alla bokningar som har en faktura har samma fakturanummer.
 
 #region global variables
 # number of testcases viz. input statements per table
@@ -41,8 +44,8 @@ bokning_ids = []
 boknings_added_per_groupb = [0] * grupp_bokning_n
 
 # a start date so we don't have different ones everywhere:
-g_set_start_date = datetime(2023, 10, 16) 
-g_set_end_date = datetime(2025,10,16)
+g_set_start_datetime = datetime(2023, 10, 16, 00, 00, 00) 
+g_set_end_datetime = datetime(2025, 10, 16, 23, 59, 59)
 
 #endregion
 
@@ -60,7 +63,7 @@ def generate_rum_typ_dict(p_id):
 
 def generate_erbjudande_dict(p_id):
     # Generate random erbjudande values
-    start_datum, slut_datum = generate_offer_startend_dates()  # Get random dates
+    start_datum, slut_datum = generate_random_interval_timestamp(g_set_start_datetime, g_set_end_datetime)  # Get random dates
     erbjudande_dict = {
         #NOTE:  discount to work by fixed deduction since this is test data. Normally this would be manually entered and used manually as well.
         #random.choice(rum_typ_ids),  # Room type ID must be "enkelrum", "familjerum", or "dubbelrum"
@@ -124,7 +127,7 @@ def generate_rum_dict(p_id):
 def generate_rum_pris_dict(p_id):
     rum_typ_id = random.choice(rum_typ_ids)
     pris_per_natt = price_intervalls_per_room_type(rum_typ_id)  
-    pris_start_datum, pris_slut_datum = generate_offer_startend_dates() 
+    pris_start_datum, pris_slut_datum = generate_random_interval_timestamp(g_set_start_datetime, g_set_end_datetime) 
     
     rum_pris_dict = {
         'rum_pris_id': p_id,
@@ -159,7 +162,7 @@ def generate_faktura_dict(p_id):
 # foreign keys used: rum_id, personal_id, faktura_id
 def generate_forsaljning_dict(p_id):
     summa = generate_random_decimal_pricesum(50,500,2)
-    datum = generate_random_date(g_set_start_date, 30)
+    datum = generate_random_timestamp(g_set_start_datetime, g_set_end_datetime)
     
     forsaljning_dict = {
         'forsaljning_id': p_id,
@@ -172,15 +175,15 @@ def generate_forsaljning_dict(p_id):
     return forsaljning_dict
 
 # foreign keys used: rum_ids, kund_ids, huvud_gast_ids, personal_ids, grupp_bokning_ids
-# TODO: bokning_datum kan vara i framtiden relativt checkin_date, känns inte rätt
+# bokning_datum kan vara i framtiden relativt checkin_date, känns inte rätt, fixas senare i update dictionaries
 def generate_bokning_dict(p_id, grupp_bokning_n):
     global boknings_added_per_groupb
-    checkin_date, checkout_date = generate_checkin_checkout_dates()  # Get random dates
+    checkin_date, checkout_date = generate_random_interval_date(g_set_start_datetime, g_set_end_datetime)  # Get random dates
     # Returns null or fk_grupp_bokning and updates global list. 
     grupp_bokning_assigned_value, boknings_added_per_groupb_updated = value_for_grupp_bokning_reference(
         random.choice(grupp_bokning_ids), boknings_added_per_groupb, grupp_bokning_n)  
     boknings_added_per_groupb = boknings_added_per_groupb_updated 
-    bokning_timestamp = generate_random_timestamp(g_set_start_date, 30) 
+    bokning_timestamp = generate_random_timestamp(g_set_start_datetime, g_set_end_datetime) 
     bokning_dict = {
         'bokning_id': p_id,
         'rum_id': random.choice(rum_ids),  
@@ -310,7 +313,7 @@ def main():
     tabulate_print(l_faktura_dicts, "faktura", "update_faktura_for_erbjudande_id")
 
     # make sure dates are within a good range, #TODO: doesn't take FK and PM into regard, so might come out mixed anyhow. >.<
-    update_date_range(g_set_start_date, g_set_end_date, l_erbjudande_dicts, l_bokning_dicts, l_rum_pris_dicts, l_middag_dicts)
+    update_date_range(g_set_start_datetime, g_set_end_datetime, l_erbjudande_dicts, l_bokning_dicts, l_rum_pris_dicts, l_middag_dicts)
     tabulate_print(l_erbjudande_dicts, "erbjudande", "update_date_range")
     tabulate_print(l_bokning_dicts, "bokning", "update_date_range")
     tabulate_print(l_rum_pris_dicts, "rum_pris", "update_date_range")
