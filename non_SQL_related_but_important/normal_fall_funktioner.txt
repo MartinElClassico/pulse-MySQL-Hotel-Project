@@ -73,6 +73,23 @@ Receptionist:
             OR b.utcheckning <= "kundens inchecknignsdatum")
         );
 
+        -- Förslag på sätt att skriva det?
+        SELECT 
+        rum.rum_id, r.rum_typ_id 
+        FROM rum 
+        LEFT JOIN bokning 
+            ON (
+                bokning.rum_id = rum.rum_id AND 
+                NOT ( 
+                    (bokning.incheckning < X AND bokning.utheckning < X) 
+                    OR
+                    (bokning.incheckning > Y AND bokning.utcheckning > Y) 
+                    )
+                ) 
+        WHERE 
+            bokning.rum_id IS NULL; 
+
+
     Boka rum  <<<<
         ***Går vidare från förra steget ovan***
         gå in bokning med valt rum_id från förra steget, updatera/insert bokning. 
@@ -91,17 +108,34 @@ Receptionist:
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES (1, 8, '2025-01-20 18:00:00');
     
     
-    Se aktuella priser och erbjudanden: för att få reda på bokningskostad för kund.
+    [D] Se aktuella priser 
         Kolla pris för visst typ av rum. 
-        eventuella erbjudanden som är aktuella för sagt rum. 
-        ** motivera i rapport varför vi ej substraherar här. Ta med vilkoren i rapporten och hur vi tänkt där.
-        --> lista med pris för rummet samt aktuella erbjudanden (med villkoren). 
-    Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
+        ** motivera i rapport varför vi visar rumpris och erbjudande separat
+        --> Ta fram aktuellt pris för rummet
+        *** SQL QUERY::: 
+        -- Usecase kund vill veta aktuellt pris för enkelrum 
+        SELECT pris_per_natt, `start`, slut FROM rum_pris
+        WHERE rum_typ_id = "enkelrum" AND `start` < now() AND slut > now(); 
+
+    [D] Se aktuella erbjudanden
+        Får en lista med erbjudanden som är aktuella
+        *** SQL QUERY::: 
+        SELECT * FROM erbjudande
+        WHERE `start` < now() AND slut > now(); 
+
+    [D-F]Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
         Gå via bokning till faktura -> Kolla om det finns erbjudande i faktura
         Kontrollera bokningsdatum
             Söka i rum_pris efter det pris för rumtypen som var aktuellt när bokningen gjordes, derived value som utgår ifrån:
                 -> rum_pris.start -> rum_pris.slut 
             ** På samma sätt som vi söker efter ledigt rum
+            *** SQL QUERY::: -- FIXME: Denna tar ej from erbjudande, behöver lägga till detta när det finns testdata för att kontrollera det
+            SELECT b.bokning_id, f.faktura_id, f.personal_id, rp.rum_pris_id, rp.pris_per_natt
+	        FROM bokning b
+	        INNER JOIN faktura f ON b.faktura_id = f.faktura_id
+	        INNER JOIN rum_pris rp ON b.rum_pris_id = rp.rum_pris_id
+            WHERE bokning_id = 5;
+
     [D-F]Checka in (huvud)gäster
         ** Kan ske både med gästens namn / telefonnummer och med boknings-id
         Söka fram rummet som hör till bokningen 
