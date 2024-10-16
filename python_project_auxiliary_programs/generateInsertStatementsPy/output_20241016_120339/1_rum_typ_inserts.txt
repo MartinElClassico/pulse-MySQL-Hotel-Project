@@ -1,3 +1,0 @@
-INSERT INTO rum_typ (rum_typ_id, max_antal_personer) VALUES ('enkelrum', 1);
-INSERT INTO rum_typ (rum_typ_id, max_antal_personer) VALUES ('dubbelrum', 2);
-INSERT INTO rum_typ (rum_typ_id, max_antal_personer) VALUES ('familjerum', 4);

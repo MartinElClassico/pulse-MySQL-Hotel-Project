@@ -56,6 +56,7 @@ def update_bokning_and_faktura_for_grupp_bokning(l_bokning_dicts: List[Dict], l_
         # NOTE: faktura_id in bokning_dict is always "NULL" before this function call
         # NOTE: grupp_bokning_ID in faktura_dict is always "NULL" before this function call
         l_factura_id_w_gb = [] # store which factura IDs have a group booking assigned
+        l_factura_id_wo_gb_taken = [] # store which factura IDs have been used for faktura without group bookings as to not duplicate
         for bokning_dict in l_bokning_dicts:
             # update factura_dict with the right group_id
             if bokning_dict['grupp_bokning_id'] != 'NULL':
@@ -64,14 +65,20 @@ def update_bokning_and_faktura_for_grupp_bokning(l_bokning_dicts: List[Dict], l_
                         faktura_dict['grupp_bokning_id'] = bokning_dict['grupp_bokning_id']
                         l_factura_id_w_gb.append(faktura_dict['faktura_id']) #save this as to not assign it for booking without group.
                         break # break out of for loop since we now found what we were looking for.
-            # update bokning_dict with non group booking assigned faktura_id when the booking isn't a group booking:
+        # update bokning_dict with non group booking assigned faktura_id when the booking isn't a group booking:
         # we need a new for loop for this to make sure the list is fully populated first:
         for bokning_dict in l_bokning_dicts:
             # update bokning_dict with the right faktura_id
             if bokning_dict['grupp_bokning_id'] == 'NULL':
                 for faktura_dict in l_faktura_dicts:
-                    if faktura_dict['faktura_id'] not in l_factura_id_w_gb:
+                    if (
+                        faktura_dict['faktura_id'] not in l_factura_id_w_gb
+                        and 
+                        faktura_dict['faktura_id'] not in l_factura_id_wo_gb_taken
+                        ):
                         bokning_dict['faktura_id'] = faktura_dict['faktura_id']
+                        l_factura_id_wo_gb_taken.append(bokning_dict['faktura_id'])
+
                         break # break out of for loop since we now found what we were looking for.
 
 def update_faktura_for_erbjudande_id(l_faktura_dicts: List[Dict], fakt_w_erb_n: int):
@@ -199,9 +206,12 @@ def generate_checked_in_or_out() -> tuple[str, str]:
 
 def generate_random_timestamp(start_date: datetime, end_date: datetime) -> datetime:
      # to convert to timedelta, add minimum amount to it.
-    random_timestamp = start_date - timedelta(seconds=100) # should make random_timestamp fulfil while loop: random_timestamp < start_date
+    first = True # to enter while loop
+    random_timestamp = start_date # just to have the value pre defined.
     # only return when it randomly has made a date withing given range!
-    while (random_timestamp > end_date or random_timestamp < start_date):
+    while ((random_timestamp < start_date and random_timestamp > end_date) or first):
+        # take away while-loop entry condition:
+        if first: first = False
         # get number of days in difference
         end_days_f_start = (end_date - start_date).days
         # Generate a random number of days between 0 and end_days_f_start, viz. enddate.
@@ -214,17 +224,12 @@ def generate_random_timestamp(start_date: datetime, end_date: datetime) -> datet
     # Return the random timestamp
     return random_timestamp
 
-# Generate random date between today and a future date within a certain range (e.g., 30 days from today)
-def generate_random_date(start_datetime: datetime, end_datetime: datetime) -> datetime:
-    random_time = generate_random_timestamp(start_datetime, end_datetime)
-    # parse string to a date datetime object
-    # return a random number of days, viz DATE
-    return datetime.strptime(random_time, "%Y-%m-%d")
-
 def generate_random_interval_timestamp(start_datetime: datetime, end_datetime: datetime) -> tuple[datetime, datetime]:
-    r_start_dt = generate_random_timestamp(start_datetime, end_datetime)
-    r_end_dt = generate_random_timestamp(start_datetime, end_datetime)
-    while (r_start_dt < start_datetime or r_end_dt > end_datetime):
+    first = True # to enter loop.
+    r_start_dt = generate_random_timestamp(start_datetime, end_datetime) # to predefine
+    r_end_dt = generate_random_timestamp(start_datetime, end_datetime) # to predefine
+    while ((r_start_dt.date() >= r_end_dt.date()) or first):
+        if first: first = False # stop using entry condition.
         r_start_dt = generate_random_timestamp(start_datetime, end_datetime)
         r_end_dt = generate_random_timestamp(start_datetime, end_datetime)
     return r_start_dt, r_end_dt
@@ -233,6 +238,13 @@ def generate_random_interval_timestamp(start_datetime: datetime, end_datetime: d
 def generate_random_interval_date(start_datetime: datetime, end_datetime: datetime) -> tuple[datetime, datetime]:
     r_s_dt, r_e_dt = generate_random_interval_timestamp(start_datetime, end_datetime)
     return r_s_dt.date(), r_e_dt.date()
+
+# Generate random date between today and a future date within a certain range (e.g., 30 days from today)
+def generate_random_date(start_datetime: datetime, end_datetime: datetime) -> datetime:
+    random_time = generate_random_timestamp(start_datetime, end_datetime)
+    # parse string to a date datetime object
+    # return a random number of days, viz DATE
+    return datetime.strptime(random_time, "%Y-%m-%d")
 
 # e.g. input = 100.11, 500, 2
 # e.g. output = 432.11
