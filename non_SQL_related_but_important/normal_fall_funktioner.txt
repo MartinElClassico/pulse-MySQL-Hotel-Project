@@ -60,7 +60,19 @@ Receptionist:
             hämta alla rum_id som ej ej har träffar där.
         -> ta upp lista ur "join" från rum och rum_typ där rum id är från förra steget.
         -> skapa ny lista utifrån "join" med den rumtypen man söker och de rum som uppfyller kraven.
-        
+        -- SELECT pseudo.start_ledigt, pseudo.slut_ledigt ,r.rum_id, r.rum_typ_id //med nested query där pseudo är derived.
+        -- 237-239 datatyp som heter Interval som håller DATETIME eller YEARMONTH. Ev. fixa en sådan med DATETIME eller deriva en sådan?
+        *** SQL QUERY:::
+        SELECT r.rum_id, r.rum_typ_id
+        FROM rum r 
+        LEFT JOIN bokning b ON rum_id = rum_id
+        WHERE (
+            r.rum_typ = "X" 
+            AND (b.rum_id IS NULL -- för då finns det ingen bokning, dvs rummet är tillgänligt.
+            OR b.incheckning >= "kundens utcheckningsdatum" -- enbart en person kan checka in per dag på ett rum => <
+            OR b.utcheckning <= "kundens inchecknignsdatum")
+        );
+
     Boka rum  <<<<
         ***Går vidare från förra steget ovan***
         gå in bokning med valt rum_id från förra steget, updatera/insert bokning. 
