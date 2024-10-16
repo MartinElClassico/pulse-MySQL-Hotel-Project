@@ -197,49 +197,42 @@ def generate_checked_in_or_out() -> tuple[str, str]:
         b_checked_out = "FALSE"
     return b_checked_in, b_checked_out
 
-def generate_random_timestamp(i_s_date: str, i_e_date_days: str) -> datetime:
-    # Parse the input start date
-    if isinstance(i_s_date, datetime):
-        start_date = i_s_date
-    else:
-        start_date = datetime.strptime(i_s_date, "%Y-%m-%d")
-    
-    # Generate a random number of days between 0 and i_e_date_days
-    
-    random_days = random.randint(0, int(i_e_date_days))
-    
-    # Generate random time (hours, minutes, seconds, microseconds)
-    # total number of seconds in a day: 24 * 60 * 60
-    random_seconds_in_day = random.randint(0, 24 * 60 * 60)
-    
-    # Calculate the random timestamp by adding random_days and random time to start_date
-    random_timestamp = start_date + timedelta(days=random_days, seconds=random_seconds_in_day)
-    
+def generate_random_timestamp(start_date: datetime, end_date: datetime) -> datetime:
+     # to convert to timedelta, add minimum amount to it.
+    random_timestamp = start_date - timedelta(seconds=100) # should make random_timestamp fulfil while loop: random_timestamp < start_date
+    # only return when it randomly has made a date withing given range!
+    while (random_timestamp > end_date or random_timestamp < start_date):
+        # get number of days in difference
+        end_days_f_start = (end_date - start_date).days
+        # Generate a random number of days between 0 and end_days_f_start, viz. enddate.
+        random_days = random.randint(0, int(end_days_f_start))
+        # Generate random time (hours, minutes, seconds, microseconds)
+        # total number of seconds in a day: 24 * 60 * 60
+        random_seconds_in_day = random.randint(0, 24 * 60 * 60)
+        # Calculate the random timestamp by adding random_days and random time to start_date
+        random_timestamp = start_date + timedelta(days=random_days, seconds=random_seconds_in_day)
     # Return the random timestamp
     return random_timestamp
 
 # Generate random date between today and a future date within a certain range (e.g., 30 days from today)
-def generate_random_date(start_date, days_range) -> datetime:
-    # parse string to a datetime object
-    if isinstance(start_date, str):
-        start_date = datetime.strptime(start_date, "%Y-%m-%d")
-    
-    # Generate a random number of days and add it to start_date
-    return start_date + timedelta(days=random.randint(0, days_range))
+def generate_random_date(start_datetime: datetime, end_datetime: datetime) -> datetime:
+    random_time = generate_random_timestamp(start_datetime, end_datetime)
+    # parse string to a date datetime object
+    # return a random number of days, viz DATE
+    return datetime.strptime(random_time, "%Y-%m-%d")
 
-# Generate offer price start and end date
-def generate_offer_startend_dates()-> tuple[datetime, datetime]:
-    today = datetime.today()
-    offer_start = generate_random_date(today, 90)  # Random start date of offer within 90 days from today
-    offer_end = offer_start + timedelta(days=random.randint(5, 14))  # Random end date of offer between 5-14 days after offer start
-    return offer_start, offer_end
+def generate_random_interval_timestamp(start_datetime: datetime, end_datetime: datetime) -> tuple[datetime, datetime]:
+    r_start_dt = generate_random_timestamp(start_datetime, end_datetime)
+    r_end_dt = generate_random_timestamp(start_datetime, end_datetime)
+    while (r_start_dt < start_datetime or r_end_dt > end_datetime):
+        r_start_dt = generate_random_timestamp(start_datetime, end_datetime)
+        r_end_dt = generate_random_timestamp(start_datetime, end_datetime)
+    return r_start_dt, r_end_dt
 
-# Generate check-in and check-out dates
-def generate_checkin_checkout_dates() -> tuple[datetime, datetime]:
-    today = datetime.today()
-    checkin_date = generate_random_date(today, 30)  # Random check-in within 30 days from today
-    checkout_date = checkin_date + timedelta(days=random.randint(1, 7))  # Random stay between 1-7 days
-    return checkin_date, checkout_date
+
+def generate_random_interval_date(start_datetime: datetime, end_datetime: datetime) -> tuple[datetime, datetime]:
+    r_s_dt, r_e_dt = generate_random_interval_timestamp(start_datetime, end_datetime)
+    return r_s_dt.date(), r_e_dt.date()
 
 # e.g. input = 100.11, 500, 2
 # e.g. output = 432.11
