@@ -162,7 +162,7 @@ Receptionist:
                     SET r.status = "checkat_ut"
                     WHERE r.status = "checkat_in" AND hg.fornamn = "X" AND hg.efternamn = "Y" AND b.utcheckning <= CURDATE();
 
-    [D-F]Se om gäst checkat in -- BEHÖVER MOTIVERA I RAPPORT ATT VI TOLKAR DETTA SOM ATT SE STATUS PÅ RUM FÖR EN GÄST.
+    [D]Se om gäst checkat in -- BEHÖVER MOTIVERA I RAPPORT ATT VI TOLKAR DETTA SOM ATT SE STATUS PÅ RUM FÖR EN GÄST.
         Gå från huvud_gast -> bokning -> rum
             - Sök upp huvud_gast_id från gästens namn
             - Hitta bokning-ID som har den huvudgästen
@@ -174,7 +174,7 @@ Receptionist:
             INNER JOIN bokning b ON hg.huvud_gast_id = b.huvud_gast_id
             INNER JOIN rum r ON b.rum_id = r.rum_id
             WHERE b.incheckning <= CURDATE() AND b.utcheckning >= CURDATE() -- testdata behövs för nutid och dåtid, inte bara framtid >.<
-            AND hg.fornamn = "Roger" AND hg.efternamn = "Skog"
+            AND hg.fornamn = "Carina" AND hg.efternamn = "Lindelöf"
             -- AND r.status = "checkat_ut" -- kom ihåg till rapporten att motivera varför detta inte är med!
     [D-F]Se om gäst checkat ut
         Gå från huvud_gast -> bokning -> rum
