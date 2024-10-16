@@ -130,7 +130,7 @@ Receptionist:
                 -> rum_pris.start -> rum_pris.slut 
             ** På samma sätt som vi söker efter ledigt rum
             *** SQL QUERY::: -- FIXME: Måste lägga in en bokning med id 21 som har faktura med erbjudande för att detta ska fungera
-            SELECT b.bokning_id, f.faktura_id, f.personal_id, rp.pris_per_natt, e.prisavdrag, e.villkor
+            SELECT rp.pris_per_natt, e.prisavdrag, e.villkor, b.bokning_id, f.faktura_id, f.personal_id
 	        FROM bokning b
 	        INNER JOIN faktura f ON b.faktura_id = f.faktura_id
 	        INNER JOIN rum_pris rp ON b.rum_pris_id = rp.rum_pris_id
