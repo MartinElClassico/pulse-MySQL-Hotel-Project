@@ -123,7 +123,7 @@ Receptionist:
         SELECT * FROM erbjudande
         WHERE `start` < now() AND slut > now(); 
 
-    Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
+    [D-F]Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
         Gå via bokning till faktura -> Kolla om det finns erbjudande i faktura
         Kontrollera bokningsdatum
             Söka i rum_pris efter det pris för rumtypen som var aktuellt när bokningen gjordes, derived value som utgår ifrån:
