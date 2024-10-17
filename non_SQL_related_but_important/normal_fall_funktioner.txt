@@ -347,17 +347,20 @@ Receptionist:
             Försäljningssummor
                 Från försäljning.summa, via faktura
 
-        SELECT b.incheckning, b.utcheckning, b.rum_pris_id, b.faktura_id, b.huvud_gäst_id, b.kund_id 
-        FROM bokning b
-        WHERE bokning_id = user_input
+            SELECT incheckning, utcheckning, rum_pris_id, faktura_id, huvud_gast_id, kund_id 
+            INTO @bokning.incheckning, @bokning.utcheckning, @bokning.rum_pris_id, @bokning.faktura_id, @bokning.huvud_gast_id, @bokning.kund_id
+            FROM bokning
+            WHERE bokning_id = user_input;
 
-        SELECT rp.pris_per_natt 
-        FROM rum_pris rp
-        WHERE rum_pris_id = b.rum_pris_id 
+            SELECT rp.pris_per_natt 
+            FROM rum_pris rp
+            WHERE rum_pris_id = @bokning.rum_pris_id; 
 
-        SELECT SUM (f.summa)
-        FROM forsaljning f
-        WHERE faktura_id = b.faktura_id
+            SELECT SUM (f.summa)
+            FROM forsaljning f
+            WHERE faktura_id = @bokning.faktura_id;
+
+            
 
     Skriva ut räkning för gruppbokningar
         WHERE grupp_bokning_id = X 
