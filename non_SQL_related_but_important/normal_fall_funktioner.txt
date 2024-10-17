@@ -1,5 +1,5 @@
 Hotelldirektör:
-    [D]Skicka erbjudanden via mejl ("skicka erbjudanden till tidigare kunder")
+    [D] Skicka erbjudanden via mejl ("skicka erbjudanden till tidigare kunder")
         - viz. hitta mejl addresser till kunder, med namn och dylikt
         - viz. hitta erbjudanden. 
     -- hitta vad som är relevant i kund.
@@ -9,7 +9,7 @@ Hotelldirektör:
     -- alla aktuella erbjudanden just nu.
     select * from erbjudande WHERE now() < slut AND now() > `start`;
 
-    [D]Lägga in erbjudandens giltighetstid
+    [D] Lägga in erbjudandens giltighetstid
         ** enkel
         - viz. update
     *** SQL::::
@@ -22,7 +22,7 @@ Hotelldirektör:
                 WHERE erbjudande_id = 1
     
 
-    Statistik på vilken typ av rum som är attraktiva en viss period
+    [D] Statistik på vilken typ av rum som är attraktiva en viss period
         - först definera perioden <- input
         - bokning: lista över incheckning som faller inom denna tidsram.
         -> ta fram rum därifrån.
@@ -39,14 +39,14 @@ Hotelldirektör:
 
 
 
-    [D]Se när det är middag bokad och för hur många personer 
+    [D] Se när det är middag bokad och för hur många personer 
         - SELECT X, y from middag. (order by date)
         ** EXAMPLE QUERY:
         SELECT datum, antal_personer, grupp_bokning_id FROM middag 
         ORDER BY datum;
 
 
-    [D]Uppdatera hur många personer som ska äta
+    [D] Uppdatera hur många personer som ska äta
         ** enkel
         - update statement
         *** SQL::::
@@ -86,15 +86,17 @@ Receptionist:
         -- Usecase vill söka efter lediga enkelrum rum perioden 2024-11-01 - 2024-11-07
         SELECT r.rum_id, r.rum_typ_id 
             FROM rum r
-            LEFT JOIN bokning b
+            LEFT JOIN bokning b -- LEFT JOIN: så tar med alla rum även om de inte har en match i bokning. Kollar att de i bokning ej överlappar.
                 ON (b.rum_id = r.rum_id AND 
-                    NOT ( 
-                        (b.incheckning < '2024-11-01' AND b.utcheckning < '2024-11-01') 
-                        OR
-                        (b.incheckning > '2024-11-07' AND b.utcheckning > '2024-11-07') 
+                    -- NOT 
+                        ( 
+                        (b.incheckning < '2024-11-01' AND b.utcheckning < '2024-11-01') -- tidigare bokningar måste ha avslutats innan startdatum. 
+                        OR -- en av dessa måste ha uppfyllts.
+                        (b.incheckning > '2024-11-07' AND b.utcheckning > '2024-11-07') -- tidigare bokningar måste ej ha påbörjats innan slutdatum.
                         )
                     ) 
-                WHERE b.rum_id IS NULL AND r.rum_typ_id = 'Enkelrum'; 
+                WHERE b.rum_id IS NULL -- to make it a type of Left Anti Join.
+                AND r.rum_typ_id = 'Enkelrum'; 
 
 
     Boka rum  <<<<
@@ -124,7 +126,7 @@ Receptionist:
         göra fina ritningen. 
 
 
-    [D]Boka middag för grupp
+    [D] Boka middag för grupp
         *** relativt enkel *** 
         gå via gruppbokning till middag, lägg in nytt objekt i middag och uppdatera fältet för foreign key till den gruppbokningen det gäller.
         ** EXAMPLE QUERY:
@@ -146,7 +148,7 @@ Receptionist:
         SELECT * FROM erbjudande
         WHERE `start` < now() AND slut > now(); 
 
-    [D]Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
+    [D] Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
         Gå via bokning till faktura -> Kolla om det finns erbjudande i faktura
         Kontrollera bokningsdatum
         vi vill kunna ta upp ett pris och erbjudande för en viss bokning. 
@@ -162,7 +164,7 @@ Receptionist:
             LEFT JOIN erbjudande e ON f.erbjudande_id = e.erbjudande_id
 	        WHERE bokning_id = 2;  
 
-    [D-F]Checka in (huvud)gäster
+    [D-F] Checka in (huvud)gäster
         ** Kan ske både med gästens namn / telefonnummer och med boknings-id
         Söka fram rummet som hör till bokningen 
             -> Kontrollera att rummet är utcheckat
@@ -182,7 +184,7 @@ Receptionist:
                     WHERE r.status = "checkat_ut" AND hg.fornamn = "X" AND hg.efternamn = "Y" AND b.incheckning = CURDATE();
 
 
-    [D-F]Checka ut (huvud)gäster
+    [D-F] Checka ut (huvud)gäster
         ** Kan ske både med gästens namn / telefonnummer och med boknings-id
         Söka fram rummet som hör till bokningen 
             -> Kontrollera att rummet är incheckat
@@ -194,7 +196,7 @@ Receptionist:
                     SET r.status = "checkat_ut"
                     WHERE r.status = "checkat_in" AND hg.fornamn = "X" AND hg.efternamn = "Y" AND b.utcheckning <= CURDATE();
 
-    [D]Se om gäst checkat in -- BEHÖVER MOTIVERA I RAPPORT ATT VI TOLKAR DETTA SOM ATT SE STATUS PÅ RUM FÖR EN GÄST.
+    [D] Se om gäst checkat in -- BEHÖVER MOTIVERA I RAPPORT ATT VI TOLKAR DETTA SOM ATT SE STATUS PÅ RUM FÖR EN GÄST.
         Gå från huvud_gast -> bokning -> rum
             - Sök upp huvud_gast_id från gästens namn
             - Hitta bokning-ID som har den huvudgästen
@@ -208,12 +210,12 @@ Receptionist:
             WHERE b.incheckning <= CURDATE() AND b.utcheckning >= CURDATE() -- testdata behövs för nutid och dåtid, inte bara framtid >.<
             AND hg.fornamn = "Carina" AND hg.efternamn = "Lindelöf"
             -- AND r.status = "checkat_ut" -- kom ihåg till rapporten att motivera varför detta inte är med!
-    [D]Se om gäst checkat ut
+    [D] Se om gäst checkat ut
         Gå från huvud_gast -> bokning -> rum
             SE OVAN!!
 
 
-    [D]Se vem i personalen som gjort bokning 
+    [D] Se vem i personalen som gjort bokning 
         Selectsats med sökning i bokning samt personal
         *** SQL QUERY:::
             SELECT personal.fornamn, personal.efternamn, bokning.bokning_id, personal.personal_id

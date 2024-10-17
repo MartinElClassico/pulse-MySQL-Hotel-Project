@@ -307,6 +307,7 @@ def main():
 
     #region TODO: update dictionaries with values:
     # FIXME: breaks date range functon for booking in regards to incheckning and utcheckning
+    # FIXME: status: checkat_in eller checkat_ut verkar vara arbiträrt assignerat. Slumpat?
 
     # update middag with date for dinner based on bookings:
     update_middag_dict_on_bookings(l_middag_dicts, l_bokning_dicts)
