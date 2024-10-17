@@ -361,7 +361,7 @@ Receptionist:
             WHERE faktura_id = @bokning.faktura_id;
 
             -- SQL QUERY::
-            SELECT b.bokning_id, b.faktura_id, b.huvud_gast_id, b.kund_id, rp.pris_per_natt, fo.summa  
+            SELECT b.bokning_id, b.faktura_id, b.huvud_gast_id, b.kund_id, rp.pris_per_natt, SUM(fo.summa) AS 'försäljning'  
             FROM bokning b 
             INNER JOIN rum_pris rp ON b.rum_pris_id = rp.rum_pris_id
             LEFT JOIN forsaljning fo ON b.faktura_id = fo.faktura_id
