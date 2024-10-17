@@ -102,6 +102,12 @@ Receptionist:
         INSERT INTO faktura (personal_id, erbjudande_id, grupp_bokning_id) 
         VALUES (1, NULL, NULL);
 
+        INSERT INTO bokning (
+            rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, grupp_bokning_id, 
+            faktura_id, bokning_datum, antal_gaster, incheckning, utcheckning
+            ) VALUES (
+                A, B, C, 1, D, NULL, E, Now(), 2, Fx, Gx
+                );
 
     Boka rum för grupp <<<<
         göra fina ritningen. 
