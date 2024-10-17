@@ -356,11 +356,18 @@ Receptionist:
             FROM rum_pris rp
             WHERE rum_pris_id = @bokning.rum_pris_id; 
 
-            SELECT SUM (f.summa)
-            FROM forsaljning f
+            SELECT SUM (fo.summa)
+            FROM forsaljning fo
             WHERE faktura_id = @bokning.faktura_id;
 
-            
+            -- SQL QUERY::
+            SELECT b.bokning_id, b.faktura_id, b.huvud_gast_id, b.kund_id, rp.pris_per_natt, fo.summa  
+            FROM bokning b 
+            INNER JOIN rum_pris rp ON b.rum_pris_id = rp.rum_pris_id
+            LEFT JOIN forsaljning fo ON b.faktura_id = fo.faktura_id
+			WHERE b.faktura_id IS NOT NULL AND b.bokning_id = 96
+            ORDER BY b.bokning_id;
+            -- WHERE bokning_id = user_input;
 
     Skriva ut räkning för gruppbokningar
         WHERE grupp_bokning_id = X 
