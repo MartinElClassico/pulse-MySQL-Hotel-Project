@@ -87,7 +87,7 @@ Receptionist:
                 SET @rum_id_fr_lediga_rum = r.rum_id, @rum_typ_id_fr_lediga_rum = r.rum_typ_id;
 
 -- region
-    Boka rum  <<<<
+    [D-F] Boka rum  <<<<
         ***Går vidare från förra steget ovan***
         gå in bokning med valt rum_id från förra steget, updatera/insert bokning. 
             updatera/insert kund´
@@ -147,7 +147,7 @@ Receptionist:
         VALUES (1, NULL, NULL);
         SET @faktura_id_fr_insert_faktura = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
 
-        #FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. Måste antingen göra så att personalen manuellt väljer pris, eller fixa testdatan så att inte rumpris med samma rumtyp får överlappa i tid
+        FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. Måste antingen göra så att personalen manuellt väljer pris, eller fixa testdatan så att inte rumpris med samma rumtyp får överlappa i tid
         SELECT rum_pris_id INTO @rum_pris_id_fr_select_rum_pris
         FROM rum_pris
         WHERE (
@@ -173,8 +173,59 @@ Receptionist:
                 );
 -- endregion
 
-    Boka rum för grupp <<<<
-        göra fina ritningen. 
+    [D-F] Boka rum för grupp <<<<
+         *** SQL QUERY::: (Usecase boka två enkelrum för en person vardera perioden 2024-11-01 - 2024-11-07, ny kund samt huvudgäster)
+
+        INSERT INTO huvud_gast (fornamn, efternamn, mejl_address, telefon_nummer) 
+        VALUES ('Caroline', 'Carlsson', 'CarCar@exempel.com', '+46731234561');
+        SET @huvud_gast_id_fr_insert_a = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+        
+        INSERT INTO huvud_gast (fornamn, efternamn, mejl_address, telefon_nummer) 
+        VALUES ('Daniel', 'Davidsson', 'AndAnd@exempel.com', '+46731234562');
+        SET @huvud_gast_id_fr_insert_b = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) 
+        VALUES ('Emil', 'Eriksson', 'EmiEri@example.com', '+46701234563');
+        SET @kund_id_fr_insert = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        INSERT INTO grupp_bokning (personal_id)
+        VALUES (2);
+        SET @grupp_bokning_id_fr_insert = LAST_INSERT_ID();
+
+        INSERT INTO faktura (personal_id, erbjudande_id, grupp_bokning_id) 
+        VALUES (1, NULL, @grupp_bokning_id_fr_insert);
+        SET @faktura_id_fr_insert = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. Måste antingen göra så att personalen manuellt väljer pris, eller fixa testdatan så att inte rumpris med samma rumtyp får överlappa i tid
+        SELECT rum_pris_id INTO @rum_pris_id_fr_select
+        FROM rum_pris
+        WHERE (
+            (Now() BETWEEN `start` AND slut) 
+            AND 
+            (rum_typ_id = 'enkelrum')
+            ); 
+
+        INSERT INTO bokning (
+            rum_id, kund_id, 
+            huvud_gast_id, 
+            personal_id, rum_pris_id, 
+            grupp_bokning_id, bokning_datum, 
+            antal_gaster, 
+            incheckning, utcheckning
+            ) VALUES (
+                5, @kund_id_fr_insert, 
+                @huvud_gast_id_fr_insert_a, 
+                1, @rum_pris_id_fr_select, 
+                @grupp_bokning_fr_insert, Now(), 
+                2, 
+                '2024-11-01', '2024-11-07' -- given av personalen i dialog med kund utifrån tidigare bild på lediga rum.
+                ),
+                (8, @kund_id_fr_insert, 
+                @huvud_gast_id_fr_insert_b, 
+                1, @rum_pris_id_fr_select, 
+                @grupp_bokning_fr_insert, Now(), 
+                2, 
+                '2024-11-01', '2024-11-07' -- given av personalen i dialog med kund utifrån tidigare bild på lediga rum.);
 
 
     [D] Boka middag för grupp
@@ -220,7 +271,7 @@ Receptionist:
         Söka fram rummet som hör till bokningen 
             -> Kontrollera att rummet är utcheckat
             -> Uppdatera checked_in till TRUE  (och checked_out till FALSE) 
-        -- FIXME: SAKNAS TESTDATA FÖR DENNA! Finns inga bokningar med incheckning idag (problem noterat 2024-10-16)
+        FIXME: SAKNAS TESTDATA FÖR DENNA! Finns inga bokningar med incheckning idag (problem noterat 2024-10-16)
         -- WHERE CLAUSE NEEDS: AND r.status = "pending"
                     UPDATE rum r
                     INNER JOIN bokning b ON r.rum_id = b.rum_id
@@ -240,7 +291,7 @@ Receptionist:
         Söka fram rummet som hör till bokningen 
             -> Kontrollera att rummet är incheckat
             -> Uppdatera checked_in till FALSE  (och checked_out till TRUE) 
-            -- FIXME: SAKNAS TESTDATA FÖR DENNA!
+            FIXME: SAKNAS TESTDATA FÖR DENNA!
             UPDATE rum r
                     INNER JOIN bokning b ON r.rum_id = b.rum_id
                     INNER JOIN huvud_gast hg ON hg.huvud_gast_id = b.huvud_gast_id
@@ -273,15 +324,44 @@ Receptionist:
             FROM personal
             INNER JOIN bokning ON personal.personal_id = bokning.personal_id;
 
+    FIXME: Alla ställen som söker på namn - namn är inte nödvändigtvis unikt, söka på boknings-id istället? Diskutera i rapport. 
+    Sök på boknings-ID istället, en gäst kan ha flera bokningar.
+    Diskutera i rapporten över att antalet gäster ej påverkar priset, har bara pris per natt per rum
     
     [D] Ändra datum i bokningar
         Updatesats i bokning.incheck och/eller bokning.utcheck
         *** SQL QUERY:::
             UPDATE bokning SET incheckning = '2024-12-01', utcheckning = '2024-12-15'
             WHERE bokning_id = 1;
-    Skriva ut räkning för bokningar / gruppbokningar
-        Räkna ut totalpris per kund för specifik bokning / gruppbokning
+    
+    Skriva ut räkning för bokningar 
+        Tolkning: Få ut data nödvändigt för att summera priset
         Betalnings-spec/kvitto?
+        Input från användaren:
+            bokning_id
+        Data från databas som behövs:
+            Antalet nätter
+                derived från incheckning och utcheckning i bokning
+            Pris per natt
+                bokning.rum_pris
+            Försäljningssummor
+                Från försäljning.summa, via faktura
+
+        SELECT b.incheckning, b.utcheckning, b.rum_pris_id, b.faktura_id, b.huvud_gäst_id, b.kund_id 
+        FROM bokning b
+        WHERE bokning_id = user_input
+
+        SELECT rp.pris_per_natt 
+        FROM rum_pris rp
+        WHERE rum_pris_id = b.rum_pris_id 
+
+        SELECT SUM (f.summa)
+        FROM forsaljning f
+        WHERE faktura_id = b.faktura_id
+
+    Skriva ut räkning för gruppbokningar
+        WHERE grupp_bokning_id = X 
+        SUMMA: (antalet nätter * pris_per_natt)
 
 Städare:
     [D] Se vilka rum som är utcheckade
