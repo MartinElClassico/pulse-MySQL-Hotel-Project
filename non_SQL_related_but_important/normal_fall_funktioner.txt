@@ -88,7 +88,7 @@ Receptionist:
             FROM rum r
             LEFT JOIN bokning b -- LEFT JOIN: så tar med alla rum även om de inte har en match i bokning. Kollar att de i bokning ej överlappar.
                 ON (b.rum_id = r.rum_id AND 
-                    -- NOT 
+                    NOT -- för att inte exludera även de rum med bokningar innan eller efter det önskade intervallet 
                         ( 
                         (b.incheckning < '2024-11-01' AND b.utcheckning < '2024-11-01') -- tidigare bokningar måste ha avslutats innan startdatum. 
                         OR -- en av dessa måste ha uppfyllts.
