@@ -26,7 +26,16 @@ Hotelldirektör:
         - först definera perioden <- input
         - bokning: lista över incheckning som faller inom denna tidsram.
         -> ta fram rum därifrån.
-        -> från rum hitta rumtyp, räkna  (count) antal av varje rumtyp. 
+        -> från rum hitta rumtyp, räkna  (count) antal av varje rumtyp.
+        *** SQL ::::
+        SELECT rt.rum_typ_id, COUNT(*) AS antal_bokningar
+        FROM bokning b
+        INNER JOIN rum r ON b.rum_id = r.rum_id -- now we only have rooms that have been booked.
+        INNER JOIN rum_typ rt ON r.rum_typ_id = rt.rum_typ_id -- so that it selects the same for count
+        WHERE b.incheckning BETWEEN 'X' AND 'Y'
+        GROUP BY rt.rum_typ_id
+        ORDER BY antal_bokningar DESC; -- want to see most attractive first.
+
 
 
 
