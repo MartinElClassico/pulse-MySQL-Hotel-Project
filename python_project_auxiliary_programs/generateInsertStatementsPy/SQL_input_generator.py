@@ -47,6 +47,10 @@ g_set_start_datetime = datetime(2023, 10, 16, 00, 00, 00)
 g_set_end_datetime = datetime(2025, 10, 16, 23, 59, 59)
 
 #endregion
+#FIXME: Fel i testdata: inbokning och utbokning kan vara samma dag.
+#FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. 
+# Måste antingen göra så att personalen manuellt väljer pris, 
+# eller fixa testdatan så att inte rumpris med samma rumtyp får överlappa i tid
 
 #region DICTIONARY GENERATORS
 # to make data accesible but still editable in case of foreign key conflicts etc.

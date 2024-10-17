@@ -47,7 +47,7 @@ def update_middag_dict_on_bookings(l_middag_dicts, l_bokning_dicts):
                 break # no need to check more in bokning dict now that we found our match
 
 # update bokning_dicts with factura dict AND update faktura_dicts.
-    # functions like this:
+    # functions like this: 
     """ Check: if a booking has a group booking then it updates factura with that group booking ID  << UPDATES FAKTURA * 
                         AND saves (list: l_factura_id_w_gb) which factura_id has a group booking assigned to it.
                 else sets factura_id to an factura_id in bokning that doesn't (EXIST IN list: l_factura_id_w_gb)
