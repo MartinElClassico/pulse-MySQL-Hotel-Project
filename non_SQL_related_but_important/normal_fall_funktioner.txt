@@ -95,6 +95,11 @@ Receptionist:
             updatera/insert huvud_gäst
             updatera/insert faktura
                 *** tänk på ordningen av operationer här: vilken tabell i vilken ordning? "Insert order per build1.txt"
+        *** SQL QUERY::: (Usecase boka ett enkelrum för en person perioden 2024-11-01 - 2024-11-07)
+        INSERT INTO bokning (rum_id, kund_id, huvud_gast_id, personal_id, rum_pris_id, faktura_id, bokning_datum, antal_gaster, incheckning, utcheckning) 
+        VALUES (x, x, x, x, x, x, NOW(), x, '2024-11-01', '2024-11-07');
+
+
     Boka rum för grupp <<<<
         göra fina ritningen. 
 
