@@ -87,7 +87,7 @@ Receptionist:
                 SET @rum_id_fr_lediga_rum = r.rum_id, @rum_typ_id_fr_lediga_rum = r.rum_typ_id;
 
 -- region
-    Boka rum  <<<<
+    [D-F] Boka rum  <<<<
         ***Går vidare från förra steget ovan***
         gå in bokning med valt rum_id från förra steget, updatera/insert bokning. 
             updatera/insert kund´
@@ -147,7 +147,7 @@ Receptionist:
         VALUES (1, NULL, NULL);
         SET @faktura_id_fr_insert_faktura = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
 
-        #FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. Måste antingen göra så att personalen manuellt väljer pris, eller fixa testdatan så att inte rumpris med samma rumtyp får överlappa i tid
+        -- FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. Måste antingen göra så att personalen manuellt väljer pris, eller fixa testdatan så att inte rumpris med samma rumtyp får överlappa i tid
         SELECT rum_pris_id INTO @rum_pris_id_fr_select_rum_pris
         FROM rum_pris
         WHERE (
@@ -173,8 +173,59 @@ Receptionist:
                 );
 -- endregion
 
-    Boka rum för grupp <<<<
-        göra fina ritningen. 
+    [D-F] Boka rum för grupp <<<<
+         *** SQL QUERY::: (Usecase boka två enkelrum för en person vardera perioden 2024-11-01 - 2024-11-07, ny kund samt huvudgäster)
+
+        INSERT INTO huvud_gast (fornamn, efternamn, mejl_address, telefon_nummer) 
+        VALUES ('Caroline', 'Carlsson', 'CarCar@exempel.com', '+46731234561');
+        SET @huvud_gast_id_fr_insert_a = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+        
+        INSERT INTO huvud_gast (fornamn, efternamn, mejl_address, telefon_nummer) 
+        VALUES ('Daniel', 'Davidsson', 'AndAnd@exempel.com', '+46731234562');
+        SET @huvud_gast_id_fr_insert_b = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) 
+        VALUES ('Emil', 'Eriksson', 'EmiEri@example.com', '+46701234563');
+        SET @kund_id_fr_insert = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        INSERT INTO grupp_bokning (personal_id)
+        VALUES (2);
+        SET @grupp_bokning_id_fr_insert = LAST_INSERT_ID();
+
+        INSERT INTO faktura (personal_id, erbjudande_id, grupp_bokning_id) 
+        VALUES (1, NULL, @grupp_bokning_id_fr_insert);
+        SET @faktura_id_fr_insert = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        -- FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. Måste antingen göra så att personalen manuellt väljer pris, eller fixa testdatan så att inte rumpris med samma rumtyp får överlappa i tid
+        SELECT rum_pris_id INTO @rum_pris_id_fr_select
+        FROM rum_pris
+        WHERE (
+            (Now() BETWEEN `start` AND slut) 
+            AND 
+            (rum_typ_id = 'enkelrum')
+            ); 
+
+        INSERT INTO bokning (
+            rum_id, kund_id, 
+            huvud_gast_id, 
+            personal_id, rum_pris_id, 
+            grupp_bokning_id, bokning_datum, 
+            antal_gaster, 
+            incheckning, utcheckning
+            ) VALUES (
+                5, @kund_id_fr_insert, 
+                @huvud_gast_id_fr_insert_a, 
+                1, @rum_pris_id_fr_select, 
+                @grupp_bokning_fr_insert, Now(), 
+                2, 
+                '2024-11-01', '2024-11-07' -- given av personalen i dialog med kund utifrån tidigare bild på lediga rum.
+                ),
+                (8, @kund_id_fr_insert, 
+                @huvud_gast_id_fr_insert_b, 
+                1, @rum_pris_id_fr_select, 
+                @grupp_bokning_fr_insert, Now(), 
+                2, 
+                '2024-11-01', '2024-11-07' -- given av personalen i dialog med kund utifrån tidigare bild på lediga rum.);
 
 
     [D] Boka middag för grupp
