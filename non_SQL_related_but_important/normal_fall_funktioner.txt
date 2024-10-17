@@ -52,7 +52,7 @@ Hotelldirektör:
 
 
 Receptionist:
-    Se lediga rum av en viss typ en viss tidsperiod, 
+    [D] Se lediga rum av en viss typ en viss tidsperiod, 
         viz. en kund vill boka ett enkelrum
         -> gå in i bokning, gå in och kolla all data, ta bort träffar där någon av dagarna
         inom tidsperioden har träff mellan ett derivade value som utgår ifrån:
@@ -73,21 +73,19 @@ Receptionist:
             OR b.utcheckning <= "kundens inchecknignsdatum")
         );
 
-        -- Förslag på sätt att skriva det?
-        SELECT 
-        rum.rum_id, r.rum_typ_id 
-        FROM rum 
-        LEFT JOIN bokning 
-            ON (
-                bokning.rum_id = rum.rum_id AND 
-                NOT ( 
-                    (bokning.incheckning < X AND bokning.utheckning < X) 
-                    OR
-                    (bokning.incheckning > Y AND bokning.utcheckning > Y) 
-                    )
-                ) 
-        WHERE 
-            bokning.rum_id IS NULL; 
+        *** SQL QUERY:::
+        -- Usecase vill söka efter lediga enkelrum rum perioden 2024-11-01 - 2024-11-07
+        SELECT r.rum_id, r.rum_typ_id 
+            FROM rum r
+            LEFT JOIN bokning b
+                ON (b.rum_id = r.rum_id AND 
+                    NOT ( 
+                        (b.incheckning < '2024-11-01' AND b.utcheckning < '2024-11-01') 
+                        OR
+                        (b.incheckning > '2024-11-07' AND b.utcheckning > '2024-11-07') 
+                        )
+                    ) 
+                WHERE b.rum_id IS NULL AND r.rum_typ_id = 'Enkelrum'; 
 
 
     Boka rum  <<<<
