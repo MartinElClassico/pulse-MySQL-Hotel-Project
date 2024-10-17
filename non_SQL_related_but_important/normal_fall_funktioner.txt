@@ -361,15 +361,14 @@ Receptionist:
             WHERE faktura_id = @bokning.faktura_id;
 
             -- SQL QUERY::
-            SELECT b.bokning_id, b.faktura_id, b.huvud_gast_id, CONCAT(hg.fornamn,' ', hg.efternamn) AS 'gästnamn', b.kund_id, CONCAT(k.fornamn,' ', k.efternamn) AS 'kundnamn', rp.pris_per_natt, SUM(fo.summa) AS 'försäljning'  
+            SELECT b.bokning_id, b.faktura_id, b.huvud_gast_id, CONCAT(hg.fornamn,' ', hg.efternamn) AS 'gästnamn', b.kund_id, CONCAT(k.fornamn,' ', k.efternamn) AS 'kundnamn', rp.pris_per_natt, IFNULL(SUM(fo.summa), 0) AS 'försäljning'  
             FROM bokning b 
             INNER JOIN rum_pris rp ON b.rum_pris_id = rp.rum_pris_id
             LEFT JOIN forsaljning fo ON b.faktura_id = fo.faktura_id
             INNER JOIN kund k ON b.kund_id = k.kund_id
             INNER JOIN huvud_gast hg ON b.huvud_gast_id = hg.huvud_gast_id
-			WHERE b.faktura_id IS NOT NULL AND b.bokning_id = 96
+			WHERE b.faktura_id IS NOT NULL AND b.bokning_id = 2
             ORDER BY b.bokning_id;
-            -- WHERE bokning_id = user_input;
 
     Skriva ut räkning för gruppbokningar
         WHERE grupp_bokning_id = X 
