@@ -71,28 +71,16 @@ Receptionist:
         -> skapa ny lista utifrån "join" med den rumtypen man söker och de rum som uppfyller kraven.
         -- SELECT pseudo.start_ledigt, pseudo.slut_ledigt ,r.rum_id, r.rum_typ_id //med nested query där pseudo är derived.
         -- 237-239 datatyp som heter Interval som håller DATETIME eller YEARMONTH. Ev. fixa en sådan med DATETIME eller deriva en sådan?
-        *** SQL QUERY:::
-        SELECT r.rum_id, r.rum_typ_id
-        FROM rum r 
-        LEFT JOIN bokning b ON rum_id = rum_id
-        WHERE (
-            r.rum_typ = "X" 
-            AND (b.rum_id IS NULL -- för då finns det ingen bokning, dvs rummet är tillgänligt.
-            OR b.incheckning >= "kundens utcheckningsdatum" -- enbart en person kan checka in per dag på ett rum => <
-            OR b.utcheckning <= "kundens inchecknignsdatum")
-        );
-
+        
         *** SQL QUERY:::
         -- Usecase vill söka efter lediga enkelrum rum perioden 2024-11-01 - 2024-11-07
         SELECT r.rum_id, r.rum_typ_id 
             FROM rum r
             LEFT JOIN bokning b -- LEFT JOIN: tar med alla rum även om de inte har en match i bokning. Kollar att de i bokning ej överlappar.
-                ON (b.rum_id = r.rum_id AND 
-                    ( 
-                        ('2024-11-07' > b.incheckning) -- tar bort rum som har bokning med incheckning innan önskat slutdatum
-                        ('2024-11-01' < b.utcheckning) -- tar bort rum som har bokning med utcheckning efter önskat startdatum
-                        )
-                    ) 
+                ON (b.rum_id = r.rum_id 
+                    AND '2024-11-07' > b.incheckning -- tar bort rum som har bokning med incheckning innan önskat slutdatum
+                    AND '2024-11-01' < b.utcheckning -- tar bort rum som har bokning med utcheckning efter önskat startdatum
+                    )
                 WHERE b.rum_id IS NULL -- för att göra en Left Anti Join.
                 AND r.rum_typ_id = 'Enkelrum'; -- för att bara ta fram enkelrummen
 
