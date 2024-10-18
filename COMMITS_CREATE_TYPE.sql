@@ -66,7 +66,7 @@ CREATE TABLE faktura(
     faktura_id INT PRIMARY KEY AUTO_INCREMENT,
     personal_id INT NOT NULL,
     erbjudande_id INT, -- note: auto generator always has values for this attribute
-    `status` ENUM('pagaende', 'betald', 'obetald', 'kommande'),
+    `status` ENUM('pagaende', 'betald', 'obetald', 'kommande') NOT NULL,
     CONSTRAINT faktura_fk_personal FOREIGN KEY (personal_id) REFERENCES personal(personal_id),
     CONSTRAINT faktura_fk_erbjudande FOREIGN KEY (erbjudande_id) REFERENCES erbjudande(erbjudande_id)
 );
