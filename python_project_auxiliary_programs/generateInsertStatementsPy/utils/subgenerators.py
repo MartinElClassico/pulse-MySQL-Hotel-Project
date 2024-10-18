@@ -126,6 +126,7 @@ def _validate_dates(erbjudande: Dict, pris: Dict, bokning: Dict, middag: Dict) -
 def update_date_range(
     lower_limit: datetime, 
     upper_limit: datetime, 
+    max_limit_days: int,
     l_erbjudande_dict: List[Dict], 
     l_bokning_dict: List[Dict], 
     l_pris_dict: List[Dict], 
@@ -150,7 +151,7 @@ def update_date_range(
         # Keep generating valid dates until all conditions are satisfied
         while True:
             # Generate random dates within the valid range
-            # FIXME: use updated functions for creating dates and date ranges.
+            # FIXED: use updated functions for creating dates and date ranges.
             erbjudande['start_datum'] = _random_date(lower_limit, upper_limit)
             erbjudande['slut_datum'] = _random_date(erbjudande['start_datum'], upper_limit)
             
@@ -158,8 +159,8 @@ def update_date_range(
             pris['slut_datum'] = _random_date(pris['start_datum'], upper_limit)
             
             bokning['bokning_datum'] = _random_date(lower_limit, upper_limit)
-            bokning['datum_incheck'] = _random_date(bokning['bokning_datum'], upper_limit)
-            bokning['datum_utcheck'] = _random_date(bokning['datum_incheck'], upper_limit)
+            bokning['datum_incheck'], datum_f_utcheck = generate_random_interval_defined_interval(bokning['bokning_datum'], upper_limit, max_limit_days)
+            bokning['datum_utcheck'] = datum_f_utcheck
             
             middag['datum'] = _random_date(bokning['datum_incheck'], bokning['datum_utcheck'])
             

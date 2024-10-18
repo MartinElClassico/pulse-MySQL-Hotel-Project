@@ -45,6 +45,7 @@ boknings_added_per_groupb = [0] * grupp_bokning_n
 # a start date so we don't have different ones everywhere:
 g_set_start_datetime = datetime(2023, 10, 16, 00, 00, 00) 
 g_set_end_datetime = datetime(2025, 10, 16, 23, 59, 59)
+g_set_days_intervall = 30
 
 #endregion
 #FIXME: Fel i testdata: inbokning och utbokning kan vara samma dag.
@@ -183,7 +184,7 @@ def generate_forsaljning_dict(p_id):
 def generate_bokning_dict(p_id, grupp_bokning_n):
     global boknings_added_per_groupb
     # Get random dates within 1 month
-    checkin_date, checkout_date = generate_random_interval_defined_interval(g_set_start_datetime, g_set_end_datetime, 30)  
+    checkin_date, checkout_date = generate_random_interval_defined_interval(g_set_start_datetime, g_set_end_datetime, g_set_days_intervall)  
     # Returns null or fk_grupp_bokning and updates global list. 
     grupp_bokning_assigned_value, boknings_added_per_groupb_updated = value_for_grupp_bokning_reference(
         random.choice(grupp_bokning_ids), boknings_added_per_groupb, grupp_bokning_n)  
@@ -333,7 +334,7 @@ def main():
     tabulate_print(l_faktura_dicts, "faktura", "update_faktura_for_erbjudande_id")
 
     # make sure dates are within a good range, #TODO: doesn't take FK and PM into regard, so might come out mixed anyhow. >.<
-    update_date_range(g_set_start_datetime, g_set_end_datetime, l_erbjudande_dicts, l_bokning_dicts, l_rum_pris_dicts, l_middag_dicts)
+    update_date_range(g_set_start_datetime, g_set_end_datetime, g_set_days_intervall, l_erbjudande_dicts, l_bokning_dicts, l_rum_pris_dicts, l_middag_dicts)
     tabulate_print(l_erbjudande_dicts, "erbjudande", "update_date_range")
     tabulate_print(l_bokning_dicts, "bokning", "update_date_range")
     tabulate_print(l_rum_pris_dicts, "rum_pris", "update_date_range")

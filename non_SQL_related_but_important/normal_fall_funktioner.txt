@@ -408,7 +408,7 @@ Receptionist:
             x: rum_pris_id
             (x: huvud_gast_id)
         I FAKTURA UTIFRÅN grupp_bokning_id:
-            erbjudande_id
+            x: erbjudande_id
             X: faktura_id
         I FORSALJNING UTIFRÅN faktura_id:
             summa
@@ -428,7 +428,11 @@ Receptionist:
             efternamn
             )
 
-
+        SELECT
+            b.incheckning, b.utcheckning, b.personal_id, m.antal_personer, m.middag_id
+        FROM bokning b
+        JOIN faktura fa ON b.grupp_bokning_id = fa.grupp_bokning_id
+        JOIN middag m ON b.grupp_bokning_id = m.grupp_bokning_id
         
         
         
