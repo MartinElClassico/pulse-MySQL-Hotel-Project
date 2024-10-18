@@ -120,22 +120,24 @@ def _validate_dates(max_days_between: int,erbjudande: Dict, pris: Dict, bokning:
     """Ensure generated dates are valid according to your rules."""
     # Check the offer period
     if not (erbjudande['start_datum'] <= bokning['bokning_datum'] <= erbjudande['slut_datum']):
-        if not (1 <= _days_between(erbjudande['start_datum'], erbjudande['slut_datum']) <= max_days_between):
-            return False
         return False
+    if not (1 < _days_between(erbjudande['start_datum'], erbjudande['slut_datum']) <= max_days_between):
+            return False
     # Check the price period
     if not (pris['start_datum'] <= bokning['bokning_datum'] < pris['slut_datum']):
-        if not (1 <= _days_between(pris['start_datum'], pris['slut_datum']) <= max_days_between):
-            return False
         return False
+    if not (1 < _days_between(pris['start_datum'], pris['slut_datum']) <= max_days_between):
+            return False
     # Check booking and check-in/out dates
     if not (bokning['bokning_datum'] <= bokning['datum_incheck'] < bokning['datum_utcheck']):
-        if not (1 <= _days_between(bokning['bokning_datum'], bokning['datum_incheck']) <= max_days_between):
-            return False
         return False
+    if not (1 < _days_between(bokning['bokning_datum'], bokning['datum_incheck']) <= max_days_between):
+            return False
     # Check if the dinner date is within the check-in and check-out dates
     if not (bokning['datum_incheck'] <= middag['datum'] <= bokning['datum_utcheck']):
         return False
+    if not (1 <= _days_between(middag['datum'], bokning['datum_utcheck']) <=max_days_between):
+            return False
     
     return True
 
@@ -168,20 +170,19 @@ def update_date_range(
         # Keep generating valid dates until all conditions are satisfied
         while True:
             # Generate random dates within the valid range
-
-            erbjudande['start_datum'], erbjudande['slut_datum'] = (
-                generate_random_interval_defined_interval(lower_limit, upper_limit, max_days_between))
+            erbjudande['start_datum'] = _random_date(lower_limit, upper_limit)
+            erbjudande['slut_datum'] = _random_date(erbjudande['start_datum'], upper_limit)
             
-            pris['start_datum'], pris['slut_datum'] = (
-                generate_random_interval_defined_interval(lower_limit, upper_limit, max_days_between))
+            pris['start_datum'] = _random_date(erbjudande['start_datum'], erbjudande['slut_datum'])
+            pris['slut_datum'] = _random_date(pris['start_datum'], erbjudande['slut_datum'])
             
             bokning['bokning_datum'], bokning['datum_incheck'], bokning['datum_utcheck'] = (
-                generate_random_3interval_defined_interval(lower_limit, upper_limit, max_days_between))
+                generate_random_3interval_defined_interval(pris['start_datum'], pris['slut_datum'], max_days_between))
             #bokning['bokning_datum'] = _random_date(lower_limit, upper_limit)
             #bokning['datum_incheck'] = _random_date(lower_limit, upper_limit)
             #bokning['datum_utcheck'] = _random_date(lower_limit, upper_limit)
             
-            middag['datum'] = _random_date(lower_limit, upper_limit)
+            middag['datum'] = _random_date(bokning['datum_incheck'], bokning['datum_utcheck'])
             
             # Validate the generated dates
             if _validate_dates(max_days_between, erbjudande, pris, bokning, middag):
@@ -282,9 +283,9 @@ def generate_triple_random_interval(start_datetime: datetime, end_datetime: date
     return lowest_value, middle_value, highest_value
 
 def generate_random_interval_timestamp(start_datetime: datetime, end_datetime: datetime) -> tuple[datetime, datetime]:
-    first = True # to enter loop.
     r_start_dt = generate_random_timestamp(start_datetime, end_datetime) # to predefine
     r_end_dt = generate_random_timestamp(r_start_dt, end_datetime) # to predefine
+
     return r_start_dt, r_end_dt
 
 def generate_random_interval_defined_interval(start_datetime: datetime, end_datetime: datetime, max_days: int) -> tuple[datetime, datetime]:

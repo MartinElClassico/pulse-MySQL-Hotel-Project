@@ -1,3 +1,0 @@
-INSERT INTO grupp_bokning () VALUES ();
-INSERT INTO grupp_bokning () VALUES ();
-INSERT INTO grupp_bokning () VALUES ();

@@ -381,8 +381,8 @@ def main():
     # make sure dates are within a good range, #TODO: doesn't take FK and PM into regard, so might come out mixed anyhow. >.<
     update_date_range(g_set_start_datetime, g_set_end_datetime, g_set_days_intervall, l_erbjudande_dicts, l_bokning_dicts, l_rum_pris_dicts, l_middag_dicts)
     tabulate_print(l_erbjudande_dicts, "erbjudande", "update_date_range")
-    tabulate_print(l_bokning_dicts, "bokning", "update_date_range")
     tabulate_print(l_rum_pris_dicts, "rum_pris", "update_date_range")
+    tabulate_print(l_bokning_dicts, "bokning", "update_date_range")
     tabulate_print(l_middag_dicts, "middag", "update_date_range")
 
     # change format for dates!
