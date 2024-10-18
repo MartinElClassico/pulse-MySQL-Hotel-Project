@@ -347,8 +347,16 @@ Receptionist:
             Försäljningssummor
                 Från försäljning.summa, via faktura
 
-            SELECT incheckning, utcheckning, rum_pris_id, faktura_id, huvud_gast_id, kund_id 
-            INTO @bokning.incheckning, @bokning.utcheckning, @bokning.rum_pris_id, @bokning.faktura_id, @bokning.huvud_gast_id, @bokning.kund_id
+            SELECT (
+                incheckning, utcheckning, 
+                rum_pris_id, faktura_id, 
+                huvud_gast_id, kund_id
+                ) 
+            INTO (
+                @bokning.incheckning, @bokning.utcheckning, 
+                @bokning.rum_pris_id, @bokning.faktura_id, 
+                @bokning.huvud_gast_id, @bokning.kund_id
+                )
             FROM bokning
             WHERE bokning_id = user_input;
 
@@ -361,18 +369,75 @@ Receptionist:
             WHERE faktura_id = @bokning.faktura_id;
 
             -- SQL QUERY::
-            SELECT b.bokning_id, b.faktura_id, b.huvud_gast_id, CONCAT(hg.fornamn,' ', hg.efternamn) AS 'gästnamn', b.kund_id, CONCAT(k.fornamn,' ', k.efternamn) AS 'kundnamn', rp.pris_per_natt, IFNULL(SUM(fo.summa), 0) AS 'försäljning'  
+            FIXME: lägg till erbjudande
+            FIXME: i rum_pris, vi kontrollerar ej om priset är aktuellt eller inte. ej mot rum_typ heller. Nu utgår vi att det är rätt info där.
+            SELECT 
+                b.bokning_id,
+                b.faktura_id, 
+                b.huvud_gast_id, 
+                CONCAT(hg.fornamn,' ', hg.efternamn) AS 'gästnamn', 
+                b.kund_id, 
+                CONCAT(k.fornamn,' ', k.efternamn) AS 'kundnamn', 
+                b.incheckning, b.utcheckning,
+                DATEDIFF(b.utcheckning, b.incheckning) AS 'antal nätter',
+                rp.pris_per_natt, 
+                IFNULL(SUM(fo.summa), 0) AS 'försäljning',
+                DATEDIFF(b.utcheckning, b.incheckning) * rp.pris_per_natt + IFNULL(SUM(fo.summa), 0) AS tot_pris_bokning
+            FROM bokning b 
+                INNER JOIN rum_pris rp ON b.rum_pris_id = rp.rum_pris_id
+                LEFT JOIN forsaljning fo ON b.faktura_id = fo.faktura_id
+                INNER JOIN kund k ON b.kund_id = k.kund_id
+                INNER JOIN huvud_gast hg ON b.huvud_gast_id = hg.huvud_gast_id
+            WHERE b.faktura_id IS NOT NULL AND b.bokning_id = 58
+            ORDER BY b.bokning_id;
+
+
+    Skriva ut räkning för gruppbokningar
+        >>>>: TOLKNING AV UPPGIFT:
+            - middag?
+            ===> ta med antal middagar med antal personer. De får manuellt räkna ut debiteringen utifrån detta.
+            motivera: lägga till kostnad för middag (ej med ty: skulle kräva dialog först)
+        >>>INPUT:
+        grupp_bokning_id
+        >>>DATA ATT HÄMTA:
+        I BOKNING UTIFRÅN grupp_bokning_id:
+            personal_id
+            kund_id
+            incheckning
+            utcheckning
+            x: rum_pris_id
+        I FAKTURA UTIFRÅN grupp_bokning_id:
+            erbjudande_id
+            X: faktura_id
+        I FORSALJNING UTIFRÅN faktura_id:
+            summa
+        I ERBJUDANDE UTIFRÅN erbjudande_id:
+            prisavdrag
+            villkor
+        I RUM_PRIS UTIFRÅN rum_pris_id:
+            pris_per_natt
+
+
+        
+        
+        
+
+        SELECT (
+                b.bokning_id, b.faktura_id, b.huvud_gast_id, 
+                CONCAT(hg.fornamn,' ', hg.efternamn) AS 'gästnamn', 
+                b.kund_id, CONCAT(k.fornamn,' ', k.efternamn) AS 'kundnamn', 
+                rp.pris_per_natt, 
+                IFNULL(SUM(fo.summa), 0) AS 'försäljning'
+                )  
             FROM bokning b 
             INNER JOIN rum_pris rp ON b.rum_pris_id = rp.rum_pris_id
             LEFT JOIN forsaljning fo ON b.faktura_id = fo.faktura_id
             INNER JOIN kund k ON b.kund_id = k.kund_id
             INNER JOIN huvud_gast hg ON b.huvud_gast_id = hg.huvud_gast_id
-			WHERE b.faktura_id IS NOT NULL AND b.bokning_id = 2
+			WHERE b.grupp_bokning_id IS NOT NULL -- AND b.grupp_bokning_id = 2
             ORDER BY b.bokning_id;
 
-    Skriva ut räkning för gruppbokningar
-        WHERE grupp_bokning_id = X 
-        SUMMA: (antalet nätter * pris_per_natt)
+
 
 Städare:
     [D] Se vilka rum som är utcheckade

@@ -150,6 +150,7 @@ def update_date_range(
         # Keep generating valid dates until all conditions are satisfied
         while True:
             # Generate random dates within the valid range
+            # FIXME: use updated functions for creating dates and date ranges.
             erbjudande['start_datum'] = _random_date(lower_limit, upper_limit)
             erbjudande['slut_datum'] = _random_date(erbjudande['start_datum'], upper_limit)
             
