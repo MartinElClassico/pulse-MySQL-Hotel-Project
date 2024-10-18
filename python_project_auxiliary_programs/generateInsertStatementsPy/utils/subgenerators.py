@@ -168,11 +168,12 @@ def update_date_range(
         # Keep generating valid dates until all conditions are satisfied
         while True:
             # Generate random dates within the valid range
-            erbjudande['start_datum'] = _random_date(lower_limit, upper_limit)
-            erbjudande['slut_datum'] = _random_date(lower_limit, upper_limit)
+
+            erbjudande['start_datum'], erbjudande['slut_datum'] = (
+                generate_random_interval_defined_interval(lower_limit, upper_limit, max_days_between))
             
-            pris['start_datum'] = _random_date(lower_limit, upper_limit)
-            pris['slut_datum'] = _random_date(lower_limit, upper_limit)
+            pris['start_datum'], pris['slut_datum'] = (
+                generate_random_interval_defined_interval(lower_limit, upper_limit, max_days_between))
             
             bokning['bokning_datum'], bokning['datum_incheck'], bokning['datum_utcheck'] = (
                 generate_random_3interval_defined_interval(lower_limit, upper_limit, max_days_between))

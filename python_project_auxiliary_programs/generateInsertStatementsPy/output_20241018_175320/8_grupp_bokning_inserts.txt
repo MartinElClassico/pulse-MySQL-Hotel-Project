@@ -1,3 +1,0 @@
-INSERT INTO grupp_bokning (personal_id) VALUES (24);
-INSERT INTO grupp_bokning (personal_id) VALUES (22);
-INSERT INTO grupp_bokning (personal_id) VALUES (16);

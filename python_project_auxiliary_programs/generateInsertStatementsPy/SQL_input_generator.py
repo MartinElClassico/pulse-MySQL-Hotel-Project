@@ -1,6 +1,7 @@
 #region import statements
 import random
 import math
+import time # to keep track of runtime since many heavy while loops...
 from datetime import datetime
 # import our own modules from utils child directory.
 from utils import dict_to_sql_insert_str # converts dictionary to sql formatted string
@@ -16,7 +17,7 @@ from utils import generate_random_interval_timestamp, generate_random_interval_d
 
 #region global variables
 # number of testcases viz. input statements per table
-numberOfRooms = 100
+numberOfRooms = 49
 # number of "grupp_bokningar" FIXME: cascades badly, need to revise. faktura needs to have enough field values for both gbokning and bokning.
 grupp_bokning_n = 3
 # percentage of bookings that should be group bookings: TODO: deprecated?
@@ -46,6 +47,38 @@ boknings_added_per_groupb = [0] * grupp_bokning_n
 g_set_start_datetime = datetime(2023, 10, 16, 00, 00, 00) 
 g_set_end_datetime = datetime(2025, 10, 16, 23, 59, 59)
 g_set_days_intervall = 30
+
+# make a dictionary for number of rooms:
+n_r_dict = {
+    'enkelrum_max': 15,
+    'enkelrum_i': 0,
+    'dubbelrum_max': 30,
+    'dubbelrum_i': 0,
+    'familjerum_max': 4,
+    'familjerum_i': 0
+}
+#function to give the right rum_typ_id to rum table:
+def assign_rum_typ() -> str:
+    # we need to remember between runs:
+    global n_r_dict
+    # We'll break out of this when a correct room is choosen:
+    while (True):
+        choosen_rt = random.choice(rum_typ_ids)
+        if choosen_rt == "enkelrum":
+            if n_r_dict['enkelrum_i'] < n_r_dict['enkelrum_max']:
+                n_r_dict['enkelrum_i'] += 1
+                break
+        elif choosen_rt == "dubbelrum":
+            if n_r_dict['dubbelrum_i'] < n_r_dict['dubbelrum_max']:
+                n_r_dict['dubbelrum_i'] += 1
+                break
+        elif choosen_rt == "familjerum":
+            if n_r_dict['familjerum_i'] < n_r_dict['familjerum_max']:
+                n_r_dict['familjerum_i'] += 1
+                break
+    return choosen_rt
+
+
 
 #endregion
 #FIXME: Fel i testdata: inbokning och utbokning kan vara samma dag.
@@ -120,11 +153,11 @@ def generate_rum_dict(p_id):
     b_check_in, b_check_out = generate_checked_in_or_out() # gives either true of false on either one.
     rum_dict = {
         'rum_id': p_id,
-        'rum_typ_id': random.choice(rum_typ_ids),  # Room type ID (e.g., "enkelrum", "familjerum", "dubbelrum")
+        'rum_typ_id': assign_rum_typ(),  # Room type ID (e.g., "enkelrum", "familjerum", "dubbelrum")
         'personal_id': random.choice(personal_ids),  # Personal ID must exist in 'personal'
         'checked_in': b_check_in,  # Checked in (0 or 1)
         'checked_out': b_check_out,  # Checked out (0 or 1)
-        'vaningsplan': "PLACEHOLDER VANINGSPLAN"
+        'vaningsplan': random.randint(1,5)
     }
     return rum_dict
 
@@ -169,6 +202,7 @@ def generate_faktura_dict(p_id):
         'faktura_id': p_id,
         'personal_id': random.choice(personal_ids),  
         'erbjudande_id': random.choice(erbjudande_ids),
+        'status': random.choice(['pagaende', 'betald', 'kommande']),
         'grupp_bokning_id': "NULL"  # updated later via main, depends on grupp_bokning
     }
     return faktura_dict
@@ -218,7 +252,7 @@ def generate_bokning_dict(p_id, grupp_bokning_n):
 def generate_grupp_bokning_dict(p_id):
     grupp_bokning_dict = {
         'grupp_bokning_id': p_id,
-        'personal_id': random.choice(personal_ids) 
+        # 'personal_id': random.choice(personal_ids) 
     }
     return grupp_bokning_dict
 #endregion
@@ -252,6 +286,8 @@ def update_status_in_dict(l_data_dict):
 
 # made all dict functions 
 def main():
+    # start tracking runtime:
+    start_time = time.time()
     # global values with IDs so we can keep track of foreign IDs etc.
     global personal_ids, erbjudande_ids, faktura_ids, rum_ids, kund_ids, huvud_gast_ids, rum_pris_ids, grupp_bokning_ids, erbjudande_ids
     global middag_ids, forsaljning_ids, bokning_ids, rum_typ_ids
@@ -262,7 +298,7 @@ def main():
     personal_n = math.floor(numberOfRooms/4) # 25% of number of rooms.
     huvud_gast_n = numberOfRooms # same as number of rooms, since same in number of bookings.
     kund_n = numberOfRooms # NOTE: for now keep the same, see if break or not.
-    rum_pris_n = numberOfRooms # same as number of rooms.
+    rum_pris_n = math.floor(numberOfRooms/4) # 25% of rooms.
     rum_n = numberOfRooms # same as number of rooms.
     faktura_n = numberOfRooms # same as number of rooms.
     #grupp_bokning_n = grupp_boking_n  # has different amount, see global value at start. 
@@ -385,8 +421,14 @@ def main():
     change_key_name_in_l(l_rum_dicts, "checked_in", "checkat_in")
     # rum checked_out -> utcheckad
     change_key_name_in_l(l_rum_dicts, "checked_out", "checkat_ut")
-    # now we use status instead:
+    # now we use status instead for rooms!:
     update_status_in_dict(l_rum_dicts)
+    #pop personal_id from gruppbokning:
+    #done at start. commented it out.
+
+    #pop id from faktura:
+    for d in l_faktura_dicts:
+        del d['grupp_bokning_id']
 
     #endregion
 
@@ -396,7 +438,7 @@ def main():
     tabulate_print(l_personal_dicts, "personal", "final")
     tabulate_print(l_huvud_gast_dicts, "huvud_gast", "final")
     tabulate_print(l_kund_dicts, "kund", "final")
-    tabulate_print(l_rum_pris_dicts, "rum_pris_typ", "final")
+    tabulate_print(l_rum_pris_dicts, "rum_pris", "final")
     tabulate_print(l_rum_dicts, "rum", "final")
     tabulate_print(l_faktura_dicts, "faktura", "final")
     tabulate_print(l_grupp_bokning_dicts, "grupp_bokning", "final")
@@ -462,5 +504,14 @@ def main():
 
     #endregion
 
+    #runtime finished, print to terminal:
+    end_time = time.time()
+    runtime = end_time - start_time
+    r_minutes = int(runtime // 60) # int nmr of mins
+    r_seconds = int(runtime % 60)
+    print(f"\nProgram runtime:\t{r_minutes:02d} minutes and {r_seconds:02d} seconds.")
+    runtimestr = (f"\nProgram runtime:\t{r_minutes:02d} minutes and {r_seconds:02d} seconds.")
+    write_to_file('0_runtime.txt', runtimestr)
+    
 if __name__ == '__main__':
     main()

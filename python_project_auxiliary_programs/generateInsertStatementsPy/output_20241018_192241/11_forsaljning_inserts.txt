@@ -1,0 +1,12 @@
+INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES (27, 4, 18, 209.36, '2024-02-28 16:46:58');
+INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES (36, 8, 10, 280.35, '2025-05-30 06:30:32');
+INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES (24, 11, 15, 89.4, '2024-03-23 07:35:30');
+INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES (10, 11, 49, 443.26, '2024-12-24 07:33:24');
+INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES (10, 2, 3, 178.55, '2024-09-13 13:44:31');
+INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES (44, 6, 43, 419.9, '2024-06-16 14:19:39');
+INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES (20, 5, 9, 92.54, '2024-05-23 11:23:03');
+INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES (2, 6, 10, 107.72, '2024-01-26 10:26:26');
+INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES (40, 2, 18, 150.49, '2024-12-19 23:01:49');
+INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES (26, 9, 35, 324.9, '2024-04-04 03:06:39');
+INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES (46, 12, 39, 51.28, '2025-07-23 02:47:44');
+INSERT INTO forsaljning (rum_id, personal_id, faktura_id, summa, datum) VALUES (7, 5, 6, 350.31, '2024-03-03 16:30:37');
