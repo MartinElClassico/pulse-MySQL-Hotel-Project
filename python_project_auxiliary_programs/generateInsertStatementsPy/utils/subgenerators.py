@@ -85,10 +85,10 @@ def update_faktura_for_erbjudande_id(l_faktura_dicts: List[Dict], fakt_w_erb_n: 
     count_erbjudande = 0 # also works as index!
     max_w_erbjudande = len(l_faktura_dicts) - fakt_w_erb_n
     l_faktura_ids = [item['faktura_id'] for item in l_faktura_dicts]
-    random_order_ids = _shuffle_list(l_faktura_ids) # shuffle them around to make it random!
+    # random_order_ids = _shuffle_list(l_faktura_ids) # shuffle them around to make it random!
     while count_erbjudande < max_w_erbjudande:
         for faktura in l_faktura_dicts:
-            random_f_id = random_order_ids[count_erbjudande]
+            random_f_id = l_faktura_ids[count_erbjudande]
             if (faktura['erbjudande_id'] != 'NULL' and
             count_erbjudande < max_w_erbjudande and
             faktura['faktura_id'] == random_f_id):
