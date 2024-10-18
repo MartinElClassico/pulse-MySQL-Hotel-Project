@@ -1,0 +1,12 @@
+INSERT INTO rum_pris (rum_typ_id, pris_per_natt, start, slut) VALUES ('familjerum', 1352.12, '2025-09-05 00:17:00', '2025-09-15 17:08:05');
+INSERT INTO rum_pris (rum_typ_id, pris_per_natt, start, slut) VALUES ('familjerum', 1180.64, '2024-11-19 14:53:57', '2024-11-29 08:22:07');
+INSERT INTO rum_pris (rum_typ_id, pris_per_natt, start, slut) VALUES ('familjerum', 1378.47, '2025-09-08 08:10:12', '2025-09-19 23:05:38');
+INSERT INTO rum_pris (rum_typ_id, pris_per_natt, start, slut) VALUES ('dubbelrum', 625.66, '2023-12-04 00:20:28', '2023-12-14 16:42:38');
+INSERT INTO rum_pris (rum_typ_id, pris_per_natt, start, slut) VALUES ('enkelrum', 524.29, '2025-09-06 00:53:24', '2025-09-25 12:26:08');
+INSERT INTO rum_pris (rum_typ_id, pris_per_natt, start, slut) VALUES ('dubbelrum', 775.01, '2025-05-26 20:36:39', '2025-06-11 20:11:02');
+INSERT INTO rum_pris (rum_typ_id, pris_per_natt, start, slut) VALUES ('familjerum', 1397.2, '2023-12-10 10:39:07', '2023-12-25 04:51:35');
+INSERT INTO rum_pris (rum_typ_id, pris_per_natt, start, slut) VALUES ('familjerum', 1228.87, '2024-03-22 18:31:00', '2024-04-14 08:30:01');
+INSERT INTO rum_pris (rum_typ_id, pris_per_natt, start, slut) VALUES ('enkelrum', 497.55, '2025-08-24 19:27:12', '2025-09-13 01:56:06');
+INSERT INTO rum_pris (rum_typ_id, pris_per_natt, start, slut) VALUES ('dubbelrum', 638.42, '2024-01-13 03:31:28', '2024-01-23 01:38:04');
+INSERT INTO rum_pris (rum_typ_id, pris_per_natt, start, slut) VALUES ('familjerum', 1140.17, '2025-09-22 09:25:22', '2025-10-07 13:25:29');
+INSERT INTO rum_pris (rum_typ_id, pris_per_natt, start, slut) VALUES ('dubbelrum', 842.01, '2025-09-20 01:46:58', '2025-10-03 03:30:16');

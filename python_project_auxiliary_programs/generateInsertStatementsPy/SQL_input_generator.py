@@ -49,7 +49,7 @@ g_set_end_datetime = datetime(2025, 10, 16, 23, 59, 59)
 g_set_days_intervall = 30
 
 # make a dictionary for number of rooms:
-n_r_dict = {
+g_n_r_dict = {
     'enkelrum_max': 15,
     'enkelrum_i': 0,
     'dubbelrum_max': 30,
@@ -58,23 +58,23 @@ n_r_dict = {
     'familjerum_i': 0
 }
 #function to give the right rum_typ_id to rum table:
-def assign_rum_typ() -> str:
+def g_assign_rum_typ() -> str:
     # we need to remember between runs:
-    global n_r_dict
+    global g_n_r_dict
     # We'll break out of this when a correct room is choosen:
     while (True):
         choosen_rt = random.choice(rum_typ_ids)
         if choosen_rt == "enkelrum":
-            if n_r_dict['enkelrum_i'] < n_r_dict['enkelrum_max']:
-                n_r_dict['enkelrum_i'] += 1
+            if g_n_r_dict['enkelrum_i'] < g_n_r_dict['enkelrum_max']:
+                g_n_r_dict['enkelrum_i'] += 1
                 break
         elif choosen_rt == "dubbelrum":
-            if n_r_dict['dubbelrum_i'] < n_r_dict['dubbelrum_max']:
-                n_r_dict['dubbelrum_i'] += 1
+            if g_n_r_dict['dubbelrum_i'] < g_n_r_dict['dubbelrum_max']:
+                g_n_r_dict['dubbelrum_i'] += 1
                 break
         elif choosen_rt == "familjerum":
-            if n_r_dict['familjerum_i'] < n_r_dict['familjerum_max']:
-                n_r_dict['familjerum_i'] += 1
+            if g_n_r_dict['familjerum_i'] < g_n_r_dict['familjerum_max']:
+                g_n_r_dict['familjerum_i'] += 1
                 break
     return choosen_rt
 
@@ -153,7 +153,7 @@ def generate_rum_dict(p_id):
     b_check_in, b_check_out = generate_checked_in_or_out() # gives either true of false on either one.
     rum_dict = {
         'rum_id': p_id,
-        'rum_typ_id': assign_rum_typ(),  # Room type ID (e.g., "enkelrum", "familjerum", "dubbelrum")
+        'rum_typ_id': g_assign_rum_typ(),  # Room type ID (e.g., "enkelrum", "familjerum", "dubbelrum")
         'personal_id': random.choice(personal_ids),  # Personal ID must exist in 'personal'
         'checked_in': b_check_in,  # Checked in (0 or 1)
         'checked_out': b_check_out,  # Checked out (0 or 1)
