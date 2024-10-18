@@ -17,31 +17,31 @@ from utils import generate_random_interval_timestamp, generate_random_interval_d
 
 #region global variables
 # number of testcases viz. input statements per table
-numberOfRooms = 49
+g_numberOfRooms = 49
 # number of "grupp_bokningar" FIXME: cascades badly, need to revise. faktura needs to have enough field values for both gbokning and bokning.
-grupp_bokning_n = 3
+g_grupp_bokning_n = 3
 # percentage of bookings that should be group bookings: TODO: deprecated?
 #p_gr_b = 0.50
 # number of bookings per group booking TODO: deprecated?
 #bookings_per_groupb = math.floor(round((numberOfRooms)*p_gr_b)/grupp_bokning_n) # percent of the booking divided by number of group bookings rounded down.
 
 # Store the generated primary key values for foreign key references
-personal_ids = []
-erbjudande_ids = []
-faktura_ids = []
-rum_ids = []
-rum_typ_ids = []  # Has predefined room types
-kund_ids = []
-huvud_gast_ids = []
-rum_pris_ids = []
-grupp_bokning_ids = []
-erbjudande_ids = []
-middag_ids = []
-forsaljning_ids = []
-bokning_ids = []
+g_personal_ids = []
+g_erbjudande_ids = []
+g_faktura_ids = []
+g_rum_ids = []
+g_rum_typ_ids = []  # Has predefined room types
+g_kund_ids = []
+g_huvud_gast_ids = []
+g_rum_pris_ids = []
+g_grupp_bokning_ids = []
+g_erbjudande_ids = []
+g_middag_ids = []
+g_forsaljning_ids = []
+g_bokning_ids = []
 
 # fixed length list of number of bookings assigned to each group booking
-boknings_added_per_groupb = [0] * grupp_bokning_n
+boknings_added_per_groupb = [0] * g_grupp_bokning_n
 
 # a start date so we don't have different ones everywhere:
 g_set_start_datetime = datetime(2023, 10, 16, 00, 00, 00) 
@@ -154,7 +154,7 @@ def generate_rum_dict(p_id):
     rum_dict = {
         'rum_id': p_id,
         'rum_typ_id': g_assign_rum_typ(),  # Room type ID (e.g., "enkelrum", "familjerum", "dubbelrum")
-        'personal_id': random.choice(personal_ids),  # Personal ID must exist in 'personal'
+        'personal_id': random.choice(g_personal_ids),  # Personal ID must exist in 'personal'
         'checked_in': b_check_in,  # Checked in (0 or 1)
         'checked_out': b_check_out,  # Checked out (0 or 1)
         'vaningsplan': random.randint(1,5)
@@ -163,7 +163,7 @@ def generate_rum_dict(p_id):
 
 # foreign keys used: rum_typ_ids
 def generate_rum_pris_dict(p_id):
-    rum_typ_id = random.choice(rum_typ_ids)
+    rum_typ_id = random.choice(g_rum_typ_ids)
     pris_per_natt = price_intervalls_per_room_type(rum_typ_id)  
     pris_start_datum, pris_slut_datum = generate_random_interval_defined_interval(g_set_start_datetime, g_set_end_datetime, 90) 
     
@@ -181,7 +181,7 @@ def generate_rum_pris_dict(p_id):
 def generate_middag_dict(p_id):
     middag_dict = {
         'middag_id': p_id,
-        'grupp_bokning_id': random.choice(grupp_bokning_ids),  # always has to have grupp_bokning_id to exist
+        'grupp_bokning_id': random.choice(g_grupp_bokning_ids),  # always has to have grupp_bokning_id to exist
         'antal_personer': random.randint(1, 10),  
         'datum': "NULL"  # Placeholder for date of the meal, updated later since dependent on bookings
     }
@@ -200,8 +200,8 @@ def generate_faktura_dict(p_id):
     inte ha med. """
     faktura_dict = {
         'faktura_id': p_id,
-        'personal_id': random.choice(personal_ids),  
-        'erbjudande_id': random.choice(erbjudande_ids),
+        'personal_id': random.choice(g_personal_ids),  
+        'erbjudande_id': random.choice(g_erbjudande_ids),
         'status': random.choice(['pagaende', 'betald', 'kommande']),
         'grupp_bokning_id': "NULL"  # updated later via main, depends on grupp_bokning
     }
@@ -214,9 +214,9 @@ def generate_forsaljning_dict(p_id):
     
     forsaljning_dict = {
         'forsaljning_id': p_id,
-        'rum_id': random.choice(rum_ids),
-        'personal_id': random.choice(personal_ids),
-        'faktura_id': random.choice(faktura_ids),
+        'rum_id': random.choice(g_rum_ids),
+        'personal_id': random.choice(g_personal_ids),
+        'faktura_id': random.choice(g_faktura_ids),
         'summa': summa,
         'datum': datum
     }
@@ -224,22 +224,22 @@ def generate_forsaljning_dict(p_id):
 
 # foreign keys used: rum_ids, kund_ids, huvud_gast_ids, personal_ids, grupp_bokning_ids
 # bokning_datum kan vara i framtiden relativt checkin_date, känns inte rätt, fixas senare i update dictionaries
-def generate_bokning_dict(p_id, grupp_bokning_n):
+def generate_bokning_dict(p_id, g_grupp_bokning_n):
     global boknings_added_per_groupb
     # Get random dates within 1 month
     checkin_date, checkout_date = generate_random_interval_defined_interval(g_set_start_datetime, g_set_end_datetime, g_set_days_intervall)  
     # Returns null or fk_grupp_bokning and updates global list. 
     grupp_bokning_assigned_value, boknings_added_per_groupb_updated = value_for_grupp_bokning_reference(
-        random.choice(grupp_bokning_ids), boknings_added_per_groupb, grupp_bokning_n)  
+        random.choice(g_grupp_bokning_ids), boknings_added_per_groupb, g_grupp_bokning_n)  
     boknings_added_per_groupb = boknings_added_per_groupb_updated 
     bokning_timestamp = generate_random_timestamp(g_set_start_datetime, g_set_end_datetime) 
     bokning_dict = {
         'bokning_id': p_id,
-        'rum_id': random.choice(rum_ids),  
-        'kund_id': random.choice(kund_ids),  
-        'huvud_gast_id': random.choice(huvud_gast_ids),  
-        'personal_id': random.choice(personal_ids),  
-        'rum_pris_id': random.choice(rum_pris_ids),  
+        'rum_id': random.choice(g_rum_ids),  
+        'kund_id': random.choice(g_kund_ids),  
+        'huvud_gast_id': random.choice(g_huvud_gast_ids),  
+        'personal_id': random.choice(g_personal_ids),  
+        'rum_pris_id': random.choice(g_rum_pris_ids),  
         'grupp_bokning_id': grupp_bokning_assigned_value,  # Group booking ID, either an ID or NULL
         'faktura_id': "NULL",  # Placeholder for faktura ID, fixed later, either ID or NULL, is NULL when group id has ID.
         'datum_incheck': checkin_date,  # Randomized check-in date
@@ -289,22 +289,22 @@ def main():
     # start tracking runtime:
     start_time = time.time()
     # global values with IDs so we can keep track of foreign IDs etc.
-    global personal_ids, erbjudande_ids, faktura_ids, rum_ids, kund_ids, huvud_gast_ids, rum_pris_ids, grupp_bokning_ids, erbjudande_ids
-    global middag_ids, forsaljning_ids, bokning_ids, rum_typ_ids
+    global g_personal_ids, g_erbjudande_ids, g_faktura_ids, g_rum_ids, g_kund_ids, g_huvud_gast_ids, g_rum_pris_ids
+    global g_middag_ids, g_forsaljning_ids, g_bokning_ids, g_rum_typ_ids, g_grupp_bokning_ids
 
     #region number of entities per entity-type, based on NumberOfRooms
     rum_typ_n = 3 # hardcoded as per specification to 3.
-    erbjudande_n = math.floor(numberOfRooms/4) # 25% of number of rooms.
-    personal_n = math.floor(numberOfRooms/4) # 25% of number of rooms.
-    huvud_gast_n = numberOfRooms # same as number of rooms, since same in number of bookings.
-    kund_n = numberOfRooms # NOTE: for now keep the same, see if break or not.
-    rum_pris_n = math.floor(numberOfRooms/4) # 25% of rooms.
-    rum_n = numberOfRooms # same as number of rooms.
-    faktura_n = numberOfRooms # same as number of rooms.
+    erbjudande_n = math.floor(g_numberOfRooms/4) # 25% of number of rooms.
+    personal_n = math.floor(g_numberOfRooms/4) # 25% of number of rooms.
+    huvud_gast_n = g_numberOfRooms # same as number of rooms, since same in number of bookings.
+    kund_n = g_numberOfRooms # NOTE: for now keep the same, see if break or not.
+    rum_pris_n = math.floor(g_numberOfRooms/4) # 25% of rooms.
+    rum_n = g_numberOfRooms # same as number of rooms.
+    faktura_n = g_numberOfRooms # same as number of rooms.
     #grupp_bokning_n = grupp_boking_n  # has different amount, see global value at start. 
-    middag_n = grupp_bokning_n*2 # we thinks it's resonable that every group has two dinners. 
-    forsaljning_n = math.floor(numberOfRooms/4) # 25 % of number of rooms: only 25% of guests buy stuff and put on room bill.
-    booking_n = numberOfRooms # same as number of rooms.
+    middag_n = g_grupp_bokning_n*2 # we thinks it's resonable that every group has two dinners. 
+    forsaljning_n = math.floor(g_numberOfRooms/4) # 25 % of number of rooms: only 25% of guests buy stuff and put on room bill.
+    booking_n = g_numberOfRooms # same as number of rooms.
     #endregion
 
     #region number of certain fields occurances
@@ -312,45 +312,45 @@ def main():
 
 
     #region generate all autoincrement primary ids as ref for foreign key etc.
-    rum_typ_ids = ["enkelrum", "dubbelrum", "familjerum"] #  predefined
-    erbjudande_ids = list(range(1, erbjudande_n+1)) 
-    personal_ids = list(range(1, personal_n+1)) 
-    huvud_gast_ids = list(range(1, huvud_gast_n+1)) 
-    kund_ids = list(range(1, kund_n+1)) 
-    rum_pris_ids = list(range(1, rum_pris_n+1)) 
-    rum_ids = list(range(1, rum_n+1)) 
-    faktura_ids = list(range(1, faktura_n+1)) 
-    grupp_bokning_ids = list(range(1, grupp_bokning_n+1))
-    middag_ids = list(range(1, middag_n+1)) 
-    forsaljning_ids = list(range(1, forsaljning_n+1)) 
-    bokning_ids = list(range(1, booking_n+1)) 
+    g_rum_typ_ids = ["enkelrum", "dubbelrum", "familjerum"] #  predefined
+    g_erbjudande_ids = list(range(1, erbjudande_n+1)) 
+    g_personal_ids = list(range(1, personal_n+1)) 
+    g_huvud_gast_ids = list(range(1, huvud_gast_n+1)) 
+    g_kund_ids = list(range(1, kund_n+1)) 
+    g_rum_pris_ids = list(range(1, rum_pris_n+1)) 
+    g_rum_ids = list(range(1, rum_n+1)) 
+    g_faktura_ids = list(range(1, faktura_n+1)) 
+    g_grupp_bokning_ids = list(range(1, g_grupp_bokning_n+1))
+    g_middag_ids = list(range(1, middag_n+1)) 
+    g_forsaljning_ids = list(range(1, forsaljning_n+1)) 
+    g_bokning_ids = list(range(1, booking_n+1)) 
     #endregion
 
     #region Generate all the dictionaries and tabulate the results to visualize them:
 
-    l_rum_typ_dicts = [generate_rum_typ_dict(rum_typ_ids[i]) for i in range(rum_typ_n)]
+    l_rum_typ_dicts = [generate_rum_typ_dict(g_rum_typ_ids[i]) for i in range(rum_typ_n)]
     tabulate_print(l_rum_typ_dicts, "rum_typ", "pre_processing")
-    l_erbjudande_dicts = [generate_erbjudande_dict(erbjudande_ids[i]) for i in range(erbjudande_n)]
+    l_erbjudande_dicts = [generate_erbjudande_dict(g_erbjudande_ids[i]) for i in range(erbjudande_n)]
     tabulate_print(l_erbjudande_dicts, "erbjudande", "pre_processing")
-    l_personal_dicts = [generate_personal_dict(personal_ids[i]) for i in range(personal_n)]
+    l_personal_dicts = [generate_personal_dict(g_personal_ids[i]) for i in range(personal_n)]
     tabulate_print(l_personal_dicts, "personal", "pre_processing")
-    l_huvud_gast_dicts = [generate_huvud_gast_dict(huvud_gast_ids[i]) for i in range(huvud_gast_n)]
+    l_huvud_gast_dicts = [generate_huvud_gast_dict(g_huvud_gast_ids[i]) for i in range(huvud_gast_n)]
     tabulate_print(l_huvud_gast_dicts, "huvud_gast", "pre_processing")
-    l_kund_dicts = [generate_kund_dict(kund_ids[i]) for i in range(kund_n)]
+    l_kund_dicts = [generate_kund_dict(g_kund_ids[i]) for i in range(kund_n)]
     tabulate_print(l_kund_dicts, "kund", "pre_processing")
-    l_rum_pris_dicts = [generate_rum_pris_dict(rum_pris_ids[i]) for i in range(rum_pris_n)]
+    l_rum_pris_dicts = [generate_rum_pris_dict(g_rum_pris_ids[i]) for i in range(rum_pris_n)]
     tabulate_print(l_rum_pris_dicts, "rum_pris_typ", "pre_processing")
-    l_rum_dicts  = [generate_rum_dict(rum_ids[i]) for i in range(rum_n)]
+    l_rum_dicts  = [generate_rum_dict(g_rum_ids[i]) for i in range(rum_n)]
     tabulate_print(l_rum_dicts, "rum", "pre_processing")
-    l_faktura_dicts = [generate_faktura_dict(faktura_ids[i]) for i in range(faktura_n)]
+    l_faktura_dicts = [generate_faktura_dict(g_faktura_ids[i]) for i in range(faktura_n)]
     tabulate_print(l_faktura_dicts, "faktura", "pre_processing")
-    l_grupp_bokning_dicts = [generate_grupp_bokning_dict(grupp_bokning_ids[i]) for i in range(grupp_bokning_n)]
+    l_grupp_bokning_dicts = [generate_grupp_bokning_dict(g_grupp_bokning_ids[i]) for i in range(g_grupp_bokning_n)]
     tabulate_print(l_grupp_bokning_dicts, "grupp_bokning", "pre_processing")
-    l_middag_dicts = [generate_middag_dict(middag_ids[i]) for i in range(middag_n)]
+    l_middag_dicts = [generate_middag_dict(g_middag_ids[i]) for i in range(middag_n)]
     tabulate_print(l_middag_dicts, "middag", "pre_processing")
-    l_forsaljning_dicts = [generate_forsaljning_dict(forsaljning_ids[i]) for i in range(forsaljning_n)]
+    l_forsaljning_dicts = [generate_forsaljning_dict(g_forsaljning_ids[i]) for i in range(forsaljning_n)]
     tabulate_print(l_forsaljning_dicts, "forsaljning", "pre_processing")
-    l_bokning_dicts = [generate_bokning_dict(bokning_ids[i], grupp_bokning_n) for i in range(booking_n)]
+    l_bokning_dicts = [generate_bokning_dict(g_bokning_ids[i], g_grupp_bokning_n) for i in range(booking_n)]
     tabulate_print(l_bokning_dicts, "bokning", "pre_processing")
     #endregion
 
@@ -474,7 +474,7 @@ def main():
     faktura_queries = [generate_insert_statement("faktura", l_faktura_dicts[i], True) for i in range(faktura_n)]
 
     # Generate 'grupp_bokning' queries 
-    grupp_bokning_queries = [generate_insert_statement("grupp_bokning", l_grupp_bokning_dicts[i], True) for i in range(grupp_bokning_n)]
+    grupp_bokning_queries = [generate_insert_statement("grupp_bokning", l_grupp_bokning_dicts[i], True) for i in range(g_grupp_bokning_n)]
 
     # generate middag queries
     middag_queries = [generate_insert_statement("middag", l_middag_dicts[i], True) for i in range(middag_n)]
