@@ -402,10 +402,11 @@ Receptionist:
         >>>DATA ATT HÄMTA:
         I BOKNING UTIFRÅN grupp_bokning_id:
             personal_id
-            kund_id
+            x: kund_id
             incheckning
             utcheckning
             x: rum_pris_id
+            (x: huvud_gast_id)
         I FAKTURA UTIFRÅN grupp_bokning_id:
             erbjudande_id
             X: faktura_id
@@ -416,6 +417,16 @@ Receptionist:
             villkor
         I RUM_PRIS UTIFRÅN rum_pris_id:
             pris_per_natt
+        I MIDDAG UTIFRÅN grupp_bokning_id:
+            antal_personer
+            middag_id
+        I KUND UTIFRÅN kund_id:
+            fornamn
+            efternamn
+        (I HUVUD_GAST UTIFRÅN: huvud_gast_id:
+            fornamn
+            efternamn
+            )
 
 
         
