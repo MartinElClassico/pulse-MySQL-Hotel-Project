@@ -47,34 +47,27 @@ CREATE TABLE rum_pris(
     pris_per_natt DECIMAL(8,2) NOT NULL,
     `start` DATETIME NOT NULL,
     slut DATETIME,
-    -- eventuellt lägga till var för om priset är aktuellt just nu eller inte
     CONSTRAINT rum_pris_fk_rum_typ FOREIGN KEY (rum_typ_id) REFERENCES rum_typ(rum_typ_id)
 );
 -- @block
 CREATE TABLE rum(
     rum_id INT PRIMARY KEY AUTO_INCREMENT,
     rum_typ_id VARCHAR(255)  NOT NULL,
-    personal_id INT NOT NULL,
     `status` ENUM('checkat_in', 'checkat_ut', 'stadas', 'underhallsarbetas') NOT NULL,
     vaningsplan VARCHAR(255),
-    CONSTRAINT rum_fk_rum_typ FOREIGN KEY (rum_typ_id) REFERENCES rum_typ(rum_typ_id),
-    CONSTRAINT rum_fk_personal FOREIGN KEY (personal_id) REFERENCES personal(personal_id)
+    CONSTRAINT rum_fk_rum_typ FOREIGN KEY (rum_typ_id) REFERENCES rum_typ(rum_typ_id)
 );
 -- @block
 CREATE TABLE grupp_bokning(
-    grupp_bokning_id INT PRIMARY KEY AUTO_INCREMENT,
-    personal_id INT NOT NULL,
-    CONSTRAINT grupp_bokning_fk_personal FOREIGN KEY (personal_id) REFERENCES personal(personal_id)
+    grupp_bokning_id INT PRIMARY KEY AUTO_INCREMENT
 );
 -- @block
 CREATE TABLE faktura(
     faktura_id INT PRIMARY KEY AUTO_INCREMENT,
     personal_id INT NOT NULL,
-    grupp_bokning_id INT,
     erbjudande_id INT, -- note: auto generator always has values for this attribute
     CONSTRAINT faktura_fk_personal FOREIGN KEY (personal_id) REFERENCES personal(personal_id),
-    CONSTRAINT faktura_fk_erbjudande FOREIGN KEY (erbjudande_id) REFERENCES erbjudande(erbjudande_id),
-    CONSTRAINT faktura_fk_grupp_bokning FOREIGN KEY (grupp_bokning_id) REFERENCES grupp_bokning(grupp_bokning_id)
+    CONSTRAINT faktura_fk_erbjudande FOREIGN KEY (erbjudande_id) REFERENCES erbjudande(erbjudande_id)
 );
 -- @block
 CREATE TABLE middag(
@@ -104,8 +97,8 @@ CREATE TABLE bokning(
     huvud_gast_id INT NOT NULL,
     personal_id INT NOT NULL,
     rum_pris_id INT NOT NULL,
-    grupp_bokning_id INT, -- note: auto generator always has values for this attribute
-    faktura_id INT, -- note: can be null if there is a "grupp bokning" for said booking and other related bookings.
+    grupp_bokning_id INT, 
+    faktura_id INT NOT NULL,
     incheckning DATE NOT NULL,
     utcheckning DATE NOT NULL,
     bokning_datum DATETIME NOT NULL,
