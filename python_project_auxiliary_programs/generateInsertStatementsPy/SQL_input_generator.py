@@ -156,6 +156,15 @@ def generate_middag_dict(p_id):
 
 # foreign keys used: personal_ids
 def generate_faktura_dict(p_id):
+    # FIXME: 
+    #faktura['status']=
+    """jämföra mot today ==> enkelt.
+    pågående:
+    jämföra mot today ==> enkelt.
+    betald:
+    jämföra mot today ==> enkelt.
+    obetald:
+    inte ha med. """
     faktura_dict = {
         'faktura_id': p_id,
         'personal_id': random.choice(personal_ids),  

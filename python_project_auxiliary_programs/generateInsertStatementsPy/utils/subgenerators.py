@@ -104,17 +104,34 @@ def _random_date(start: datetime, end: datetime) -> datetime:
     random_seconds = random.randint(0, int(time_delta.total_seconds()))
     return start + timedelta(seconds=random_seconds)
 
+# Helper function to calculate the difference in days between two dates
+def _days_between(startd, endd) -> int:
+    """Calculate the number of days between two dates."""
+    # Check if date1 and date2 are strings, and convert to datetime if necessary
+    if isinstance(startd, str):
+        startd = datetime.strptime(startd, "%Y-%m-%d")
+    if isinstance(endd, str):
+        endd = datetime.strptime(endd, "%Y-%m-%d")
+    
+    return abs((endd - startd).days)
+
 # Validation function to ensure generated dates follow the rules
-def _validate_dates(erbjudande: Dict, pris: Dict, bokning: Dict, middag: Dict) -> bool:
+def _validate_dates(max_days_between: int,erbjudande: Dict, pris: Dict, bokning: Dict, middag: Dict) -> bool:
     """Ensure generated dates are valid according to your rules."""
     # Check the offer period
     if not (erbjudande['start_datum'] <= bokning['bokning_datum'] <= erbjudande['slut_datum']):
+        if not (1 <= _days_between(erbjudande['start_datum'], erbjudande['slut_datum']) <= max_days_between):
+            return False
         return False
     # Check the price period
     if not (pris['start_datum'] <= bokning['bokning_datum'] < pris['slut_datum']):
+        if not (1 <= _days_between(pris['start_datum'], pris['slut_datum']) <= max_days_between):
+            return False
         return False
     # Check booking and check-in/out dates
     if not (bokning['bokning_datum'] <= bokning['datum_incheck'] < bokning['datum_utcheck']):
+        if not (1 <= _days_between(bokning['bokning_datum'], bokning['datum_incheck']) <= max_days_between):
+            return False
         return False
     # Check if the dinner date is within the check-in and check-out dates
     if not (bokning['datum_incheck'] <= middag['datum'] <= bokning['datum_utcheck']):
@@ -126,7 +143,7 @@ def _validate_dates(erbjudande: Dict, pris: Dict, bokning: Dict, middag: Dict) -
 def update_date_range(
     lower_limit: datetime, 
     upper_limit: datetime, 
-    max_limit_days: int,
+    max_days_between: datetime,
     l_erbjudande_dict: List[Dict], 
     l_bokning_dict: List[Dict], 
     l_pris_dict: List[Dict], 
@@ -151,21 +168,25 @@ def update_date_range(
         # Keep generating valid dates until all conditions are satisfied
         while True:
             # Generate random dates within the valid range
-            # FIXED: use updated functions for creating dates and date ranges.
             erbjudande['start_datum'] = _random_date(lower_limit, upper_limit)
-            erbjudande['slut_datum'] = _random_date(erbjudande['start_datum'], upper_limit)
+            erbjudande['slut_datum'] = _random_date(lower_limit, upper_limit)
             
             pris['start_datum'] = _random_date(lower_limit, upper_limit)
-            pris['slut_datum'] = _random_date(pris['start_datum'], upper_limit)
+            pris['slut_datum'] = _random_date(lower_limit, upper_limit)
             
-            bokning['bokning_datum'] = _random_date(lower_limit, upper_limit)
-            bokning['datum_incheck'], datum_f_utcheck = generate_random_interval_defined_interval(bokning['bokning_datum'], upper_limit, max_limit_days)
-            bokning['datum_utcheck'] = datum_f_utcheck
+            bokning['bokning_datum'], bokning['datum_incheck'], bokning['datum_utcheck'] = (
+                generate_random_3interval_defined_interval(lower_limit, upper_limit, max_days_between))
+            #bokning['bokning_datum'] = _random_date(lower_limit, upper_limit)
+            #bokning['datum_incheck'] = _random_date(lower_limit, upper_limit)
+            #bokning['datum_utcheck'] = _random_date(lower_limit, upper_limit)
             
-            middag['datum'] = _random_date(bokning['datum_incheck'], bokning['datum_utcheck'])
+            middag['datum'] = _random_date(lower_limit, upper_limit)
             
             # Validate the generated dates
-            if _validate_dates(erbjudande, pris, bokning, middag):
+            if _validate_dates(max_days_between, erbjudande, pris, bokning, middag):
+                #bokning['datum_incheck'] = conv_timestamp2date(bokning, 'datum_incheck')
+                #bokning['datum_utcheck'] = conv_timestamp2date(bokning, 'datum_utcheck')
+                # above is done later on.
                 break
 
         # Update the lists with the newly generated dates
@@ -192,6 +213,9 @@ def conv_timestamp2date_l(l_x_dict: List[Dict], key_name: str) -> None:
     for dict in l_x_dict:
         dict[key_name] = dict[key_name].date()
 
+def conv_timestamp2date(given_dict: Dict, key_name: str) -> Dict:
+    return given_dict[key_name].date()
+
 
 def name_surname_generator() -> tuple[str, str]:
     name = random.choice(_names)  # First names
@@ -211,7 +235,7 @@ def generate_random_timestamp(start_date: datetime, end_date: datetime) -> datet
     first = True # to enter while loop
     random_timestamp = start_date # just to have the value pre defined.
     # only return when it randomly has made a date withing given range!
-    while ((random_timestamp < start_date and random_timestamp > end_date) or first):
+    while ((random_timestamp < start_date or random_timestamp > end_date) or first):
         # take away while-loop entry condition:
         if first: first = False
         # get number of days in difference
@@ -225,6 +249,36 @@ def generate_random_timestamp(start_date: datetime, end_date: datetime) -> datet
         random_timestamp = start_date + timedelta(days=random_days, seconds=random_seconds_in_day)
     # Return the random timestamp
     return random_timestamp
+
+def generate_triple_random_interval(start_datetime: datetime, end_datetime: datetime, max_days: int) -> tuple[datetime, datetime, datetime]:
+    # Ensure the initial range is valid and adjust it if necessary
+    total_days = (end_datetime - start_datetime).days
+
+    if total_days > max_days:
+        # If the range is greater than max_days, truncate the end_datetime
+        end_datetime = start_datetime + timedelta(days=max_days)
+
+    # Recalculate the total days after adjustment
+    total_days = (end_datetime - start_datetime).days
+
+    # Generate random lowest datetime
+    lowest_value = start_datetime + timedelta(days=random.randint(0, total_days - max_days))
+
+    # Generate middle value such that it is valid
+    max_middle_offset = min(max_days, total_days - (lowest_value - start_datetime).days)
+    if max_middle_offset <= 0:
+        raise ValueError("Unable to generate a valid middle value; please check the date range.")
+
+    middle_value = lowest_value + timedelta(days=random.randint(1, max_middle_offset))
+
+    # Generate highest value within the max_days limit
+    max_highest_offset = min(max_days, total_days - (middle_value - start_datetime).days)
+    if max_highest_offset <= 0:
+        raise ValueError("Unable to generate a valid highest value; please check the date range.")
+
+    highest_value = middle_value + timedelta(days=random.randint(1, max_highest_offset))
+
+    return lowest_value, middle_value, highest_value
 
 def generate_random_interval_timestamp(start_datetime: datetime, end_datetime: datetime) -> tuple[datetime, datetime]:
     first = True # to enter loop.
@@ -243,6 +297,28 @@ def generate_random_interval_defined_interval(start_datetime: datetime, end_date
         gives_diff_days = (end_datetime - start_datetime).days
     return start_datetime, end_datetime
 
+#region for three!
+def generate_random_3interval_timestamp(start_datetime: datetime, end_datetime: datetime) -> tuple[datetime, datetime, datetime]:
+    r_start_dt = generate_random_timestamp(start_datetime, end_datetime) # to predefine
+    r_middle_dt = generate_random_timestamp(r_start_dt, end_datetime) # to predefine
+    r_end_dt = generate_random_timestamp(r_middle_dt, end_datetime) # to predefine
+    return r_start_dt, r_middle_dt, r_end_dt
+
+def generate_random_3interval_defined_interval(start_datetime: datetime, end_datetime: datetime, max_days: int) -> tuple[datetime, datetime, datetime]:
+    first = True # to enter loop.
+    gives_diff_days1 = (end_datetime - start_datetime).days # to predefine
+    gives_diff_days2 = (end_datetime - start_datetime).days # to predefine
+    while((gives_diff_days1 > max_days or gives_diff_days2 > max_days) or first):
+        if first: first = False # stop using entry condition
+        start_datetime, middle_datetime, end_datetime= generate_random_3interval_timestamp(start_datetime, end_datetime)
+        gives_diff_days1 = (middle_datetime - start_datetime).days
+        gives_diff_days2 = (end_datetime- middle_datetime).days
+    return start_datetime, middle_datetime, end_datetime
+#endregion
+
+def generate_random_interval_defined_interval_date(start_datetime: datetime, end_datetime: datetime, max_days: int) -> tuple[datetime, datetime]:
+    start_d, end_d = generate_random_interval_defined_interval(start_datetime, end_datetime, max_days)
+    return start_d.date(), end_d.date()
 
 
 def generate_random_interval_date(start_datetime: datetime, end_datetime: datetime) -> tuple[datetime, datetime]:
