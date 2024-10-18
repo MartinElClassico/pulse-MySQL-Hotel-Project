@@ -1,28 +1,468 @@
 Hotelldirektör:
-    Skicka erbjudanden via mejl
-    Lägga in erbjudandens giltighetstid
-    Statistik på vilken typ av rum som är attraktiva en viss period
-    Se när det är middag bokad och för hur många personer 
-    Uppdatera hur många personer som ska äta
+    [D] Skicka erbjudanden via mejl ("skicka erbjudanden till tidigare kunder")
+        - viz. hitta mejl addresser till kunder, med namn och dylikt
+        - viz. hitta erbjudanden. 
+    -- hitta vad som är relevant i kund.
+    select mejl_address, fornamn, efternamn from kund;
+    -- alla nutida och framtida erbjudanden.
+    select * from erbjudande WHERE now() < slut;
+    -- alla aktuella erbjudanden just nu.
+    select * from erbjudande WHERE now() < slut AND now() > `start`;
+
+    [D] Lägga in erbjudandens giltighetstid
+        ** enkel
+        - viz. update
+    *** SQL::::
+        update erbjudande 
+        SET start = {startdatum}, slut = {startdatum}
+        WHERE erbjudande_id = {X}
+        ** EXAMPLE QUERY:
+                update erbjudande 
+                SET start = '2024-10-15 00:00:00', slut = '2024-11-15 23:59:59'
+                WHERE erbjudande_id = 1
+    
+
+    [D] Statistik på vilken typ av rum som är attraktiva en viss period
+        - först definera perioden <- input
+        - bokning: lista över incheckning som faller inom denna tidsram.
+        -> ta fram rum därifrån.
+        -> från rum hitta rumtyp, räkna  (count) antal av varje rumtyp.
+        *** SQL ::::
+        SELECT rt.rum_typ_id, COUNT(*) AS antal_bokningar
+        FROM bokning b
+        INNER JOIN rum r ON b.rum_id = r.rum_id -- now we only have rooms that have been booked.
+        INNER JOIN rum_typ rt ON r.rum_typ_id = rt.rum_typ_id -- so that it selects the same for count
+        WHERE b.incheckning BETWEEN 'X' AND 'Y'
+        GROUP BY rt.rum_typ_id
+        ORDER BY antal_bokningar DESC; -- want to see most attractive first.
+
+
+
+
+    [D] Se när det är middag bokad och för hur många personer 
+        - SELECT X, y from middag. (order by date)
+        ** EXAMPLE QUERY:
+        SELECT datum, antal_personer, grupp_bokning_id FROM middag 
+        ORDER BY datum;
+
+
+    [D] Uppdatera hur många personer som ska äta
+        ** enkel
+        - update statement
+        *** SQL::::
+        update middag
+        SET antal_personer = {X}
+        WHERE middag_id = {Y}
+        ** EXAMPLE QUERY:
+        -- usecase example: en person har blivit sjuk och ska inte vara med på middagen men sova i rummet.
+        update middag
+        SET antal_personer = antal_personer - 1
+        WHERE middag_id = 1
 
 
 Receptionist:
-    Se lediga rum av en viss typ en viss tidsperiod
-    Boka rum
-    Boka rum för grupp
-    Boka middag för grupp
-    Se aktuella priser och erbjudande
-    Se pris / erbjudande som gällde när bokningen gjordes
-    Checka in gäster
-    Checka ut gäster
-    Se om gäst checkat in
-    Se om gäst checkat ut
-    Se vem i personalen som gjort bokning / incheckning / utcheckning
-    Ändra datum i bokningar
-    Skriva ut räkning för bokningar
-    Skriva ut räkning för gruppbokningar
+    [D] Se lediga rum av en viss typ en viss tidsperiod, 
+        viz. en kund vill boka ett enkelrum
+        -> gå in i bokning, gå in och kolla all data, ta bort träffar där någon av dagarna
+        inom tidsperioden har träff mellan ett derivade value som utgår ifrån:
+            -> checkatin och checkatut ==> tabell med datum upptaget. 
+            hämta alla rum_id som ej ej har träffar där.
+        -> ta upp lista ur "join" från rum och rum_typ där rum id är från förra steget.
+        -> skapa ny lista utifrån "join" med den rumtypen man söker och de rum som uppfyller kraven.
+        -- SELECT pseudo.start_ledigt, pseudo.slut_ledigt ,r.rum_id, r.rum_typ_id //med nested query där pseudo är derived.
+        -- 237-239 datatyp som heter Interval som håller DATETIME eller YEARMONTH. Ev. fixa en sådan med DATETIME eller deriva en sådan?
+        
+        *** SQL QUERY:::
+        -- Usecase vill söka efter lediga enkelrum rum perioden 2024-11-01 - 2024-11-07
+        SET @usergiven_start_date = '2024-11-01', @usergiven_end_date = '2024-11-07';
+        SELECT r.rum_id, r.rum_typ_id 
+            FROM rum r
+            LEFT JOIN bokning b -- LEFT JOIN: tar med alla rum även om de inte har en match i bokning. Kollar att de i bokning ej överlappar.
+                ON (b.rum_id = r.rum_id 
+                    AND @usergiven_end_date > b.incheckning -- tar bort rum som har bokning med incheckning innan önskat slutdatum
+                    AND @usergiven_start_date < b.utcheckning -- tar bort rum som har bokning med utcheckning efter önskat startdatum
+                    )
+                WHERE b.rum_id IS NULL -- för att göra en Left Anti Join.
+                AND r.rum_typ_id = 'Enkelrum' -- för att bara ta fram enkelrummen
+                SET @rum_id_fr_lediga_rum = r.rum_id, @rum_typ_id_fr_lediga_rum = r.rum_typ_id;
+
+-- region
+    [D-F] Boka rum  <<<<
+        ***Går vidare från förra steget ovan***
+        gå in bokning med valt rum_id från förra steget, updatera/insert bokning. 
+            updatera/insert kund´
+            updatera/insert huvud_gäst
+            updatera/insert faktura
+                *** tänk på ordningen av operationer här: vilken tabell i vilken ordning? "Insert order per build1.txt"
+
+        *** EXAMPLE SQL QUERY FOR INSERT INTO BOOKING:
+
+               INSERT INTO huvud_gast (fornamn, efternamn, mejl_address, telefon_nummer) 
+        VALUES ('Anders', 'Andersson', 'AndAnd@resebokning.com', '+46731234567');
+        SET @huvud_gast_id_fr_insert_huvud_gast = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) 
+        VALUES ('Bertil', 'Bengtsson', 'BerBen@example.com', '+46701234567');
+        SET @kund_id_fr_insert_kund = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        INSERT INTO faktura (personal_id, erbjudande_id, grupp_bokning_id) 
+        VALUES (1, NULL, NULL);
+        SET @faktura_id_fr_insert_faktura = = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        SELECT rum_pris_id INTO @rum_pris_id_fr_select_rum_pris
+        FROM rum_pris
+        WHERE (
+            (Now() BETWEEN `start` AND slut) 
+            AND 
+            (rum_typ_id = {EMPLOYEE_TASK}")
+            );
+
+        INSERT INTO bokning (
+            rum_id, kund_id, 
+            huvud_gast_id, 
+            personal_id, rum_pris_id, 
+            faktura_id, bokning_datum, 
+            antal_gaster, 
+            incheckning, utcheckning
+            ) VALUES (
+                "{EMPLOYEE_TASK}", @kund_id_fr_insert_kund, 
+                @huvud_gast_id_fr_insert_huvud_gast, 
+                1, @rum_pris_id_fr_select_rum_pris, 
+                @faktura_id_fr_insert_faktura, Now(), 
+                2, 
+                "{EMPLOYEE_TASK}", "{EMPLOYEE_TASK}"
+                );
+
+        *** SQL QUERY::: (Usecase boka ett enkelrum för en person perioden 2024-11-01 - 2024-11-07, ny kund samt huvudgäst)
+
+        INSERT INTO huvud_gast (fornamn, efternamn, mejl_address, telefon_nummer) 
+        VALUES ('Anders', 'Andersson', 'AndAnd@resebokning.com', '+46731234567');
+        SET @huvud_gast_id_fr_insert_huvud_gast = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) 
+        VALUES ('Bertil', 'Bengtsson', 'BerBen@example.com', '+46701234567');
+        SET @kund_id_fr_insert_kund = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        INSERT INTO faktura (personal_id, erbjudande_id, grupp_bokning_id) 
+        VALUES (1, NULL, NULL);
+        SET @faktura_id_fr_insert_faktura = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. Måste antingen göra så att personalen manuellt väljer pris, eller fixa testdatan så att inte rumpris med samma rumtyp får överlappa i tid
+        SELECT rum_pris_id INTO @rum_pris_id_fr_select_rum_pris
+        FROM rum_pris
+        WHERE (
+            (Now() BETWEEN `start` AND slut) 
+            AND 
+            (rum_typ_id = 'enkelrum')
+            ); 
+
+        INSERT INTO bokning (
+            rum_id, kund_id, 
+            huvud_gast_id, 
+            personal_id, rum_pris_id, 
+            faktura_id, bokning_datum, 
+            antal_gaster, 
+            incheckning, utcheckning
+            ) VALUES (
+                1, @kund_id_fr_insert_kund, 
+                @huvud_gast_id_fr_insert_huvud_gast, 
+                1, @rum_pris_id_fr_select_rum_pris, 
+                @faktura_id_fr_insert_faktura, Now(), 
+                2, 
+                '2024-11-01', '2024-11-07' -- given av personalen i dialog med kund utifrån tidigare bild på lediga rum.
+                );
+-- endregion
+
+    [D-F] Boka rum för grupp <<<<
+         *** SQL QUERY::: (Usecase boka två enkelrum för en person vardera perioden 2024-11-01 - 2024-11-07, ny kund samt huvudgäster)
+
+        INSERT INTO huvud_gast (fornamn, efternamn, mejl_address, telefon_nummer) 
+        VALUES ('Caroline', 'Carlsson', 'CarCar@exempel.com', '+46731234561');
+        SET @huvud_gast_id_fr_insert_a = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+        
+        INSERT INTO huvud_gast (fornamn, efternamn, mejl_address, telefon_nummer) 
+        VALUES ('Daniel', 'Davidsson', 'AndAnd@exempel.com', '+46731234562');
+        SET @huvud_gast_id_fr_insert_b = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) 
+        VALUES ('Emil', 'Eriksson', 'EmiEri@example.com', '+46701234563');
+        SET @kund_id_fr_insert = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        INSERT INTO grupp_bokning (personal_id)
+        VALUES (2);
+        SET @grupp_bokning_id_fr_insert = LAST_INSERT_ID();
+
+        INSERT INTO faktura (personal_id, erbjudande_id, grupp_bokning_id) 
+        VALUES (1, NULL, @grupp_bokning_id_fr_insert);
+        SET @faktura_id_fr_insert = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. Måste antingen göra så att personalen manuellt väljer pris, eller fixa testdatan så att inte rumpris med samma rumtyp får överlappa i tid
+        SELECT rum_pris_id INTO @rum_pris_id_fr_select
+        FROM rum_pris
+        WHERE (
+            (Now() BETWEEN `start` AND slut) 
+            AND 
+            (rum_typ_id = 'enkelrum')
+            ); 
+
+        INSERT INTO bokning (
+            rum_id, kund_id, 
+            huvud_gast_id, 
+            personal_id, rum_pris_id, 
+            grupp_bokning_id, bokning_datum, 
+            antal_gaster, 
+            incheckning, utcheckning
+            ) VALUES (
+                5, @kund_id_fr_insert, 
+                @huvud_gast_id_fr_insert_a, 
+                1, @rum_pris_id_fr_select, 
+                @grupp_bokning_fr_insert, Now(), 
+                2, 
+                '2024-11-01', '2024-11-07' -- given av personalen i dialog med kund utifrån tidigare bild på lediga rum.
+                ),
+                (8, @kund_id_fr_insert, 
+                @huvud_gast_id_fr_insert_b, 
+                1, @rum_pris_id_fr_select, 
+                @grupp_bokning_fr_insert, Now(), 
+                2, 
+                '2024-11-01', '2024-11-07' -- given av personalen i dialog med kund utifrån tidigare bild på lediga rum.);
+
+
+    [D] Boka middag för grupp
+        *** relativt enkel *** 
+        gå via gruppbokning till middag, lägg in nytt objekt i middag och uppdatera fältet för foreign key till den gruppbokningen det gäller.
+        ** EXAMPLE QUERY:
+        INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES (1, 8, '2025-01-20 18:00:00');
     
+    
+    [D] Se aktuella priser 
+        Kolla pris för visst typ av rum. 
+        ** motivera i rapport varför vi visar rumpris och erbjudande separat
+        --> Ta fram aktuellt pris för rummet
+        *** SQL QUERY::: 
+        -- Usecase kund vill veta aktuellt pris för enkelrum 
+        SELECT pris_per_natt, `start`, slut FROM rum_pris
+        WHERE rum_typ_id = "enkelrum" AND `start` < now() AND slut > now(); 
+
+    [D] Se aktuella erbjudanden
+        Får en lista med erbjudanden som är aktuella
+        *** SQL QUERY::: 
+        SELECT * FROM erbjudande
+        WHERE `start` < now() AND slut > now(); 
+
+    [D] Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
+        Gå via bokning till faktura -> Kolla om det finns erbjudande i faktura
+        Kontrollera bokningsdatum
+        vi vill kunna ta upp ett pris och erbjudande för en viss bokning. 
+
+            Söka i rum_pris efter det pris för rumtypen som var aktuellt när bokningen gjordes, derived value som utgår ifrån:
+                -> rum_pris.start -> rum_pris.slut 
+            ** På samma sätt som vi söker efter ledigt rum
+            *** SQL QUERY::: 
+            SELECT rp.pris_per_natt, e.prisavdrag, e.villkor, b.bokning_id, f.faktura_id, f.personal_id
+	        FROM bokning b
+	        INNER JOIN faktura f ON b.faktura_id = f.faktura_id
+	        INNER JOIN rum_pris rp ON b.rum_pris_id = rp.rum_pris_id
+            LEFT JOIN erbjudande e ON f.erbjudande_id = e.erbjudande_id
+	        WHERE bokning_id = 2;  
+
+    [D-F] Checka in (huvud)gäster
+        ** Kan ske både med gästens namn / telefonnummer och med boknings-id
+        Söka fram rummet som hör till bokningen 
+            -> Kontrollera att rummet är utcheckat
+            -> Uppdatera checked_in till TRUE  (och checked_out till FALSE) 
+        FIXME: SAKNAS TESTDATA FÖR DENNA! Finns inga bokningar med incheckning idag (problem noterat 2024-10-16)
+        -- WHERE CLAUSE NEEDS: AND r.status = "pending"
+                    UPDATE rum r
+                    INNER JOIN bokning b ON r.rum_id = b.rum_id
+                    INNER JOIN huvud_gast hg ON hg.huvud_gast_id = b.huvud_gast_id
+                    SET r.status = "checkat_in"
+                    WHERE r.status = "checkat_ut" AND hg.fornamn = "X" AND hg.efternamn = "Y" AND b.incheckning = CURDATE();
+
+                    FÖR TEST:::
+                    SELECT * FROM rum
+                    INNER JOIN bokning b ON r.rum_id = b.rum_id
+                    INNER JOIN huvud_gast hg ON hg.huvud_gast_id = b.huvud_gast_id
+                    WHERE r.status = "checkat_ut" AND hg.fornamn = "X" AND hg.efternamn = "Y" AND b.incheckning = CURDATE();
+
+
+    [D-F] Checka ut (huvud)gäster
+        ** Kan ske både med gästens namn / telefonnummer och med boknings-id
+        Söka fram rummet som hör till bokningen 
+            -> Kontrollera att rummet är incheckat
+            -> Uppdatera checked_in till FALSE  (och checked_out till TRUE) 
+            FIXME: SAKNAS TESTDATA FÖR DENNA!
+            UPDATE rum r
+                    INNER JOIN bokning b ON r.rum_id = b.rum_id
+                    INNER JOIN huvud_gast hg ON hg.huvud_gast_id = b.huvud_gast_id
+                    SET r.status = "checkat_ut"
+                    WHERE r.status = "checkat_in" AND hg.fornamn = "X" AND hg.efternamn = "Y" AND b.utcheckning <= CURDATE();
+
+    [D] Se om gäst checkat in -- BEHÖVER MOTIVERA I RAPPORT ATT VI TOLKAR DETTA SOM ATT SE STATUS PÅ RUM FÖR EN GÄST.
+        Gå från huvud_gast -> bokning -> rum
+            - Sök upp huvud_gast_id från gästens namn
+            - Hitta bokning-ID som har den huvudgästen
+            - Sortera ut den bokningen som gäller just nu
+            - Gå till rum som är kopplat till bokningen
+            - Kontrollera status på rummet
+            SELECT hg.fornamn, hg.efternamn, r.status, b.incheckning, b.utcheckning
+            FROM huvud_gast hg
+            INNER JOIN bokning b ON hg.huvud_gast_id = b.huvud_gast_id
+            INNER JOIN rum r ON b.rum_id = r.rum_id
+            WHERE b.incheckning <= CURDATE() AND b.utcheckning >= CURDATE() -- testdata behövs för nutid och dåtid, inte bara framtid >.<
+            AND hg.fornamn = "Carina" AND hg.efternamn = "Lindelöf"
+            -- AND r.status = "checkat_ut" -- kom ihåg till rapporten att motivera varför detta inte är med!
+    [D] Se om gäst checkat ut
+        Gå från huvud_gast -> bokning -> rum
+            SE OVAN!!
+
+
+    [D] Se vem i personalen som gjort bokning 
+        Selectsats med sökning i bokning samt personal
+        *** SQL QUERY:::
+            SELECT personal.fornamn, personal.efternamn, bokning.bokning_id, personal.personal_id
+            FROM personal
+            INNER JOIN bokning ON personal.personal_id = bokning.personal_id;
+
+    FIXME: Alla ställen som söker på namn - namn är inte nödvändigtvis unikt, söka på boknings-id istället? Diskutera i rapport. 
+    Sök på boknings-ID istället, en gäst kan ha flera bokningar.
+    Diskutera i rapporten över att antalet gäster ej påverkar priset, har bara pris per natt per rum
+    
+    [D] Ändra datum i bokningar
+        Updatesats i bokning.incheck och/eller bokning.utcheck
+        *** SQL QUERY:::
+            UPDATE bokning SET incheckning = '2024-12-01', utcheckning = '2024-12-15'
+            WHERE bokning_id = 1;
+    
+    Skriva ut räkning för bokningar 
+        Tolkning: Få ut data nödvändigt för att summera priset
+        Betalnings-spec/kvitto?
+        Input från användaren:
+            bokning_id
+        Data från databas som behövs:
+            Antalet nätter
+                derived från incheckning och utcheckning i bokning
+            Pris per natt
+                bokning.rum_pris
+            Försäljningssummor
+                Från försäljning.summa, via faktura
+
+            SELECT (
+                incheckning, utcheckning, 
+                rum_pris_id, faktura_id, 
+                huvud_gast_id, kund_id
+                ) 
+            INTO (
+                @bokning.incheckning, @bokning.utcheckning, 
+                @bokning.rum_pris_id, @bokning.faktura_id, 
+                @bokning.huvud_gast_id, @bokning.kund_id
+                )
+            FROM bokning
+            WHERE bokning_id = user_input;
+
+            SELECT rp.pris_per_natt 
+            FROM rum_pris rp
+            WHERE rum_pris_id = @bokning.rum_pris_id; 
+
+            SELECT SUM (fo.summa)
+            FROM forsaljning fo
+            WHERE faktura_id = @bokning.faktura_id;
+
+            -- SQL QUERY::
+            FIXME: lägg till erbjudande
+            FIXME: i rum_pris, vi kontrollerar ej om priset är aktuellt eller inte. ej mot rum_typ heller. Nu utgår vi att det är rätt info där.
+            SELECT 
+                b.bokning_id,
+                b.faktura_id, 
+                b.huvud_gast_id, 
+                CONCAT(hg.fornamn,' ', hg.efternamn) AS 'gästnamn', 
+                b.kund_id, 
+                CONCAT(k.fornamn,' ', k.efternamn) AS 'kundnamn', 
+                b.incheckning, b.utcheckning,
+                DATEDIFF(b.utcheckning, b.incheckning) AS 'antal nätter',
+                rp.pris_per_natt, 
+                IFNULL(SUM(fo.summa), 0) AS 'försäljning',
+                DATEDIFF(b.utcheckning, b.incheckning) * rp.pris_per_natt + IFNULL(SUM(fo.summa), 0) AS tot_pris_bokning
+            FROM bokning b 
+                INNER JOIN rum_pris rp ON b.rum_pris_id = rp.rum_pris_id
+                LEFT JOIN forsaljning fo ON b.faktura_id = fo.faktura_id
+                INNER JOIN kund k ON b.kund_id = k.kund_id
+                INNER JOIN huvud_gast hg ON b.huvud_gast_id = hg.huvud_gast_id
+            WHERE b.faktura_id IS NOT NULL AND b.bokning_id = 58
+            ORDER BY b.bokning_id;
+
+
+    Skriva ut räkning för gruppbokningar
+        >>>>: TOLKNING AV UPPGIFT:
+            - middag?
+            ===> ta med antal middagar med antal personer. De får manuellt räkna ut debiteringen utifrån detta.
+            motivera: lägga till kostnad för middag (ej med ty: skulle kräva dialog först)
+        >>>INPUT:
+        grupp_bokning_id
+        >>>DATA ATT HÄMTA:
+        I BOKNING UTIFRÅN grupp_bokning_id:
+            personal_id
+            x: kund_id
+            incheckning
+            utcheckning
+            x: rum_pris_id
+            (x: huvud_gast_id)
+        I FAKTURA UTIFRÅN grupp_bokning_id:
+            x: erbjudande_id
+            X: faktura_id
+        I FORSALJNING UTIFRÅN faktura_id:
+            summa
+        I ERBJUDANDE UTIFRÅN erbjudande_id:
+            prisavdrag
+            villkor
+        I RUM_PRIS UTIFRÅN rum_pris_id:
+            pris_per_natt
+        I MIDDAG UTIFRÅN grupp_bokning_id:
+            antal_personer
+            middag_id
+        I KUND UTIFRÅN kund_id:
+            fornamn
+            efternamn
+        (I HUVUD_GAST UTIFRÅN: huvud_gast_id:
+            fornamn
+            efternamn
+            )
+
+        SELECT
+            b.incheckning, b.utcheckning, b.personal_id, m.antal_personer, m.middag_id
+        FROM bokning b
+        JOIN faktura fa ON b.grupp_bokning_id = fa.grupp_bokning_id
+        JOIN middag m ON b.grupp_bokning_id = m.grupp_bokning_id
+        
+        
+        
+
+        SELECT (
+                b.bokning_id, b.faktura_id, b.huvud_gast_id, 
+                CONCAT(hg.fornamn,' ', hg.efternamn) AS 'gästnamn', 
+                b.kund_id, CONCAT(k.fornamn,' ', k.efternamn) AS 'kundnamn', 
+                rp.pris_per_natt, 
+                IFNULL(SUM(fo.summa), 0) AS 'försäljning'
+                )  
+            FROM bokning b 
+            INNER JOIN rum_pris rp ON b.rum_pris_id = rp.rum_pris_id
+            LEFT JOIN forsaljning fo ON b.faktura_id = fo.faktura_id
+            INNER JOIN kund k ON b.kund_id = k.kund_id
+            INNER JOIN huvud_gast hg ON b.huvud_gast_id = hg.huvud_gast_id
+			WHERE b.grupp_bokning_id IS NOT NULL -- AND b.grupp_bokning_id = 2
+            ORDER BY b.bokning_id;
+
 
 
 Städare:
-    Se vilka rum som är utcheckade 
+    [D] Se vilka rum som är utcheckade
+        Relativt enkel select-sats
+        *** SQL QUERY:::
+        SELECT rum_id, `status`, rum_typ_id  FROM rum 
+        WHERE `status` = 'checkat_ut';
+
+Från handledare.
+SELECT, UPDATE OCH INSERT SKA VARA MED.
+minst tre av SQL satserna ska göra en sökning i flera tabeller, 
+visa på både JOIN och NESTAD
+använd minst en funktion t.ex. count eller group by.
