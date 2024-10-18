@@ -283,11 +283,7 @@ def generate_triple_random_interval(start_datetime: datetime, end_datetime: date
 def generate_random_interval_timestamp(start_datetime: datetime, end_datetime: datetime) -> tuple[datetime, datetime]:
     first = True # to enter loop.
     r_start_dt = generate_random_timestamp(start_datetime, end_datetime) # to predefine
-    r_end_dt = generate_random_timestamp(start_datetime, end_datetime) # to predefine
-    while ((r_start_dt.date() >= r_end_dt.date()) or first):
-        if first: first = False # stop using entry condition.
-        r_start_dt = generate_random_timestamp(start_datetime, end_datetime)
-        r_end_dt = generate_random_timestamp(start_datetime, end_datetime)
+    r_end_dt = generate_random_timestamp(r_start_dt, end_datetime) # to predefine
     return r_start_dt, r_end_dt
 
 def generate_random_interval_defined_interval(start_datetime: datetime, end_datetime: datetime, max_days: int) -> tuple[datetime, datetime]:
