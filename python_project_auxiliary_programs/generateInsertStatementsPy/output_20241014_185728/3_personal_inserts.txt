@@ -1,0 +1,5 @@
+INSERT INTO personal (fornamn, efternamn, roll) VALUES ('Hans', 'Davidsson', 'Manager');
+INSERT INTO personal (fornamn, efternamn, roll) VALUES ('Viola', 'Jönsson', 'Manager');
+INSERT INTO personal (fornamn, efternamn, roll) VALUES ('Astrid', 'Engberg', 'Receptionist');
+INSERT INTO personal (fornamn, efternamn, roll) VALUES ('Jenny', 'Ståhl', 'Receptionist');
+INSERT INTO personal (fornamn, efternamn, roll) VALUES ('Allan', 'Larsdotter', 'Cleaner');
