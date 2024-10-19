@@ -50,4 +50,4 @@ VALUES  (5, NULL, 'kommande'),
         (1, 1, 'betald'),
         (3, NULL, 'pågående'),
         (3, NULL, 'pågående'),
-        (3, NULL, 'pågående'),
+        (3, NULL, 'pågående');
