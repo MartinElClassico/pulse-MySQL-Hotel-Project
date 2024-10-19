@@ -1,12 +1,13 @@
-INSERT INTO erbjudande (prisavdrag, villkor, start, slut) VALUES (284.39, 'PLACEHOLDER villkor', '2025-09-12 22:05:45', '2025-10-11 15:36:19');
-INSERT INTO erbjudande (prisavdrag, villkor, start, slut) VALUES (152.59, 'PLACEHOLDER villkor', '2024-02-26 10:53:37', '2024-03-22 08:43:28');
-INSERT INTO erbjudande (prisavdrag, villkor, start, slut) VALUES (247.27, 'PLACEHOLDER villkor', '2025-01-26 17:05:51', '2025-02-12 13:02:11');
-INSERT INTO erbjudande (prisavdrag, villkor, start, slut) VALUES (171.75, 'PLACEHOLDER villkor', '2025-01-04 08:34:42', '2025-02-03 06:24:21');
-INSERT INTO erbjudande (prisavdrag, villkor, start, slut) VALUES (137.14, 'PLACEHOLDER villkor', '2025-01-21 10:25:23', '2025-02-18 03:51:34');
-INSERT INTO erbjudande (prisavdrag, villkor, start, slut) VALUES (204.82, 'PLACEHOLDER villkor', '2024-11-14 07:40:59', '2024-12-03 03:23:12');
-INSERT INTO erbjudande (prisavdrag, villkor, start, slut) VALUES (239.96, 'PLACEHOLDER villkor', '2025-07-03 13:51:43', '2025-08-01 16:34:44');
-INSERT INTO erbjudande (prisavdrag, villkor, start, slut) VALUES (245.05, 'PLACEHOLDER villkor', '2024-12-26 23:08:19', '2025-01-19 03:29:43');
-INSERT INTO erbjudande (prisavdrag, villkor, start, slut) VALUES (285.21, 'PLACEHOLDER villkor', '2025-05-08 08:34:10', '2025-06-03 21:16:46');
-INSERT INTO erbjudande (prisavdrag, villkor, start, slut) VALUES (193.08, 'PLACEHOLDER villkor', '2025-09-05 21:27:23', '2025-09-22 12:48:18');
-INSERT INTO erbjudande (prisavdrag, villkor, start, slut) VALUES (106.03, 'PLACEHOLDER villkor', '2025-09-10 18:23:07', '2025-10-02 15:17:09');
-INSERT INTO erbjudande (prisavdrag, villkor, start, slut) VALUES (253.55, 'PLACEHOLDER villkor', '2025-07-07 16:27:04', '2025-08-07 07:51:02');
+INSERT INTO erbjudande (prisavdrag, villkor, start, slut) 
+VALUES  (284.39, 'PLACEHOLDER villkor', '2025-09-12 22:05:45', '2025-10-11 15:36:19'),
+        (152.59, 'PLACEHOLDER villkor', '2024-02-26 10:53:37', '2024-03-22 08:43:28'),
+        (247.27, 'PLACEHOLDER villkor', '2025-01-26 17:05:51', '2025-02-12 13:02:11'),
+        (171.75, 'PLACEHOLDER villkor', '2025-01-04 08:34:42', '2025-02-03 06:24:21'),
+        (137.14, 'PLACEHOLDER villkor', '2025-01-21 10:25:23', '2025-02-18 03:51:34'),
+        (204.82, 'PLACEHOLDER villkor', '2024-11-14 07:40:59', '2024-12-03 03:23:12'),
+        (239.96, 'PLACEHOLDER villkor', '2025-07-03 13:51:43', '2025-08-01 16:34:44'),
+        (245.05, 'PLACEHOLDER villkor', '2024-12-26 23:08:19', '2025-01-19 03:29:43'),
+        (285.21, 'PLACEHOLDER villkor', '2025-05-08 08:34:10', '2025-06-03 21:16:46'),
+        (193.08, 'PLACEHOLDER villkor', '2025-09-05 21:27:23', '2025-09-22 12:48:18'),
+        (106.03, 'PLACEHOLDER villkor', '2025-09-10 18:23:07', '2025-10-02 15:17:09'),
+        (253.55, 'PLACEHOLDER villkor', '2025-07-07 16:27:04', '2025-08-07 07:51:02');

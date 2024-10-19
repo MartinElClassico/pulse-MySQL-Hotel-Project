@@ -1,49 +1,50 @@
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Jan', 'Holmquist', '6727@example.com', '+46770170860');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Börje', 'Söderström', '1699@example.com', '+46791960469');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Sven', 'Höglund', '5762@example.com', '+46713487994');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Greta', 'Fontelius', '3904@example.com', '+46745547279');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Julia', 'Hellström', '4774@example.com', '+46786874146');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Viktoria', 'Stenqvist', '4604@example.com', '+46798011330');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Berit', 'Gucci', '5610@example.com', '+46780279434');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Elisabet', 'Nobel', '1095@example.com', '+46740032948');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Linda', 'Westman', '1950@example.com', '+46721895119');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Gösta', 'Engström', '5962@example.com', '+46750793649');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Johannes', 'Öberg', '1781@example.com', '+46768284487');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Karolina', 'Abrahamsson', '8349@example.com', '+46755005829');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Linnea', 'Engberg', '3272@example.com', '+46717477380');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Tomas', 'Kristersson', '9518@example.com', '+46717430997');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Margit', 'Norberg', '8905@example.com', '+46734501015');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Tommy', 'Qvist', '9880@example.com', '+46759811346');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Linda', 'Berglund', '4362@example.com', '+46725374407');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Siv', 'Lindström', '5340@example.com', '+46702096680');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Simon', 'Spångberg', '8910@example.com', '+46700983576');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Katarina', 'Blom', '5205@example.com', '+46760250728');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Svea', 'Helander', '8588@example.com', '+46730032893');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Sonja', 'Gustafsson', '3938@example.com', '+46722557093');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Alice', 'Wallin', '3230@example.com', '+46713291842');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Einar', 'Nordström', '8928@example.com', '+46723157046');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Andreas', 'Lundh', '6826@example.com', '+46769935712');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Sara', 'Råberg', '9911@example.com', '+46712461990');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Ester', 'Sandström', '6773@example.com', '+46754018254');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('William', 'Lundqvist', '4747@example.com', '+46708299009');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Rolf', 'Sirén', '4732@example.com', '+46745667725');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Margit', 'Malmström', '1659@example.com', '+46782187385');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Gunvor', 'Olofsson', '7631@example.com', '+46783017674');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Anna', 'Wallin', '6572@example.com', '+46761212552');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Charlotta', 'Spahandelin', '6173@example.com', '+46721655464');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Ingvar', 'Söder', '9610@example.com', '+46745969728');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Sten', 'Sandström', '2300@example.com', '+46776748370');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Sven', 'Palmquist', '9215@example.com', '+46725328915');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Arne', 'Nordin', '1233@example.com', '+46724488574');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Lars', 'Helin', '4339@example.com', '+46710423089');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Gustav', 'Björk', '9013@example.com', '+46705151999');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Harald', 'Birgersson', '6492@example.com', '+46791191366');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Ingegerd', 'Carlsson', '3541@example.com', '+46722443011');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Ragnar', 'Sandell', '2397@example.com', '+46714812462');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Gustav', 'Eklund', '8941@example.com', '+46729055683');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Katarina', 'Svensson', '5334@example.com', '+46714309675');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Niklas', 'Westerberg', '1485@example.com', '+46724748170');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Edit', 'Håkansson', '7659@example.com', '+46702862982');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Julia', 'Fagerlund', '9024@example.com', '+46719853892');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Erik', 'Henriksson', '2712@example.com', '+46784985132');
-INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) VALUES ('Evert', 'Jönsson', '3088@example.com', '+46793704529');
+INSERT INTO kund (fornamn, efternamn, mejl_address, telefon_nummer) 
+VALUES  ('Jan', 'Holmquist', '6727@example.com', '+46770170860'),
+        ('Börje', 'Söderström', '1699@example.com', '+46791960469'),
+        ('Sven', 'Höglund', '5762@example.com', '+46713487994'),
+        ('Greta', 'Fontelius', '3904@example.com', '+46745547279'),
+        ('Julia', 'Hellström', '4774@example.com', '+46786874146'),
+        ('Viktoria', 'Stenqvist', '4604@example.com', '+46798011330'),
+        ('Berit', 'Gucci', '5610@example.com', '+46780279434'),
+        ('Elisabet', 'Nobel', '1095@example.com', '+46740032948'),
+        ('Linda', 'Westman', '1950@example.com', '+46721895119'),
+        ('Gösta', 'Engström', '5962@example.com', '+46750793649'),
+        ('Johannes', 'Öberg', '1781@example.com', '+46768284487'),
+        ('Karolina', 'Abrahamsson', '8349@example.com', '+46755005829'),
+        ('Linnea', 'Engberg', '3272@example.com', '+46717477380'),
+        ('Tomas', 'Kristersson', '9518@example.com', '+46717430997'),
+        ('Margit', 'Norberg', '8905@example.com', '+46734501015'),
+        ('Tommy', 'Qvist', '9880@example.com', '+46759811346'),
+        ('Linda', 'Berglund', '4362@example.com', '+46725374407'),
+        ('Siv', 'Lindström', '5340@example.com', '+46702096680'),
+        ('Simon', 'Spångberg', '8910@example.com', '+46700983576'),
+        ('Katarina', 'Blom', '5205@example.com', '+46760250728'),
+        ('Svea', 'Helander', '8588@example.com', '+46730032893'),
+        ('Sonja', 'Gustafsson', '3938@example.com', '+46722557093'),
+        ('Alice', 'Wallin', '3230@example.com', '+46713291842'),
+        ('Einar', 'Nordström', '8928@example.com', '+46723157046'),
+        ('Andreas', 'Lundh', '6826@example.com', '+46769935712'),
+        ('Sara', 'Råberg', '9911@example.com', '+46712461990'),
+        ('Ester', 'Sandström', '6773@example.com', '+46754018254'),
+        ('William', 'Lundqvist', '4747@example.com', '+46708299009'),
+        ('Rolf', 'Sirén', '4732@example.com', '+46745667725'),
+        ('Margit', 'Malmström', '1659@example.com', '+46782187385'),
+        ('Gunvor', 'Olofsson', '7631@example.com', '+46783017674'),
+        ('Anna', 'Wallin', '6572@example.com', '+46761212552'),
+        ('Charlotta', 'Spahandelin', '6173@example.com', '+46721655464'),
+        ('Ingvar', 'Söder', '9610@example.com', '+46745969728'),
+        ('Sten', 'Sandström', '2300@example.com', '+46776748370'),
+        ('Sven', 'Palmquist', '9215@example.com', '+46725328915'),
+        ('Arne', 'Nordin', '1233@example.com', '+46724488574'),
+        ('Lars', 'Helin', '4339@example.com', '+46710423089'),
+        ('Gustav', 'Björk', '9013@example.com', '+46705151999'),
+        ('Harald', 'Birgersson', '6492@example.com', '+46791191366'),
+        ('Ingegerd', 'Carlsson', '3541@example.com', '+46722443011'),
+        ('Ragnar', 'Sandell', '2397@example.com', '+46714812462'),
+        ('Gustav', 'Eklund', '8941@example.com', '+46729055683'),
+        ('Katarina', 'Svensson', '5334@example.com', '+46714309675'),
+        ('Niklas', 'Westerberg', '1485@example.com', '+46724748170'),
+        ('Edit', 'Håkansson', '7659@example.com', '+46702862982'),
+        ('Julia', 'Fagerlund', '9024@example.com', '+46719853892'),
+        ('Erik', 'Henriksson', '2712@example.com', '+46784985132'),
+        ('Evert', 'Jönsson', '3088@example.com', '+46793704529');
