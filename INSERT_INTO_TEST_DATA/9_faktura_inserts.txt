@@ -1,49 +1,50 @@
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (5, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (3, NULL, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (2, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (7, NULL, 'betald');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (5, NULL, 'betald');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (6, NULL, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (12, NULL, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (1, NULL, 'betald');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (5, NULL, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (9, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (4, NULL, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (7, NULL, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (10, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (9, NULL, 'betald');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (1, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (7, NULL, 'betald');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (10, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (12, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (5, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (4, NULL, 'betald');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (6, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (9, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (1, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (10, NULL, 'betald');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (1, NULL, 'betald');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (8, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (5, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (9, NULL, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (4, NULL, 'betald');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (5, NULL, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (4, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (4, NULL, 'betald');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (10, NULL, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (3, NULL, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (8, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (2, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (1, NULL, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (10, 2, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (2, 3, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (7, 4, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (1, 5, 'betald');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (5, 6, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (2, 7, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (10, 8, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (1, 9, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (3, 10, 'kommande');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (12, 11, 'betald');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (8, 12, 'pagaende');
-INSERT INTO faktura (personal_id, erbjudande_id, status) VALUES (1, 1, 'betald');
+INSERT INTO faktura (personal_id, erbjudande_id, status) 
+VALUES  (5, NULL, 'pagaende'),
+        (3, NULL, 'kommande'),
+        (2, NULL, 'pagaende'),
+        (7, NULL, 'betald'),
+        (5, NULL, 'betald'),
+        (6, NULL, 'kommande'),
+        (12, NULL, 'kommande'),
+        (1, NULL, 'betald'),
+        (5, NULL, 'kommande'),
+        (9, NULL, 'pagaende'),
+        (4, NULL, 'kommande'),
+        (7, NULL, 'kommande'),
+        (10, NULL, 'pagaende'),
+        (9, NULL, 'betald'),
+        (1, NULL, 'pagaende'),
+        (7, NULL, 'betald'),
+        (10, NULL, 'pagaende'),
+        (12, NULL, 'pagaende'),
+        (5, NULL, 'pagaende'),
+        (4, NULL, 'betald'),
+        (6, NULL, 'pagaende'),
+        (9, NULL, 'pagaende'),
+        (1, NULL, 'pagaende'),
+        (10, NULL, 'betald'),
+        (1, NULL, 'betald'),
+        (8, NULL, 'pagaende'),
+        (5, NULL, 'pagaende'),
+        (9, NULL, 'kommande'),
+        (4, NULL, 'betald'),
+        (5, NULL, 'kommande'),
+        (4, NULL, 'pagaende'),
+        (4, NULL, 'betald'),
+        (10, NULL, 'kommande'),
+        (3, NULL, 'kommande'),
+        (8, NULL, 'pagaende'),
+        (2, NULL, 'pagaende'),
+        (1, NULL, 'pagaende'),
+        (10, 2, 'kommande'),
+        (2, 3, 'kommande'),
+        (7, 4, 'kommande'),
+        (1, 5, 'betald'),
+        (5, 6, 'kommande'),
+        (2, 7, 'pagaende'),
+        (10, 8, 'kommande'),
+        (1, 9, 'kommande'),
+        (3, 10, 'kommande'),
+        (12, 11, 'betald'),
+        (8, 12, 'pagaende'),
+        (1, 1, 'betald');
