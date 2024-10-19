@@ -47,4 +47,7 @@ VALUES  (5, NULL, 'kommande'),
         (3, 10, 'betald'),
         (12, 11, 'kommande'),
         (8, 12, 'kommande'),
-        (1, 1, 'betald');
+        (1, 1, 'betald'),
+        (3, NULL, 'pågående'),
+        (3, NULL, 'pågående'),
+        (3, NULL, 'pågående'),
