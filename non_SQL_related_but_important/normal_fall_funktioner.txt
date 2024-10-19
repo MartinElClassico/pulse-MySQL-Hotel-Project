@@ -5,34 +5,36 @@ Hotelldirektör:
     -- hitta vad som är relevant i kund.
     select mejl_address, fornamn, efternamn from kund;
     -- alla nutida och framtida erbjudanden.
-    select * from erbjudande WHERE now() < slut;
+    select * from erbjudande WHERE NOW() >= slut
+        AND `slut` >= NOW();
     -- alla aktuella erbjudanden just nu.
-    select * from erbjudande WHERE now() < slut AND now() > `start`;
+    select * from erbjudande WHERE NOW() >= `start` 
+        AND NOW() <= slut;
 
     [D] Lägga in erbjudandens giltighetstid
         ** enkel
         - viz. update
     *** SQL::::
+        @SET @usergiven_start_date = '2024-10-15 00:00:00', @usergiven_end_date = '2024-11-15 23:59:59',
+        @usergiven_e_id = 1;
         update erbjudande 
-        SET start = {startdatum}, slut = {startdatum}
-        WHERE erbjudande_id = {X}
-        ** EXAMPLE QUERY:
-                update erbjudande 
-                SET start = '2024-10-15 00:00:00', slut = '2024-11-15 23:59:59'
-                WHERE erbjudande_id = 1
+        SET start = @usergiven_start_date, slut = @usergiven_end_date
+        WHERE erbjudande_id = @usergiven_e_id
     
 
     [D] Statistik på vilken typ av rum som är attraktiva en viss period
+    FIXME: add sample date range to SQL query.
         - först definera perioden <- input
         - bokning: lista över incheckning som faller inom denna tidsram.
         -> ta fram rum därifrån.
         -> från rum hitta rumtyp, räkna  (count) antal av varje rumtyp.
         *** SQL ::::
+        SET @usergiven_start_date = '2024-11-01', @usergiven_end_date = '2024-11-07';
         SELECT rt.rum_typ_id, COUNT(*) AS antal_bokningar
         FROM bokning b
         INNER JOIN rum r ON b.rum_id = r.rum_id -- now we only have rooms that have been booked.
         INNER JOIN rum_typ rt ON r.rum_typ_id = rt.rum_typ_id -- so that it selects the same for count
-        WHERE b.incheckning BETWEEN 'X' AND 'Y'
+        WHERE b.incheckning BETWEEN @usergiven_start_date AND @usergiven_end_date -- dates are manually inputed.
         GROUP BY rt.rum_typ_id
         ORDER BY antal_bokningar DESC; -- want to see most attractive first.
 
@@ -49,15 +51,17 @@ Hotelldirektör:
     [D] Uppdatera hur många personer som ska äta
         ** enkel
         - update statement
-        *** SQL::::
+        *** SQLx2::::
+        SET @usergiven_m_id = 1, @usergiven_a_p = 5;
         update middag
-        SET antal_personer = {X}
-        WHERE middag_id = {Y}
-        ** EXAMPLE QUERY:
+        SET antal_personer = @usergiven_a_p
+        WHERE middag_id = @usergiven_m_id
+        ** QUERY2:
         -- usecase example: en person har blivit sjuk och ska inte vara med på middagen men sova i rummet.
+        SET @usergiven_m_id = 1;
         update middag
         SET antal_personer = antal_personer - 1
-        WHERE middag_id = 1
+        WHERE middag_id = @usergiven_m_id
 
 
 Receptionist:
@@ -74,8 +78,8 @@ Receptionist:
         
         *** SQL QUERY:::
         -- Usecase vill söka efter lediga enkelrum rum perioden 2024-11-01 - 2024-11-07
-        SET @usergiven_start_date = '2024-11-01', @usergiven_end_date = '2024-11-07';
-        SELECT r.rum_id, r.rum_typ_id 
+        SET @usergiven_start_date = '2024-11-01', @usergiven_end_date = '2024-11-07', @usergiven_r_t = 'enkelrum';
+        SELECT r.rum_id, r.rum_typ_id, COUNT(*) OVER () AS 'antal sökträffar' 
             FROM rum r
             LEFT JOIN bokning b -- LEFT JOIN: tar med alla rum även om de inte har en match i bokning. Kollar att de i bokning ej överlappar.
                 ON (b.rum_id = r.rum_id 
@@ -83,8 +87,7 @@ Receptionist:
                     AND @usergiven_start_date < b.utcheckning -- tar bort rum som har bokning med utcheckning efter önskat startdatum
                     )
                 WHERE b.rum_id IS NULL -- för att göra en Left Anti Join.
-                AND r.rum_typ_id = 'Enkelrum' -- för att bara ta fram enkelrummen
-                SET @rum_id_fr_lediga_rum = r.rum_id, @rum_typ_id_fr_lediga_rum = r.rum_typ_id;
+                AND r.rum_typ_id = @usergiven_r_t -- för att bara ta fram enkelrummen;
 
 -- region
     [D-F] Boka rum  <<<<
@@ -147,17 +150,19 @@ Receptionist:
         VALUES (1, NULL, NULL);
         SET @faktura_id_fr_insert_faktura = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
 
-        FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. Måste antingen göra så att personalen manuellt väljer pris, eller fixa testdatan så att inte rumpris med samma rumtyp får överlappa i tid
+        FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. Måste antingen göra så att personalen manuellt väljer pris,
+        # eller fixa testdatan så att inte rumpris med samma rumtyp får överlappa i tid
+        SET @usergiven_start_date = '2024-11-01', @usergiven_end_date = '2024-11-07';
         SELECT rum_pris_id INTO @rum_pris_id_fr_select_rum_pris
         FROM rum_pris
-        WHERE (
+        WHERE ( 
             (Now() BETWEEN `start` AND slut) 
             AND 
             (rum_typ_id = 'enkelrum')
             ); 
-
+        SET 
         INSERT INTO bokning (
-            rum_id, kund_id, 
+            rum_id, kund_id,-
             huvud_gast_id, 
             personal_id, rum_pris_id, 
             faktura_id, bokning_datum, 
@@ -169,7 +174,7 @@ Receptionist:
                 1, @rum_pris_id_fr_select_rum_pris, 
                 @faktura_id_fr_insert_faktura, Now(), 
                 2, 
-                '2024-11-01', '2024-11-07' -- given av personalen i dialog med kund utifrån tidigare bild på lediga rum.
+                @usergiven_start_date, @usergiven_end_date -- given av personalen i dialog med kund utifrån tidigare bild på lediga rum.
                 );
 -- endregion
 
@@ -196,7 +201,9 @@ Receptionist:
         VALUES (1, NULL, @grupp_bokning_id_fr_insert);
         SET @faktura_id_fr_insert = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
 
-        FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. Måste antingen göra så att personalen manuellt väljer pris, eller fixa testdatan så att inte rumpris med samma rumtyp får överlappa i tid
+        FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. 
+        # Måste antingen göra så att personalen manuellt väljer pris, eller fixa testdatan så att inte rumpris 
+        # med samma rumtyp får överlappa i tid
         SELECT rum_pris_id INTO @rum_pris_id_fr_select
         FROM rum_pris
         WHERE (
@@ -370,7 +377,8 @@ Receptionist:
 
             -- SQL QUERY::
             FIXME: lägg till erbjudande
-            FIXME: i rum_pris, vi kontrollerar ej om priset är aktuellt eller inte. ej mot rum_typ heller. Nu utgår vi att det är rätt info där.
+            FIXME: i rum_pris, vi kontrollerar ej om priset är aktuellt eller inte. ej mot rum_typ heller. 
+            # Nu utgår vi att det är rätt info där.
             SELECT 
                 b.bokning_id,
                 b.faktura_id, 
