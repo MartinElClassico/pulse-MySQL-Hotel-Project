@@ -5,21 +5,35 @@ Hotelldirektör:
     -- hitta vad som är relevant i kund.
     select mejl_address, fornamn, efternamn from kund;
     -- alla nutida och framtida erbjudanden.
-    select * from erbjudande WHERE NOW() >= slut
-        AND `slut` >= NOW();
+    SELECT * FROM erbjudande WHERE (
+        (
+        NOW() <= slut 
+        OR 
+        slut IS NULL
+        )
+    );
     -- alla aktuella erbjudanden just nu.
-    select * from erbjudande WHERE NOW() >= `start` 
-        AND NOW() <= slut;
+    SELECT * FROM erbjudande WHERE (
+        NOW() >= start 
+        AND 
+        (
+            NOW() <= slut
+            OR slut IS NULL
+        )
+    );
 
     [D] Lägga in erbjudandens giltighetstid
+    INSERT INTO erbjudande (prisavdrag, villkor, start, slut) 
+        VALUES  (284.39, 'PLACEHOLDER villkor', '2025-09-12 22:05:45', '2025-10-11 15:36:19');
         ** enkel
         - viz. update
     *** SQL::::
-        @SET @usergiven_start_date = '2024-10-15 00:00:00', @usergiven_end_date = '2024-11-15 23:59:59',
-        @usergiven_e_id = 1;
+        SET @usergiven_start_date = '2024-10-15 00:00:00', @usergiven_end_date = '2024-11-15 23:59:59',
+        @usergiven_e_id = 14;
         update erbjudande 
         SET start = @usergiven_start_date, slut = @usergiven_end_date
-        WHERE erbjudande_id = @usergiven_e_id
+        WHERE erbjudande_id = @usergiven_e_id;
+        SELECT * FROM erbjudande, WHERE erbjudande_id = @usergiven_e_id:
     
 
     [D] Statistik på vilken typ av rum som är attraktiva en viss period
