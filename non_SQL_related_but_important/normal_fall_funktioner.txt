@@ -465,17 +465,21 @@ Receptionist:
         
         
         -- Fixat med group by
-        SELECT 
+  SELECT 
         b.bokning_id, b.faktura_id, b.huvud_gast_id, 
         CONCAT(hg.fornamn,' ', hg.efternamn) AS 'gästnamn', 
         b.kund_id, CONCAT(k.fornamn,' ', k.efternamn) AS 'kundnamn', 
-        rp.pris_per_natt, 
-        IFNULL(SUM(fo.summa), 0) AS 'försäljning'  
+        rp.pris_per_natt,
+        IFNULL(SUM(fo.summa), 0) AS 'försäljning',
+        IFNULL(e.prisavdrag, 0) AS 'erbjudande rabatt kr',
+        DATEDIFF(b.utcheckning, b.incheckning) * rp.pris_per_natt - IFNULL(e.prisavdrag, 0) + IFNULL(SUM(fo.summa), 0) AS tot_pris_bokning
         FROM bokning b 
         INNER JOIN rum_pris rp ON b.rum_pris_id = rp.rum_pris_id
         LEFT JOIN forsaljning fo ON b.faktura_id = fo.faktura_id
         INNER JOIN kund k ON b.kund_id = k.kund_id
         INNER JOIN huvud_gast hg ON b.huvud_gast_id = hg.huvud_gast_id
+        LEFT JOIN faktura fa ON b.faktura_id = fa.erbjudande_id
+        LEFT JOIN erbjudande e ON e.erbjudande_id = fa.erbjudande_id
         WHERE b.grupp_bokning_id = 2
         GROUP BY b.bokning_id;
 
