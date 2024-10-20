@@ -1,5 +1,5 @@
 Hotelldirektör:
-    [D] Skicka erbjudanden via mejl ("skicka erbjudanden till tidigare kunder")
+    [NF1] Skicka erbjudanden via mejl ("skicka erbjudanden till tidigare kunder")
         - viz. hitta mejl addresser till kunder, med namn och dylikt
         - viz. hitta erbjudanden. 
     -- hitta vad som är relevant i kund.
@@ -26,7 +26,7 @@ Hotelldirektör:
         )
     );
 
-    [D] Lägga in erbjudandens giltighetstid
+    [NF2] Lägga in erbjudandens giltighetstid
     INSERT INTO erbjudande (prisavdrag, villkor, start, slut) 
         VALUES  (284.39, 'PLACEHOLDER villkor', '2025-09-12 22:05:45', '2025-10-11 15:36:19');
         ** enkel
@@ -40,14 +40,14 @@ Hotelldirektör:
         SELECT * FROM erbjudande, WHERE erbjudande_id = @usergiven_e_id:
     
 
-    [D] Statistik på vilken typ av rum som är attraktiva en viss period
+    [NF3] Statistik på vilken typ av rum som är attraktiva en viss period
     FIXME: add sample date range to SQL query.
         - först definera perioden <- input
         - bokning: lista över incheckning som faller inom denna tidsram.
         -> ta fram rum därifrån.
         -> från rum hitta rumtyp, räkna  (count) antal av varje rumtyp.
         *** SQL ::::
-        SET @usergiven_start_date = '2024-11-01', @usergiven_end_date = '2024-11-07';
+        SET @usergiven_start_date = '2024-10-01', @usergiven_end_date = '2024-10-31';
         SELECT rt.rum_typ_id, COUNT(*) AS antal_bokningar
         FROM bokning b
         INNER JOIN rum r ON b.rum_id = r.rum_id -- now we only have rooms that have been booked.
@@ -59,14 +59,14 @@ Hotelldirektör:
 
 
 
-    [D] Se när det är middag bokad och för hur många personer 
+    [NF4] Se när det är middag bokad och för hur många personer 
         - SELECT X, y from middag. (order by date)
         ** EXAMPLE QUERY:
         SELECT datum, antal_personer, grupp_bokning_id FROM middag 
         ORDER BY datum;
 
 
-    [D] Uppdatera hur många personer som ska äta
+    [NF5] Uppdatera hur många personer som ska äta
         ** enkel
         - update statement
         *** SQLx2::::
@@ -83,7 +83,7 @@ Hotelldirektör:
 
 
 Receptionist:
-    [D] Se lediga rum av en viss typ en viss tidsperiod, 
+    [NF6] Se lediga rum av en viss typ en viss tidsperiod, 
         viz. en kund vill boka ett enkelrum
         -> gå in i bokning, gå in och kolla all data, ta bort träffar där någon av dagarna
         inom tidsperioden har träff mellan ett derivade value som utgår ifrån:
@@ -108,7 +108,7 @@ Receptionist:
                 AND r.rum_typ_id = @usergiven_r_t -- för att bara ta fram enkelrummen;
 
 -- region
-    [D-F] Boka rum  <<<<
+    [NF7] Boka rum  <<<<
         ***Går vidare från förra steget ovan***
         gå in bokning med valt rum_id från förra steget, updatera/insert bokning. 
             updatera/insert kund´
@@ -196,7 +196,7 @@ Receptionist:
                 );
 -- endregion
 
-    [D-F] Boka rum för grupp <<<<
+    [NF8] Boka rum för grupp <<<<
          *** SQL QUERY::: (Usecase boka två enkelrum för en person vardera perioden 2024-11-01 - 2024-11-07, ny kund samt huvudgäster)
 
         INSERT INTO huvud_gast (fornamn, efternamn, mejl_address, telefon_nummer) 
@@ -253,14 +253,14 @@ Receptionist:
                 '2024-11-01', '2024-11-07' -- given av personalen i dialog med kund utifrån tidigare bild på lediga rum.);
 
 
-    [D] Boka middag för grupp
+    [NF9] Boka middag för grupp
         *** relativt enkel *** 
         gå via gruppbokning till middag, lägg in nytt objekt i middag och uppdatera fältet för foreign key till den gruppbokningen det gäller.
         ** EXAMPLE QUERY:
         INSERT INTO middag (grupp_bokning_id, antal_personer, datum) VALUES (1, 8, '2025-01-20 18:00:00');
     
     
-    [D] Se aktuella priser 
+    [NF10] Se aktuella priser 
         Kolla pris för visst typ av rum. 
         ** motivera i rapport varför vi visar rumpris och erbjudande separat
         --> Ta fram aktuellt pris för rummet
@@ -269,13 +269,13 @@ Receptionist:
         SELECT pris_per_natt, `start`, slut FROM rum_pris
         WHERE rum_typ_id = "enkelrum" AND `start` < now() AND slut > now(); 
 
-    [D] Se aktuella erbjudanden
+    [NF11] Se aktuella erbjudanden
         Får en lista med erbjudanden som är aktuella
         *** SQL QUERY::: 
         SELECT * FROM erbjudande
         WHERE `start` < now() AND slut > now(); 
 
-    [D] Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
+    [NF12] Se pris / erbjudande som gällde när bokningen gjordes; som gäller för fakturan. detta är för debiteringen i slutet.
         Gå via bokning till faktura -> Kolla om det finns erbjudande i faktura
         Kontrollera bokningsdatum
         vi vill kunna ta upp ett pris och erbjudande för en viss bokning. 
@@ -291,7 +291,7 @@ Receptionist:
             LEFT JOIN erbjudande e ON f.erbjudande_id = e.erbjudande_id
 	        WHERE bokning_id = 2;  
 
-    [D-F] Checka in (huvud)gäster
+    [NF13] Checka in (huvud)gäster
         ** Kan ske både med gästens namn / telefonnummer och med boknings-id
         Söka fram rummet som hör till bokningen 
             -> Kontrollera att rummet är utcheckat
@@ -311,7 +311,7 @@ Receptionist:
                     WHERE r.status = "checkat_ut" AND hg.fornamn = "X" AND hg.efternamn = "Y" AND b.incheckning = CURDATE();
 
 
-    [D-F] Checka ut (huvud)gäster
+    [NF14] Checka ut (huvud)gäster
         ** Kan ske både med gästens namn / telefonnummer och med boknings-id
         Söka fram rummet som hör till bokningen 
             -> Kontrollera att rummet är incheckat
@@ -323,7 +323,7 @@ Receptionist:
                     SET r.status = "checkat_ut"
                     WHERE r.status = "checkat_in" AND hg.fornamn = "X" AND hg.efternamn = "Y" AND b.utcheckning <= CURDATE();
 
-    [D] Se om gäst checkat in -- BEHÖVER MOTIVERA I RAPPORT ATT VI TOLKAR DETTA SOM ATT SE STATUS PÅ RUM FÖR EN GÄST.
+    [NF15] Se om gäst checkat in -- BEHÖVER MOTIVERA I RAPPORT ATT VI TOLKAR DETTA SOM ATT SE STATUS PÅ RUM FÖR EN GÄST.
         Gå från huvud_gast -> bokning -> rum
             - Sök upp huvud_gast_id från gästens namn
             - Hitta bokning-ID som har den huvudgästen
@@ -337,12 +337,12 @@ Receptionist:
             WHERE b.incheckning <= CURDATE() AND b.utcheckning >= CURDATE() -- testdata behövs för nutid och dåtid, inte bara framtid >.<
             AND hg.fornamn = "Carina" AND hg.efternamn = "Lindelöf"
             -- AND r.status = "checkat_ut" -- kom ihåg till rapporten att motivera varför detta inte är med!
-    [D] Se om gäst checkat ut
+    [NF16] Se om gäst checkat ut
         Gå från huvud_gast -> bokning -> rum
             SE OVAN!!
 
 
-    [D] Se vem i personalen som gjort bokning 
+    [NF17] Se vem i personalen som gjort bokning 
         Selectsats med sökning i bokning samt personal
         *** SQL QUERY:::
             SELECT personal.fornamn, personal.efternamn, bokning.bokning_id, personal.personal_id
@@ -353,7 +353,7 @@ Receptionist:
     Sök på boknings-ID istället, en gäst kan ha flera bokningar.
     Diskutera i rapporten över att antalet gäster ej påverkar priset, har bara pris per natt per rum
     
-    [D] Ändra datum i bokningar
+    [NF18] Ändra datum i bokningar
         Updatesats i bokning.incheck och/eller bokning.utcheck
         *** SQL QUERY:::
             UPDATE bokning SET incheckning = '2024-12-01', utcheckning = '2024-12-15'
@@ -418,7 +418,7 @@ Receptionist:
             ORDER BY b.bokning_id;
 
 
-    Skriva ut räkning för gruppbokningar
+    [NF19]Skriva ut räkning för gruppbokningar
         >>>>: TOLKNING AV UPPGIFT:
             - middag?
             ===> ta med antal middagar med antal personer. De får manuellt räkna ut debiteringen utifrån detta.
@@ -481,7 +481,7 @@ Receptionist:
 
 
 Städare:
-    [D] Se vilka rum som är utcheckade
+    [NF20] Se vilka rum som är utcheckade
         Relativt enkel select-sats
         *** SQL QUERY:::
         SELECT rum_id, `status`, rum_typ_id  FROM rum 
