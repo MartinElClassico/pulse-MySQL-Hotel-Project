@@ -168,8 +168,6 @@ Receptionist:
         VALUES (1, NULL);
         SET @faktura_id_fr_insert_faktura = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
 
-        FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. Måste antingen göra så att personalen manuellt väljer pris,
-        # eller fixa testdatan så att inte rumpris med samma rumtyp får överlappa i tid
         SET @usergiven_start_date = '2024-11-01', @usergiven_end_date = '2024-11-07';
         SELECT rum_pris_id INTO @rum_pris_id_fr_select_rum_pris
         FROM rum_pris
@@ -178,7 +176,7 @@ Receptionist:
             AND 
             (rum_typ_id = 'enkelrum')
             ); 
-        SET 
+  
         INSERT INTO bokning (
             rum_id, kund_id,-
             huvud_gast_id, 
