@@ -419,7 +419,7 @@ Receptionist:
                 INNER JOIN huvud_gast hg ON b.huvud_gast_id = hg.huvud_gast_id
                 LEFT JOIN faktura fa ON b.faktura_id = fa.erbjudande_id
                 LEFT JOIN erbjudande e ON e.erbjudande_id = fa.erbjudande_id
-            WHERE b.faktura_id IS NOT NULL AND b.bokning_id = 58
+            WHERE b.faktura_id IS NOT NULL AND b.bokning_id = 20
             ORDER BY b.bokning_id;
 
 
