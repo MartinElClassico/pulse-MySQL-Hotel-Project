@@ -320,6 +320,7 @@ Receptionist:
                 SET r.status = 'checkat_in'
                 WHERE r.rum_id = 2;
 
+            -- Faktisk SQL sats
             UPDATE rum r
                     INNER JOIN bokning b ON r.rum_id = b.rum_id
                     SET r.status = "checkat_ut"
