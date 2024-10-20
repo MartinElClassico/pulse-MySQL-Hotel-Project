@@ -290,18 +290,17 @@ Receptionist:
             -> Kontrollera att rummet är utcheckat
             -> Uppdatera checked_in till TRUE  (och checked_out till FALSE) 
         FIXME: SAKNAS TESTDATA FÖR DENNA! Finns inga bokningar med incheckning idag (problem noterat 2024-10-16)
+        -- Med till rapporten: Vad ska vi söka på? Usecase person kommer till reception och checkar in. Har då med sig 
         -- WHERE CLAUSE NEEDS: AND r.status = "pending"
                     UPDATE rum r
                     INNER JOIN bokning b ON r.rum_id = b.rum_id
-                    INNER JOIN huvud_gast hg ON hg.huvud_gast_id = b.huvud_gast_id
                     SET r.status = "checkat_in"
-                    WHERE r.status = "checkat_ut" AND hg.fornamn = "X" AND hg.efternamn = "Y" AND b.incheckning = CURDATE();
+                    WHERE r.status = "checkat_ut" AND b.bokning_id AND b.incheckning = CURDATE();
 
                     FÖR TEST:::
                     SELECT * FROM rum
                     INNER JOIN bokning b ON r.rum_id = b.rum_id
-                    INNER JOIN huvud_gast hg ON hg.huvud_gast_id = b.huvud_gast_id
-                    WHERE r.status = "checkat_ut" AND hg.fornamn = "X" AND hg.efternamn = "Y" AND b.incheckning = CURDATE();
+                    WHERE r.status = "checkat_ut" AND b.bokning_id AND b.incheckning = CURDATE();
 
 
     [NF14] Checka ut (huvud)gäster
