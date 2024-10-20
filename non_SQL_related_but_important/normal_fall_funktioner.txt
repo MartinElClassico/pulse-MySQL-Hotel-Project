@@ -309,6 +309,17 @@ Receptionist:
             -> Kontrollera att rummet är incheckat
             -> Uppdatera checked_in till FALSE  (och checked_out till TRUE) 
             FIXME: SAKNAS TESTDATA FÖR DENNA!
+            -- Updaterar in-/utcheckningsdatum för att kunna checka ut idag (20/10)
+            UPDATE bokning b
+                SET b.incheckning = '2024-10-10'
+                    b.utcheckning = '2024-10-20'
+                WHERE b.bokning_id = 51;
+
+            -- Uppdaterar rum till incheckat
+            UPDATE rum r
+                SET r.status = 'checkat_in'
+                WHERE r.rum_id = 2;
+
             UPDATE rum r
                     INNER JOIN bokning b ON r.rum_id = b.rum_id
                     SET r.status = "checkat_ut"
