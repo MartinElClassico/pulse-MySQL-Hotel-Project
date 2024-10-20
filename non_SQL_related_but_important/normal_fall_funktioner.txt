@@ -164,8 +164,8 @@ Receptionist:
         VALUES ('Bertil', 'Bengtsson', 'BerBen@example.com', '+46701234567');
         SET @kund_id_fr_insert_kund = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
 
-        INSERT INTO faktura (personal_id, erbjudande_id, grupp_bokning_id) 
-        VALUES (1, NULL, NULL);
+        INSERT INTO faktura (personal_id, erbjudande_id) 
+        VALUES (1, NULL);
         SET @faktura_id_fr_insert_faktura = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
 
         FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. Måste antingen göra så att personalen manuellt väljer pris,
