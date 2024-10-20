@@ -342,13 +342,9 @@ Receptionist:
             INNER JOIN bokning b ON hg.huvud_gast_id = b.huvud_gast_id
             INNER JOIN rum r ON b.rum_id = r.rum_id
             WHERE b.incheckning <= CURDATE() AND b.utcheckning >= CURDATE()
-            AND b.bokning_id = 51;
-    [NF16] Se om gäst checkat ut
-        Gå från huvud_gast -> bokning -> rum
-            SE OVAN!!
+            AND b.bokning_id = 52;
 
-
-    [NF17] Se vem i personalen som gjort bokning 
+    [NF16] Se vem i personalen som gjort bokning 
         Selectsats med sökning i bokning samt personal
         *** SQL QUERY:::
             SELECT personal.fornamn, personal.efternamn, bokning.bokning_id, personal.personal_id
@@ -359,7 +355,7 @@ Receptionist:
     Sök på boknings-ID istället, en gäst kan ha flera bokningar.
     Diskutera i rapporten över att antalet gäster ej påverkar priset, har bara pris per natt per rum
     
-    [NF18] Ändra datum i bokningar
+    [NF17] Ändra datum i bokningar
         Updatesats i bokning.incheck och/eller bokning.utcheck
         *** SQL QUERY:::
             UPDATE bokning SET incheckning = '2024-12-01', utcheckning = '2024-12-15'
@@ -424,7 +420,7 @@ Receptionist:
             ORDER BY b.bokning_id;
 
 
-    [NF19]Skriva ut räkning för gruppbokningar
+    [NF18]Skriva ut räkning för gruppbokningar
         >>>>: TOLKNING AV UPPGIFT:
             - middag?
             ===> ta med antal middagar med antal personer. De får manuellt räkna ut debiteringen utifrån detta.
@@ -487,7 +483,7 @@ Receptionist:
 
 
 Städare:
-    [NF20] Se vilka rum som är utcheckade
+    [NF19] Se vilka rum som är utcheckade
         Relativt enkel select-sats
         *** SQL QUERY:::
         SELECT rum_id, `status`, rum_typ_id  FROM rum 
