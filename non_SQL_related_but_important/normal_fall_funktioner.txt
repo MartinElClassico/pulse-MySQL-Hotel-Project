@@ -209,13 +209,17 @@ Receptionist:
         VALUES ('Emil', 'Eriksson', 'EmiEri@example.com', '+46701234563');
         SET @kund_id_fr_insert = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
 
-        INSERT INTO grupp_bokning (personal_id)
-        VALUES (2);
+        INSERT INTO grupp_bokning ()
+        VALUES ();
         SET @grupp_bokning_id_fr_insert = LAST_INSERT_ID();
 
-        INSERT INTO faktura (personal_id, erbjudande_id, grupp_bokning_id) 
-        VALUES (1, NULL, @grupp_bokning_id_fr_insert);
-        SET @faktura_id_fr_insert = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+        INSERT INTO faktura (personal_id, erbjudande_id) 
+        VALUES (1, NULL);
+        SET @faktura_id_fr_insert_1 = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
+
+        INSERT INTO faktura (personal_id, erbjudande_id) 
+        VALUES (1, NULL);
+        SET @faktura_id_fr_insert_2 = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
 
         FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. 
         # Måste antingen göra så att personalen manuellt väljer pris, eller fixa testdatan så att inte rumpris 
@@ -232,22 +236,22 @@ Receptionist:
             rum_id, kund_id, 
             huvud_gast_id, 
             personal_id, rum_pris_id, 
-            grupp_bokning_id, bokning_datum, 
-            antal_gaster, 
+            faktura_id, grupp_bokning_id, 
+            bokning_datum, antal_gaster, 
             incheckning, utcheckning
             ) VALUES (
                 5, @kund_id_fr_insert, 
                 @huvud_gast_id_fr_insert_a, 
                 1, @rum_pris_id_fr_select, 
-                @grupp_bokning_fr_insert, Now(), 
-                2, 
+                @faktura_id_fr_insert_1, @grupp_bokning_fr_insert, 
+                Now(), 2, 
                 '2024-11-01', '2024-11-07' -- given av personalen i dialog med kund utifrån tidigare bild på lediga rum.
                 ),
                 (8, @kund_id_fr_insert, 
                 @huvud_gast_id_fr_insert_b, 
                 1, @rum_pris_id_fr_select, 
-                @grupp_bokning_fr_insert, Now(), 
-                2, 
+                @faktura_id_fr_insert_2, @grupp_bokning_fr_insert, 
+                Now(), 2, 
                 '2024-11-01', '2024-11-07' -- given av personalen i dialog med kund utifrån tidigare bild på lediga rum.);
 
 
