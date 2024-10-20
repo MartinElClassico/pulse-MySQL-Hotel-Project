@@ -5,13 +5,17 @@ Hotelldirektör:
     -- hitta vad som är relevant i kund.
     select mejl_address, fornamn, efternamn from kund;
     -- alla nutida och framtida erbjudanden.
-    SELECT * FROM erbjudande WHERE (
-        (
-        NOW() <= slut 
-        OR 
-        slut IS NULL
+    SELECT 
+        ROW_NUMBER() OVER (ORDER BY erbjudande_id) AS '#',
+        e.*
+    FROM erbjudande e WHERE (
+            (
+            NOW() <= slut 
+            OR 
+            slut IS NULL
+            )
         )
-    );
+        LIMIT 10;
     -- alla aktuella erbjudanden just nu.
     SELECT * FROM erbjudande WHERE (
         NOW() >= start 
