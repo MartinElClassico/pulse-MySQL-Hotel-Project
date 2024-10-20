@@ -399,6 +399,7 @@ Receptionist:
             FIXME: lägg till erbjudande
             FIXME: i rum_pris, vi kontrollerar ej om priset är aktuellt eller inte. ej mot rum_typ heller. 
             # Nu utgår vi att det är rätt info där.
+            SET @user_inp_bokning_id = 20;
             SELECT 
                 b.bokning_id,
                 b.faktura_id, 
@@ -419,7 +420,7 @@ Receptionist:
                 INNER JOIN huvud_gast hg ON b.huvud_gast_id = hg.huvud_gast_id
                 LEFT JOIN faktura fa ON b.faktura_id = fa.erbjudande_id
                 LEFT JOIN erbjudande e ON e.erbjudande_id = fa.erbjudande_id
-            WHERE b.faktura_id IS NOT NULL AND b.bokning_id = 20
+            WHERE b.faktura_id IS NOT NULL AND b.bokning_id = @user_inp_bokning_id
             ORDER BY b.bokning_id;
 
 
@@ -428,54 +429,21 @@ Receptionist:
             - middag?
             ===> ta med antal middagar med antal personer. De får manuellt räkna ut debiteringen utifrån detta.
             motivera: lägga till kostnad för middag (ej med ty: skulle kräva dialog först)
-        >>>INPUT:
-        grupp_bokning_id
-        >>>DATA ATT HÄMTA:
-        I BOKNING UTIFRÅN grupp_bokning_id:
-            personal_id
-            x: kund_id
-            incheckning
-            utcheckning
-            x: rum_pris_id
-            (x: huvud_gast_id)
-        I FAKTURA UTIFRÅN grupp_bokning_id:
-            x: erbjudande_id
-            X: faktura_id
-        I FORSALJNING UTIFRÅN faktura_id:
-            summa
-        I ERBJUDANDE UTIFRÅN erbjudande_id:
-            prisavdrag
-            villkor
-        I RUM_PRIS UTIFRÅN rum_pris_id:
-            pris_per_natt
-        I MIDDAG UTIFRÅN grupp_bokning_id:
-            antal_personer
-            middag_id
-        I KUND UTIFRÅN kund_id:
-            fornamn
-            efternamn
-        (I HUVUD_GAST UTIFRÅN: huvud_gast_id:
-            fornamn
-            efternamn
-            )
 
-        SELECT
-            b.incheckning, b.utcheckning, b.personal_id, m.antal_personer, m.middag_id
-        FROM bokning b
-        JOIN faktura fa ON b.grupp_bokning_id = fa.grupp_bokning_id
-        JOIN middag m ON b.grupp_bokning_id = m.grupp_bokning_id
-        
-        
-        
-
-  SELECT 
-        b.bokning_id, b.faktura_id, b.huvud_gast_id, 
-        CONCAT(hg.fornamn,' ', hg.efternamn) AS 'gästnamn', 
-        b.kund_id, CONCAT(k.fornamn,' ', k.efternamn) AS 'kundnamn', 
-        rp.pris_per_natt,
-        IFNULL(SUM(fo.summa), 0) AS 'försäljning',
-        IFNULL(e.prisavdrag, 0) AS 'erbjudande rabatt kr',
-        DATEDIFF(b.utcheckning, b.incheckning) * rp.pris_per_natt - IFNULL(e.prisavdrag, 0) + IFNULL(SUM(fo.summa), 0) AS tot_pris_bokning
+        SET @user_inp_grupp_bokning_id = 2;
+        SELECT 
+            b.bokning_id, b.faktura_id, b.huvud_gast_id, 
+            CONCAT(hg.fornamn,' ', hg.efternamn) AS 'gästnamn', 
+            b.kund_id, CONCAT(k.fornamn,' ', k.efternamn) AS 'kundnamn', 
+            rp.pris_per_natt,
+            IFNULL(SUM(fo.summa), 0) AS 'försäljning',
+            IFNULL(e.prisavdrag, 0) AS 'erbjudande rabatt kr',
+            (
+                DATEDIFF(b.utcheckning, b.incheckning) * rp.pris_per_natt - IFNULL(e.prisavdrag, 0) + IFNULL(SUM(fo.summa), 0)
+                ) AS "tot pris exkl. erbjudande",
+            (
+                DATEDIFF(b.utcheckning, b.incheckning) * rp.pris_per_natt - IFNULL(e.prisavdrag, 0) + IFNULL(SUM(fo.summa), 0)
+                ) AS "tot pris med ev. erbjudande"
         FROM bokning b 
         INNER JOIN rum_pris rp ON b.rum_pris_id = rp.rum_pris_id
         LEFT JOIN forsaljning fo ON b.faktura_id = fo.faktura_id
@@ -485,6 +453,17 @@ Receptionist:
         LEFT JOIN erbjudande e ON e.erbjudande_id = fa.erbjudande_id
         WHERE b.grupp_bokning_id = 2
         GROUP BY b.bokning_id;
+        
+        SELECT
+            b.incheckning, b.utcheckning, b.personal_id, m.antal_personer, m.middag_id
+        FROM bokning b
+        JOIN faktura fa ON b.grupp_bokning_id = fa.grupp_bokning_id
+        JOIN middag m ON b.grupp_bokning_id = m.grupp_bokning_id
+        
+        
+        
+
+    
 
 
 
