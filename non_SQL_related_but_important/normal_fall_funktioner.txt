@@ -324,7 +324,11 @@ Receptionist:
             UPDATE rum r
                     INNER JOIN bokning b ON r.rum_id = b.rum_id
                     SET r.status = "checkat_ut"
-                    WHERE r.status = "checkat_in" AND b.bokning_id = "Y" AND b.utcheckning <= CURDATE();
+                    WHERE r.status = "checkat_in" AND b.bokning_id = 51 AND b.utcheckning <= CURDATE();
+
+            SELECT * 
+            FROM rum r 
+            WHERE bokning_id = 51;
 
     [NF15] Se om gäst checkat in -- BEHÖVER MOTIVERA I RAPPORT ATT VI TOLKAR DETTA SOM ATT SE STATUS PÅ RUM FÖR EN GÄST.
         Gå från huvud_gast -> bokning -> rum
@@ -337,9 +341,8 @@ Receptionist:
             FROM huvud_gast hg
             INNER JOIN bokning b ON hg.huvud_gast_id = b.huvud_gast_id
             INNER JOIN rum r ON b.rum_id = r.rum_id
-            WHERE b.incheckning <= CURDATE() AND b.utcheckning >= CURDATE() -- testdata behövs för nutid och dåtid, inte bara framtid >.<
-            AND hg.fornamn = "Carina" AND hg.efternamn = "Lindelöf"
-            -- AND r.status = "checkat_ut" -- kom ihåg till rapporten att motivera varför detta inte är med!
+            WHERE b.incheckning <= CURDATE() AND b.utcheckning >= CURDATE()
+            AND b.bokning_id = 51;
     [NF16] Se om gäst checkat ut
         Gå från huvud_gast -> bokning -> rum
             SE OVAN!!
