@@ -343,25 +343,14 @@ Receptionist:
             INNER JOIN rum r ON b.rum_id = r.rum_id
             WHERE b.incheckning <= CURDATE() AND b.utcheckning >= CURDATE()
             AND b.bokning_id = 52;
-
-    [NF16] Se vem i personalen som gjort bokning 
-        Selectsats med sökning i bokning samt personal
-        *** SQL QUERY:::
-            SELECT personal.fornamn, personal.efternamn, bokning.bokning_id, personal.personal_id
-            FROM personal
-            INNER JOIN bokning ON personal.personal_id = bokning.personal_id;
-
-    FIXME: Alla ställen som söker på namn - namn är inte nödvändigtvis unikt, söka på boknings-id istället? Diskutera i rapport. 
-    Sök på boknings-ID istället, en gäst kan ha flera bokningar.
-    Diskutera i rapporten över att antalet gäster ej påverkar priset, har bara pris per natt per rum
     
-    [NF17] Ändra datum i bokningar
+    [NF16] Ändra datum i bokningar
         Updatesats i bokning.incheck och/eller bokning.utcheck
         *** SQL QUERY:::
             UPDATE bokning SET incheckning = '2024-12-01', utcheckning = '2024-12-15'
             WHERE bokning_id = 1;
     
-    Skriva ut räkning för bokningar 
+    [NF17] Skriva ut räkning för bokningar 
         Tolkning: Få ut data nödvändigt för att summera priset
         Betalnings-spec/kvitto?
         Input från användaren:
