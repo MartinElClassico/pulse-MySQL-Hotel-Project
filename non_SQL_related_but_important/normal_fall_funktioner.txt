@@ -16,15 +16,6 @@ Hotelldirektör:
             )
         )
         LIMIT 10;
-    -- alla aktuella erbjudanden just nu.
-    SELECT * FROM erbjudande WHERE (
-        NOW() >= start 
-        AND 
-        (
-            NOW() <= slut
-            OR slut IS NULL
-        )
-    );
 
     [NF2] Lägga in erbjudandens giltighetstid
     INSERT INTO erbjudande (prisavdrag, villkor, start, slut) 
