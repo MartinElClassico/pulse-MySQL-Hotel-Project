@@ -464,7 +464,7 @@ Receptionist:
         
         
         
-
+        -- Fixat med group by
         SELECT 
         b.bokning_id, b.faktura_id, b.huvud_gast_id, 
         CONCAT(hg.fornamn,' ', hg.efternamn) AS 'gästnamn', 
