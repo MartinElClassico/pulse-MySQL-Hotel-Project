@@ -5,7 +5,9 @@ Hotelldirektör:
     -- hitta vad som är relevant i kund.
     SELECT 
         ROW_NUMBER() OVER (ORDER BY kund_id) AS '#',
-        mejl_address, fornamn, efternamn
+        mejl_address,
+        fornamn,
+        efternamn
         FROM
             kund
         LIMIT 10;
@@ -210,9 +212,6 @@ Receptionist:
         VALUES (1, NULL);
         SET @faktura_id_fr_insert_2 = LAST_INSERT_ID(); -- senaste PK som används, dvs för denna insert
 
-        FIXME: Fel i testdata. Det finns flera aktuella rumpris för enkelrum. 
-        # Måste antingen göra så att personalen manuellt väljer pris, eller fixa testdatan så att inte rumpris 
-        # med samma rumtyp får överlappa i tid
         SET @user_inp_rum_typ = 'enkelrum'
         SELECT rum_pris_id INTO @rum_pris_id_fr_select
         FROM rum_pris
@@ -374,13 +373,18 @@ Receptionist:
             - Kontrollera status på rummet
 
             SET @user_inp_bokning_id = 52;
-            SELECT hg.fornamn, hg.efternamn, r.status, b.incheckning, b.utcheckning
+            SELECT 
+                hg.fornamn, 
+                hg.efternamn, 
+                r.status, 
+                b.incheckning, 
+                b.utcheckning
             FROM huvud_gast hg
             INNER JOIN bokning b ON hg.huvud_gast_id = b.huvud_gast_id
             INNER JOIN rum r ON b.rum_id = r.rum_id
             WHERE (
                 b.incheckning <= CURDATE()
-                 AND b.utcheckning >= CURDATE()
+                AND b.utcheckning >= CURDATE()
                 AND b.bokning_id = @user_inp_bokning_id
                 );
     
@@ -436,13 +440,13 @@ Receptionist:
                 LEFT JOIN forsaljning fo ON b.faktura_id = fo.faktura_id
                 INNER JOIN kund k ON b.kund_id = k.kund_id
                 INNER JOIN huvud_gast hg ON b.huvud_gast_id = hg.huvud_gast_id
-                LEFT JOIN faktura fa ON b.faktura_id = fa.erbjudande_id
+                LEFT JOIN faktura fa ON b.faktura_id = fa.faktura_id
                 LEFT JOIN erbjudande e ON e.erbjudande_id = fa.erbjudande_id
             WHERE (
                 b.faktura_id IS NOT NULL 
                 AND b.bokning_id = @user_inp_bokning_id
                 )
-            ORDER BY b.bokning_id;
+            GROUP BY b.bokning_id;
 
 
     [NF18]Skriva ut räkning för gruppbokningar
